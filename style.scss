@@ -1,13 +1,18 @@
 /* Mobil*/
+/* All webbsites */
+
+
+
+/*singler webbsites*/
 #index {
     .wrapper {}
 }
 
-#blogg {
+#blog {
     .wrapper {}
 }
 
-#bloggInfo {
+#blogInfo {
     .wrapper {}
 }
 
@@ -30,19 +35,26 @@
 #uploadProduct {
     .wrapper {}
 }
+#removeProduct{
+    .wrapper{}
+}
 
+#removeBlogText{
+    .wrapper{}
+}
 /*Dator*/
 @media only screen and (min-width: 1080px) {
-
+    
+/*singler webbsites*/
     #index {
         .wrapper {}
     }
 
-    #blogg {
+    #blog {
         .wrapper {}
     }
 
-    #bloggInfo {
+    #blogInfo {
         .wrapper {}
     }
 
@@ -64,5 +76,13 @@
 
     #uploadProduct {
         .wrapper {}
+    }
+
+    #removeProduct{
+        .wrapper{}
+    }
+    
+    #removeBlogText{
+        .wrapper{}
     }
 }
