@@ -18,13 +18,6 @@ namespace MissansZooOchWebbShopApi.Controllers
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
         public static Hashtable sessionId = new Hashtable();
 
-
-        public enum Roles
-        {
-            gäst,
-            Vanlig = 1,
-            Admin
-        }
         [HttpPost("createacc")]
         public IActionResult CreateUser(User user)
         {
@@ -44,14 +37,12 @@ namespace MissansZooOchWebbShopApi.Controllers
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText =
-                    "INSERT INTO `user` (`userId`, `userName`, `mail`, `passWord`, `userRole`) " +
-                    "VALUES(NULL, @username, @mail, @password, @userRole)";
+                    "INSERT INTO `user` (`userId`, `userRole`, `username`, `password`, `mail`) " +
+                    "VALUES(NULL, 1, @username, @password, @mail)";
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                user.Role = Roles.Vanlig;
                 query.Parameters.AddWithValue("@username", user.Username);
-                query.Parameters.AddWithValue("@mail", user.Mail);
                 query.Parameters.AddWithValue("@password", hashedPassword);
-                query.Parameters.AddWithValue("@userRole", user.Role.ToString());
+                query.Parameters.AddWithValue("@mail", user.Mail);
                 int rows = query.ExecuteNonQuery();
 
                 if (rows > 0)
@@ -73,7 +64,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return BadRequest();
         }
-        /*
+        
         [HttpGet("Login")]
         public ActionResult Login()
         {
@@ -83,7 +74,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText = "";
-                query.Parameters.AddWithValue();
+                //query.Parameters.AddWithValue();
             MySqlDataReader data = query.ExecuteReader();
             try
             {
@@ -114,7 +105,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return BadRequest("mailadress eller lösenord stämmer inte överens!");
         }
-        */
+        
         [HttpGet("verify")]
         public ActionResult Verify()
         {
@@ -127,7 +118,7 @@ namespace MissansZooOchWebbShopApi.Controllers
 
             User user = (User)LoginController.sessionId[auth];
 
-            return Ok(user.Role.ToString());
+            return Ok(user.Role);
         }
 
 
@@ -154,7 +145,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             string password = basic.Substring(colon + 1);
 
             user.Username = login;
-            user.Login = login;
+           // user.Login = login;
             user.Password = password;
 
             return user;
