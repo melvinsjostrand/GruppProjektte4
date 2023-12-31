@@ -50,7 +50,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return StatusCode(201, "produkt skapad");
         }
-        [HttpPut]
+        [HttpPut("UpdateProduct")]
         public ActionResult UpdateProduct(Product product)
         {
             User user = new User();

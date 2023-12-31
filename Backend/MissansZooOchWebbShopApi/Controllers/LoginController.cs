@@ -174,7 +174,7 @@ namespace MissansZooOchWebbShopApi.Controllers
 
             return message;
         }
-        [HttpPut]
+        [HttpPut("ChangeRole")]
         public ActionResult UpdateRole(User user)
         {
                /* string auth = Request.Headers["Authorization"];//GUID
