@@ -10,7 +10,7 @@ namespace MissansZooOchWebbShopApi.Controllers
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
 
-        [HttpPost]
+        [HttpPost("CreateProduct")]
         public ActionResult CreateProduct(Product product)
         {
             User user = new User();

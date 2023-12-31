@@ -19,7 +19,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
         public static Hashtable sessionId = new Hashtable();
 
-        [HttpPost("createacc")]
+        [HttpPost("CreateUser")]
         public IActionResult CreateUser(User user)
         {
             string auth = Request.Headers["Authorization"];
