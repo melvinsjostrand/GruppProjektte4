@@ -14,7 +14,8 @@ namespace MissansZooOchWebbShopApi.Controllers
 {
     [Route("user")]
     [ApiController]
-    public class LoginController : ControllerBase{
+    public class LoginController : ControllerBase
+    {
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
         public static Hashtable sessionId = new Hashtable();
 
@@ -22,8 +23,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         public IActionResult CreateUser(User user)
         {
             string auth = Request.Headers["Authorization"];
-           // user = DecodeUser(user, auth);
-
+            //user = (user, auth);
             string message = CheckUniqueUserDataExists(user);
             if (message != String.Empty)
             {
@@ -64,17 +64,17 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return BadRequest();
         }
-        
+
         [HttpGet("Login")]
         public ActionResult Login()
         {
-                string auth = Request.Headers["Authorization"];
-                User user = DecodeUser(new User(), auth);
-                connection.Open();
-                MySqlCommand query = connection.CreateCommand();
-                query.Prepare();
-                query.CommandText = "";
-                //query.Parameters.AddWithValue();
+            string auth = Request.Headers["Authorization"];
+            User user = new User();
+            connection.Open();
+            MySqlCommand query = connection.CreateCommand();
+            query.Prepare();
+            query.CommandText = "SELECT * FROM (SELECT * FROM user WHERE mail = @login)";
+            query.Parameters.AddWithValue("@login", user.login);
             MySqlDataReader data = query.ExecuteReader();
             try
             {
@@ -86,17 +86,17 @@ namespace MissansZooOchWebbShopApi.Controllers
                     hash = data.GetString("password");
                     user.UserId = data.GetInt32("userId");
                     user.Mail = data.GetString("mail");
-
                 }
                 if (hash != String.Empty && BCrypt.Net.BCrypt.Verify(user.Password, hash)) // Crashes when hash is empty
-                    {
-                        Guid guid = Guid.NewGuid();
-                        string key = guid.ToString();
-                        sessionId.Add(key, user);
-                        connection.Close();
-                        return Ok(key);
-                    }
-                } catch (Exception ex)
+                {
+                    Guid guid = Guid.NewGuid();
+                    string key = guid.ToString();
+                    sessionId.Add(key, user);
+                    connection.Close();
+                    return Ok(key);
+                }
+            }
+            catch (Exception ex)
             {
                 connection.Close();
                 Console.WriteLine("LoginController.Login: " + ex.Message);
@@ -105,7 +105,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return BadRequest("mailadress eller lösenord stämmer inte överens!");
         }
-        
+
         [HttpGet("verify")]
         public ActionResult Verify()
         {
@@ -135,21 +135,6 @@ namespace MissansZooOchWebbShopApi.Controllers
             return Unauthorized("Log in to logout");
         }
 
-        private User DecodeUser(User user, string basic)
-        {
-            basic = basic.Substring(6);
-            byte[] bytes = Convert.FromBase64String(basic);
-            basic = Encoding.UTF8.GetString(bytes);
-            int colon = basic.IndexOf(':');
-            string login = basic.Substring(0, colon);
-            string password = basic.Substring(colon + 1);
-
-            user.Username = login;
-           // user.Login = login;
-            user.Password = password;
-
-            return user;
-        }
         private string CheckUniqueUserDataExists(User user)
         {
             string message = String.Empty;
@@ -189,6 +174,43 @@ namespace MissansZooOchWebbShopApi.Controllers
 
             return message;
         }
-    }
+        [HttpPut]
+        public ActionResult UpdateRole(User user)
+        {
+               /* string auth = Request.Headers["Authorization"];//GUID
+                if (auth == null || LoginController.sessionId.ContainsKey(auth))
+                {
+                    return StatusCode(403, "du är inte inloggad");
+                }
 
-}
+                user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+                if (user.Role != 2)
+                {
+                    return StatusCode(403, "Du har inte rätten till att skapa produkter");
+                }*/
+                try
+                {
+                    connection.Open();
+                    MySqlCommand query = connection.CreateCommand();
+                    query.Prepare();
+                    query.CommandText = "UPDATE user " + "SET Role = @role " + "WHERE username = @username";
+                    query.Parameters.AddWithValue("@role", user.Role);
+                    query.Parameters.AddWithValue("@username", user.Username);
+
+                    int row = query.ExecuteNonQuery();
+                    if (row != 0)
+                    {
+                        connection.Close();
+                        return StatusCode(201, "ändring gick");
+                    }
+                }catch (Exception ex)
+                {
+                    connection.Close();
+                    return StatusCode(500);
+                }
+                connection.Close();
+                return StatusCode(200, "roll ändrar");
+            }
+
+        }
+    }

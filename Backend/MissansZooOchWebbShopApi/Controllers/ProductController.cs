@@ -54,7 +54,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         public ActionResult UpdateProduct(Product product)
         {
             User user = new User();
-            /*string auth = Request.Headers["Authorization"];//GUID
+            string auth = Request.Headers["Authorization"];//GUID
             if (auth == null || LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
@@ -64,7 +64,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (user.Role != 2)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa produkter");
-            }*/
+            }
             try
             {
                 connection.Open();
