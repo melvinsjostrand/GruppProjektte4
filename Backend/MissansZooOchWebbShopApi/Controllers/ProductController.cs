@@ -14,7 +14,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         public ActionResult CreateProduct(Product product)
         {
             User user = new User();
-            string auth = Request.Headers["Authorization"];//GUID
+          /*  string auth = Request.Headers["Authorization"];//GUID
             if (auth == null || LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
@@ -24,7 +24,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (user.Role != 2)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa produkter");
-            }
+            }*/
             try
             {
                 connection.Open();
@@ -54,7 +54,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         public ActionResult UpdateProduct(Product product)
         {
             User user = new User();
-            string auth = Request.Headers["Authorization"];//GUID
+           /* string auth = Request.Headers["Authorization"];//GUID
             if (auth == null || LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
@@ -64,7 +64,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (user.Role != 2)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa produkter");
-            }
+            }*/
             try
             {
                 connection.Open();
@@ -91,6 +91,93 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             connection.Close();
             return StatusCode(201, "ändring gick");
+        }
+        [HttpGet("AllProducts")]
+        public ActionResult<List<Product>> GetProduct()
+        {
+            List<Product> product = new List<Product>();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM product";
+                MySqlDataReader data = query.ExecuteReader();
+
+                while (data.Read())
+                {
+                    Product products = new Product();
+                    products.productId = data.GetInt32("productId");
+                    products.price = data.GetInt32("price");
+                    products.category = data.GetString("category");
+                    products.productName = data.GetString("productName");
+                    products.productImg = data.GetString("productImg");
+                    product.Add(products);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Something went wrong!");
+            }
+            return Ok(product);
+        }
+        [HttpGet("{price}")]
+        public ActionResult<Product> GetProduct(int price)
+        {
+            List<Product> product = new List<Product>();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM product ORDER BY price ASC";
+                MySqlDataReader data = query.ExecuteReader();
+
+                while (data.Read())
+                {
+                    Product products = new Product();
+                    products.productId = data.GetInt32("productId");
+                    products.price = data.GetInt32("price");
+                    products.category = data.GetString("category");
+                    products.productName = data.GetString("productName");
+                    products.productImg = data.GetString("productImg");
+                    product.Add(products);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Something went wrong!");
+            }
+            return Ok(product);
+        }
+        [HttpGet("{category}")]
+        public ActionResult<Product> GetProduct(string category)
+        {
+            List<Product> product = new List<Product>();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM product WHERE category = @category";
+                MySqlDataReader data = query.ExecuteReader();
+
+                while (data.Read())
+                {
+                    Product products = new Product();
+                    products.productId = data.GetInt32("productId");
+                    products.price = data.GetInt32("price");
+                    products.category = data.GetString("category");
+                    products.productName = data.GetString("productName");
+                    products.productImg = data.GetString("productImg");
+                    product.Add(products);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Something went wrong!");
+            }
+            return Ok(product);
         }
     }
 }

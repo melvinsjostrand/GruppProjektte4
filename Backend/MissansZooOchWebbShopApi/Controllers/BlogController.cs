@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace MissansZooOchWebbShopApi.Controllers
 {
@@ -15,7 +16,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         {
             User user = null;
             string auth = Request.Headers["Authorization"];//GUID
-            if(auth == null || LoginController.sessionId.ContainsKey(auth)) 
+            if (auth == null || LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
             }
@@ -30,20 +31,21 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `blog` (userId, title, blogImg, blogText, username) " +  "VALUES(@userId, @title, @blogImg, @blogText, (SELECT username FROM user WHERE UserId = @userId))";
+                query.CommandText = "INSERT INTO `blog` (userId, title, blogImg, blogText, username) " + "VALUES(@userId, @title, @blogImg, @blogText, (SELECT username FROM user WHERE UserId = @userId))";
                 query.Parameters.AddWithValue("@userId", user.UserId);
                 query.Parameters.AddWithValue("@title", blog.title);
                 query.Parameters.AddWithValue("@blogImg", blog.blogImg);
                 query.Parameters.AddWithValue("@blogText", blog.blogText);
                 query.Parameters.AddWithValue("@username", user.Username.ToString());
                 int row = query.ExecuteNonQuery();
-                if(row != 0) 
+                if (row != 0)
                 {
                     connection.Close();
                     return StatusCode(201, "Blog skapad");
                 }
-                
-            }catch(Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 connection.Close();
                 Console.WriteLine("Skapades ej " + ex.Message);
@@ -51,6 +53,34 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             connection.Close();
             return StatusCode(201, "Blog skapad");
+        }
+        [HttpGet("AllBlog")]
+        public ActionResult<List<Blog>> GetBlog()
+        {
+            List<Blog> blogs = new List<Blog>();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM blog";
+                MySqlDataReader data = query.ExecuteReader();
+                
+                while (data.Read()) 
+                {
+                    Blog blog = new Blog();
+                    blog.blogId = data.GetInt32("blogId");
+                    blog.title = data.GetString("title");
+                    blog.blogImg = data.GetString("blogImg");
+                    blog.blogText = data.GetString("text");
+                    blog.username = data.GetString("username");
+                    blogs.Add(blog);
+                }
+            }catch (Exception ex)
+            {
+                return StatusCode(500, "Something went wrong!");
+            }
+            return Ok(blogs);
         }
     }
 }

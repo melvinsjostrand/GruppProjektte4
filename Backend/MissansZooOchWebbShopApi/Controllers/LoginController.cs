@@ -177,6 +177,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPut("ChangeRole")]
         public ActionResult UpdateRole(User user)
         {
+                user = new User();
                /* string auth = Request.Headers["Authorization"];//GUID
                 if (auth == null || LoginController.sessionId.ContainsKey(auth))
                 {
