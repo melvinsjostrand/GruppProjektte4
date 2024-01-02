@@ -121,7 +121,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(product);
         }
-        [HttpGet("{price}")]
+        [HttpGet("price")]
         public ActionResult<Product> GetProduct(int price)
         {
             List<Product> product = new List<Product>();
@@ -130,7 +130,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM product ORDER BY price ASC";
+                query.CommandText = "SELECT * FROM product";
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
@@ -160,6 +160,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText = "SELECT * FROM product WHERE category = @category";
+                query.Parameters.AddWithValue("@category", category);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
