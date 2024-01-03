@@ -10,7 +10,7 @@ namespace MissansZooOchWebbShopApi.Controllers
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
 
-        [HttpPost("CreateProduct")]
+        [HttpPost("CreateProduct")] //skapa produkt
         public ActionResult CreateProduct(Product product)
         {
             User user = new User();
@@ -50,7 +50,39 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return StatusCode(201, "produkt skapad");
         }
-        [HttpPut("UpdateProduct")]
+
+        [HttpDelete("DeleteProduct")] //ta bort produkter
+        public ActionResult DeleteBlogAdmin(Product product)
+        {
+            User user = null;
+            /* string auth = Request.Headers["Authorization"];//GUID
+             if (auth == null || LoginController.sessionId.ContainsKey(auth))
+             {
+                 return StatusCode(403, "du är inte inloggad");
+             }
+
+             user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+             if (user.Role != 2)
+             {
+                 return StatusCode(403, "Du har inte rätten till att ta bort bloginlägg");
+             }*/
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "DELETE FROM blog WHERE productId = @productId";
+                query.Parameters.AddWithValue("@productId", product.productId);
+                int row = query.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "gick inte att ta bort");
+            }
+            return StatusCode(200, "product har tagits bort");
+        }
+
+        [HttpPut("UpdateProduct")] //uppdatera produkter
         public ActionResult UpdateProduct(Product product)
         {
             User user = new User();
@@ -92,7 +124,8 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return StatusCode(201, "ändring gick");
         }
-        [HttpGet("AllProducts")]
+
+        [HttpGet("AllProducts")] //alla produkter
         public ActionResult<List<Product>> GetProduct()
         {
             List<Product> product = new List<Product>();
@@ -121,7 +154,8 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(product);
         }
-        [HttpGet("price")]
+
+        [HttpGet("price")] //sortera efter pris
         public ActionResult<Product> GetProduct(int price)
         {
             List<Product> product = new List<Product>();
@@ -130,7 +164,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM product";
+                query.CommandText = "SELECT * FROM product ORDER BY price ASC";
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
@@ -150,7 +184,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(product);
         }
-        [HttpGet("{category}")]
+        [HttpGet("catergory")] //när du ska söka upp något
         public ActionResult<Product> GetProduct(string category)
         {
             List<Product> product = new List<Product>();
