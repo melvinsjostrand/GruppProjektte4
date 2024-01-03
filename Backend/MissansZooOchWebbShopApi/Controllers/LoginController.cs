@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Crypto.Generators;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Net.Mail;
 using System.Runtime.CompilerServices;
@@ -194,16 +195,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                     connection.Open();
                     MySqlCommand query = connection.CreateCommand();
                     query.Prepare();
-                    query.CommandText = "UPDATE user " + "SET Role = @role " + "WHERE username = @username";
+                    query.CommandText = "UPDATE `user` SET `Role` = @role WHERE `username` = @username";
                     query.Parameters.AddWithValue("@role", user.Role);
                     query.Parameters.AddWithValue("@username", user.Username);
-
                     int row = query.ExecuteNonQuery();
-                    if (row != 0)
-                    {
-                        connection.Close();
-                        return StatusCode(201, "ändring gick");
-                    }
                 }catch (Exception ex)
                 {
                     connection.Close();
@@ -212,6 +207,29 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Close();
                 return StatusCode(200, "roll ändrar");
             }
-
+        [HttpPatch]
+        public ActionResult ChangePassword(User user)
+        {
+            user = new User();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "UPDATE `user` SET password = @password WHERE userId = @userId";
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                query.Parameters.AddWithValue("@password", user.Password);
+                query.Parameters.AddWithValue("@userId", user.UserId);
+                int row = query.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                connection.Close();
+                return StatusCode(500);
+            }
+            connection.Close();
+            return StatusCode(200, "lösenord ändrar");
         }
     }
+}
+    
