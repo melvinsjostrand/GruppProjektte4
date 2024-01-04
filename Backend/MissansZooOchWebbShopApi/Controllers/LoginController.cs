@@ -24,14 +24,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         public IActionResult CreateUser(User user)
         {
             string auth = Request.Headers["Authorization"];
-            //user = (user, auth);
-            string message = CheckUniqueUserDataExists(user);
-            if (message != String.Empty)
-            {
-                return BadRequest(message);
-            }
-
-
+            Console.WriteLine(auth);
             try
             {
                 connection.Open();
@@ -135,52 +128,11 @@ namespace MissansZooOchWebbShopApi.Controllers
 
             return Unauthorized("Log in to logout");
         }
-
-        private string CheckUniqueUserDataExists(User user)
-        {
-            string message = String.Empty;
-            try
-            {
-                connection.Open();
-                MySqlCommand query = connection.CreateCommand();
-                query.Prepare();
-                query.CommandText =
-                    "SELECT * FROM user " +
-                    "WHERE username = @username " +
-                    "WHERE mail = @mail ";
-                query.Parameters.AddWithValue("@username", user.Username);
-                query.Parameters.AddWithValue("@mail", user.Mail);
-                MySqlDataReader data = query.ExecuteReader();
-
-                if (data.Read())
-                {
-                    if (data.GetString("username") == user.Username)
-                    {
-                        message = "Användarnamnet finns redan";
-                    }
-                    if (data.GetString("mail") == user.Mail)
-                    {
-                        message = "Denna mailadress finns redan";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("LoginController.CheckIfUniqueUserDataExist: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
-            }
-
-            return message;
-        }
         [HttpPut("ChangeRole")]
-        public ActionResult UpdateRole(User user)
+        public ActionResult UpdateRole(User user) //funkar ej
         {
-                user = new User();
-               /* string auth = Request.Headers["Authorization"];//GUID
-                if (auth == null || LoginController.sessionId.ContainsKey(auth))
+                user = null;
+                /*if (auth == null || LoginController.sessionId.ContainsKey(auth))
                 {
                     return StatusCode(403, "du är inte inloggad");
                 }
@@ -195,10 +147,15 @@ namespace MissansZooOchWebbShopApi.Controllers
                     connection.Open();
                     MySqlCommand query = connection.CreateCommand();
                     query.Prepare();
-                    query.CommandText = "UPDATE `user` SET `Role` = @role WHERE `username` = @username";
+                    query.CommandText = "UPDATE `user` " + "SET `Role` = @role " + "WHERE `username` = @username";
                     query.Parameters.AddWithValue("@role", user.Role);
                     query.Parameters.AddWithValue("@username", user.Username);
                     int row = query.ExecuteNonQuery();
+                    if (row != 0)
+                    {
+                        connection.Close();
+                        return StatusCode(201, "ändring gick");
+                    }
                 }catch (Exception ex)
                 {
                     connection.Close();
@@ -208,19 +165,25 @@ namespace MissansZooOchWebbShopApi.Controllers
                 return StatusCode(200, "roll ändrar");
             }
         [HttpPatch]
-        public ActionResult ChangePassword(User user)
+        public ActionResult ChangePassword() //funkar ej
         {
-            user = new User();
+            User user = new User();
+            string auth = Request.Headers["Authorization"];
             try
             {
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "UPDATE `user` SET password = @password WHERE userId = @userId";
+                query.CommandText = "UPDATE `user` " + "SET `password` = @password " + "WHERE `userId` = @userId";
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 query.Parameters.AddWithValue("@password", user.Password);
                 query.Parameters.AddWithValue("@userId", user.UserId);
                 int row = query.ExecuteNonQuery();
+                if (row != 0)
+                {
+                    connection.Close();
+                    return StatusCode(201, "ändring gick");
+                }
             }
             catch (Exception ex)
             {
