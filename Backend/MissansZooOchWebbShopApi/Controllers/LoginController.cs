@@ -31,7 +31,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText =
-                    "INSERT INTO `user` (`userRole`, `username`, `password`, `mail`) " +
+                    "INSERT INTO `user` (`Role`, `username`, `password`, `mail`) " +
                     "VALUES(1, @username, @password, @mail)";
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 query.Parameters.AddWithValue("@username", user.Username);
@@ -60,15 +60,13 @@ namespace MissansZooOchWebbShopApi.Controllers
         }
 
         [HttpGet("Login")]
-        public ActionResult Login()
+        public ActionResult Login(User user)
         {
-            string auth = Request.Headers["Authorization"];
-            User user = new User();
             connection.Open();
             MySqlCommand query = connection.CreateCommand();
             query.Prepare();
-            query.CommandText = "SELECT * FROM (SELECT * FROM user WHERE mail = @login)";
-            query.Parameters.AddWithValue("@login", user.login);
+            query.CommandText = "SELECT * FROM user WHERE mail = @mail";
+            query.Parameters.AddWithValue("@mail", user.Mail);
             MySqlDataReader data = query.ExecuteReader();
             try
             {
@@ -131,7 +129,6 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPut("ChangeRole")]
         public ActionResult UpdateRole(User user) //funkar ej
         {
-                user = null;
                 /*if (auth == null || LoginController.sessionId.ContainsKey(auth))
                 {
                     return StatusCode(403, "du är inte inloggad");
@@ -147,8 +144,8 @@ namespace MissansZooOchWebbShopApi.Controllers
                     connection.Open();
                     MySqlCommand query = connection.CreateCommand();
                     query.Prepare();
-                    query.CommandText = "UPDATE `user` " + "SET `Role` = @role " + "WHERE `username` = @username";
-                    query.Parameters.AddWithValue("@role", user.Role);
+                    query.CommandText = "UPDATE `user` " + "SET `Role` = @Role " + "WHERE `username` = @username";
+                    query.Parameters.AddWithValue("@Role", user.Role);
                     query.Parameters.AddWithValue("@username", user.Username);
                     int row = query.ExecuteNonQuery();
                     if (row != 0)
@@ -164,11 +161,9 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Close();
                 return StatusCode(200, "roll ändrar");
             }
-        [HttpPatch]
-        public ActionResult ChangePassword() //funkar ej
+        [HttpPut("ChangePassword")]
+        public ActionResult ChangePassword(User user) //funkar ej
         {
-            User user = new User();
-            string auth = Request.Headers["Authorization"];
             try
             {
                 connection.Open();
@@ -176,7 +171,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 query.Prepare();
                 query.CommandText = "UPDATE `user` " + "SET `password` = @password " + "WHERE `userId` = @userId";
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                query.Parameters.AddWithValue("@password", user.Password);
+                query.Parameters.AddWithValue("@password", hashedPassword);
                 query.Parameters.AddWithValue("@userId", user.UserId);
                 int row = query.ExecuteNonQuery();
                 if (row != 0)

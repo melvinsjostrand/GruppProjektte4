@@ -71,11 +71,14 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "DELETE FROM blog WHERE productId = @productId";
+                query.CommandText = "DELETE FROM product WHERE productId = @productId";
                 query.Parameters.AddWithValue("@productId", product.productId);
                 int row = query.ExecuteNonQuery();
-            }
-            catch (Exception ex)
+                if(row != 0)
+                {
+                    return StatusCode(200, "product har tagits bort");
+                }
+            }catch (Exception ex)
             {
                 return StatusCode(500, "gick inte att ta bort");
             }
@@ -147,8 +150,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                     products.productImg = data.GetString("productImg");
                     product.Add(products);
                 }
-            }
-            catch (Exception ex)
+            }catch (Exception ex)
             {
                 return StatusCode(500, "Something went wrong!");
             }

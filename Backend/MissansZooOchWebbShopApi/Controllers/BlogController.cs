@@ -14,9 +14,9 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPost("CreateBlog")] //Skapa blogg
         public ActionResult CreateBlog(Blog blog)
         {
-            User user = null;
+            User user = new User();
             string auth = Request.Headers["Authorization"];//GUID
-            if (auth == null || LoginController.sessionId.ContainsKey(auth))
+           /* if (auth == null || LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
             }
@@ -25,7 +25,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (user.Role != 1)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa bloginlägg");
-            }
+            }*/
             try
             {
                 connection.Open();
@@ -120,7 +120,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpGet("AllBlog")]
         public ActionResult<List<Blog>> GetBlog()
         {
-            List<Blog> blogs = new List<Blog>();
+            List<Blog> blog = new List<Blog>();
             try
             {
                 connection.Open();
@@ -131,20 +131,80 @@ namespace MissansZooOchWebbShopApi.Controllers
                 
                 while (data.Read()) 
                 {
-                    Blog blog = new Blog();
-                    blog.blogId = data.GetInt32("blogId");
-                    blog.title = data.GetString("title");
-                    blog.blogImg = data.GetString("blogImg");
-                    blog.blogText = data.GetString("text");
-                    blog.username = data.GetString("username");
-                    blogs.Add(blog);
+                    Blog blogs = new Blog();
+                    blogs.blogId = data.GetInt32("blogId");
+                    blogs.title = data.GetString("title");
+                    blogs.blogImg = data.GetString("blogImg");
+                    blogs.blogText = data.GetString("blogtext");
+                    blogs.username = data.GetString("username");
+                    blog.Add(blogs);
                 }
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Something went wrong!");
             }
-            return Ok(blogs);
+            return Ok(blog);
+        }
+        [HttpGet("{blogId}")]
+        public ActionResult<Blog> GetBlog(int blogId)
+        {
+            List<Blog> blog = new List<Blog>();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM blog WHERE blogId = @blogId";
+                query.Parameters.AddWithValue("@blogId", blogId);
+                MySqlDataReader data = query.ExecuteReader();
+
+                while (data.Read())
+                {
+                    Blog blogs = new Blog();
+                    blogs.blogId = data.GetInt32("blogId");
+                    blogs.title = data.GetString("title");
+                    blogs.blogImg = data.GetString("blogImg");
+                    blogs.blogText = data.GetString("blogtext");
+                    blogs.username = data.GetString("username");
+                    blog.Add(blogs);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Something went wrong!");
+            }
+            return Ok(blog);
+        }
+        [HttpGet("user/{username}")]
+        public ActionResult<Blog> GetBlog(string username)
+        {
+            List<Blog> blog = new List<Blog>();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM blog WHERE username = @username";
+                query.Parameters.AddWithValue("@username", username);
+                MySqlDataReader data = query.ExecuteReader();
+
+                while (data.Read())
+                {
+                    Blog blogs = new Blog();
+                    blogs.blogId = data.GetInt32("blogId");
+                    blogs.title = data.GetString("title");
+                    blogs.blogImg = data.GetString("blogImg");
+                    blogs.blogText = data.GetString("blogtext");
+                    blogs.username = data.GetString("username");
+                    blog.Add(blogs);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Something went wrong!");
+            }
+            return Ok(blog);
         }
     }
 }
