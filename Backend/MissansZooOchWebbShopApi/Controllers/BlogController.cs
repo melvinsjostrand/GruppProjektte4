@@ -68,7 +68,7 @@ namespace MissansZooOchWebbShopApi.Controllers
              user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
              if (user.Role != 2)
              {
-                 return StatusCode(403, "Du har inte rätten till att ta bort bloginlägg");
+                 return StatusCode(403, "Du har inte rätten till att ta bort blogginlägg");
              }*/
             try
             {
@@ -99,7 +99,7 @@ namespace MissansZooOchWebbShopApi.Controllers
              user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
              if (user.Role != 1)
              {
-                 return StatusCode(403, "Du har inte rätten till att ta bort bloginlägg");
+                 return StatusCode(403, "Du har inte rätten till att ta bort blogginlägg");
              }*/
             try
             {

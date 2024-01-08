@@ -186,7 +186,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(product);
         }
-        [HttpGet("catergory")] //när du ska söka upp något
+        [HttpGet("category/{category}")] //när du ska söka upp något
         public ActionResult<Product> GetProduct(string category)
         {
             List<Product> product = new List<Product>();
