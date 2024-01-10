@@ -14,6 +14,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPost("CreateBlog")] //Skapa blogg
         public ActionResult CreateBlog(Blog blog)
         {
+            
             User user = new User();
             string auth = Request.Headers["Authorization"];//GUID
            /* if (auth == null || LoginController.sessionId.ContainsKey(auth))
@@ -31,12 +32,11 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `blog` (userId, title, blogImg, blogText, username, time) " + "VALUES(@userId, @title, @blogImg, @blogText, (SELECT username FROM user WHERE UserId = @userId), (SELECT CURRENT_TIMESTAMP))";
+                query.CommandText = "INSERT INTO `blog` (userId, title, blogImg, blogText, time) " + "VALUES(@userId, @title, @blogImg, @blogText, (SELECT CURRENT_TIMESTAMP))";
                 query.Parameters.AddWithValue("@userId", user.UserId);
                 query.Parameters.AddWithValue("@title", blog.title);
                 query.Parameters.AddWithValue("@blogImg", blog.blogImg);
                 query.Parameters.AddWithValue("@blogText", blog.blogText);
-                query.Parameters.AddWithValue("@username", user.Username.ToString());
                 query.Parameters.AddWithValue("@time", blog.time);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
@@ -120,17 +120,20 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM (SELECT username FROM user WHERE UserId = @userId) blog";
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId";
                 MySqlDataReader data = query.ExecuteReader();
                 
                 while (data.Read()) 
                 {
-                    Blog blogs = new Blog();
-                    blogs.blogId = data.GetInt32("blogId");
-                    blogs.title = data.GetString("title");
-                    blogs.blogImg = data.GetString("blogImg");
-                    blogs.blogText = data.GetString("blogtext");
-                    blogs.username = data.GetString("username");
+                    Blog blogs = new Blog
+                    {
+                        blogId = data.GetInt32("blogId"),
+                        title = data.GetString("title"),
+                        blogImg = data.GetString("blogImg"),
+                        blogText = data.GetString("blogtext"),
+                        //username = data.GetString("username"),
+                        time = data.GetString("time")
+                    };
                     blog.Add(blogs);
                 }
             }
@@ -149,18 +152,21 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog WHERE blogId = @blogId";
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE blogId = @blogId";
                 query.Parameters.AddWithValue("@blogId", blogId);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
                 {
-                    Blog blogs = new Blog();
-                    blogs.blogId = data.GetInt32("blogId");
-                    blogs.title = data.GetString("title");
-                    blogs.blogImg = data.GetString("blogImg");
-                    blogs.blogText = data.GetString("blogtext");
-                    blogs.username = data.GetString("username");
+                    Blog blogs = new Blog
+                    {
+                        blogId = data.GetInt32("blogId"),
+                        title = data.GetString("title"),
+                        blogImg = data.GetString("blogImg"),
+                        blogText = data.GetString("blogtext"),
+                        //username = data.GetString("username"),
+                        time = data.GetString("time")
+                    };
                     blog.Add(blogs);
                 }
             }
@@ -170,10 +176,8 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(blog);
         }
-        [HttpGet("user/{userId}")]
-        public ActionResult<Blog> GetAllBlogFromUserId(int userId)
-
-
+        [HttpGet("user/{username}")]
+        public ActionResult<Blog> GetAllBlogFromUserId(string username)
         {
             List<Blog> blog = new List<Blog>();
             try
@@ -181,18 +185,21 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog WHERE userId = @userId";
-                query.Parameters.AddWithValue("@userId", userId);
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE username = @username";
+                query.Parameters.AddWithValue("@username", username);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
                 {
-                    Blog blogs = new Blog();
-                    blogs.blogId = data.GetInt32("blogId");
-                    blogs.title = data.GetString("title");
-                    blogs.blogImg = data.GetString("blogImg");
-                    blogs.blogText = data.GetString("blogtext");
-                    blogs.username = data.GetString("username");
+                    Blog blogs = new Blog
+                    {
+                        blogId = data.GetInt32("blogId"),
+                        title = data.GetString("title"),
+                        blogImg = data.GetString("blogImg"),
+                        blogText = data.GetString("blogtext"),
+                       // username = data.GetString("username"),
+                        time = data.GetString("time")
+                    };
                     blog.Add(blogs);
                 }
             }

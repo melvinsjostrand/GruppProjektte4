@@ -162,12 +162,14 @@ namespace MissansZooOchWebbShopApi.Controllers
 
                 while (data.Read())
                 {
-                    Product products = new Product();
-                    products.productId = data.GetInt32("productId");
-                    products.price = data.GetInt32("price");
-                    products.category = data.GetString("category");
-                    products.productName = data.GetString("productName");
-                    products.productImg = data.GetString("productImg");
+                    Product products = new Product
+                    {
+                        productId = data.GetInt32("productId"),
+                        price = data.GetInt32("price"),
+                        category = data.GetString("category"),
+                        productName = data.GetString("productName"),
+                        productImg = data.GetString("productImg")
+                    };
                     product.Add(products);
                 }
             }
@@ -191,12 +193,14 @@ namespace MissansZooOchWebbShopApi.Controllers
 
                 while (data.Read())
                 {
-                    Product products = new Product();
-                    products.productId = data.GetInt32("productId");
-                    products.price = data.GetInt32("price");
-                    products.category = data.GetString("category");
-                    products.productName = data.GetString("productName");
-                    products.productImg = data.GetString("productImg");
+                    Product products = new Product
+                    {
+                        productId = data.GetInt32("productId"),
+                        price = data.GetInt32("price"),
+                        category = data.GetString("category"),
+                        productName = data.GetString("productName"),
+                        productImg = data.GetString("productImg")
+                    };
                     product.Add(products);
                 }
             }
@@ -221,12 +225,14 @@ namespace MissansZooOchWebbShopApi.Controllers
 
                 while (data.Read())
                 {
-                    Product products = new Product();
-                    products.productId = data.GetInt32("productId");
-                    products.price = data.GetInt32("price");
-                    products.category = data.GetString("category");
-                    products.productName = data.GetString("productName");
-                    products.productImg = data.GetString("productImg");
+                    Product products = new Product
+                    {
+                        productId = data.GetInt32("productId"),
+                        price = data.GetInt32("price"),
+                        category = data.GetString("category"),
+                        productName = data.GetString("productName"),
+                        productImg = data.GetString("productImg")
+                    };
                     product.Add(products);
                 }
             }
