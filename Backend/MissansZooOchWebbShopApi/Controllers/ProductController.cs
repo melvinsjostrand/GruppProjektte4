@@ -36,11 +36,6 @@ namespace MissansZooOchWebbShopApi.Controllers
                 query.Parameters.AddWithValue("@productName", product.productName);
                 query.Parameters.AddWithValue("@productImg", product.productImg);
                 int row = query.ExecuteNonQuery();
-                if (row != 0)
-                {
-                    connection.Close();
-                    return StatusCode(201, "produkt skapad");
-                }
             }catch (Exception ex)
             {
                 connection.Close();
@@ -74,10 +69,6 @@ namespace MissansZooOchWebbShopApi.Controllers
                 query.CommandText = "DELETE FROM product WHERE productId = @productId";
                 query.Parameters.AddWithValue("@productId", product.productId);
                 int row = query.ExecuteNonQuery();
-                if(row != 0)
-                {
-                    return StatusCode(200, "product har tagits bort");
-                }
             }catch (Exception ex)
             {
                 return StatusCode(500, "gick inte att ta bort");
@@ -129,7 +120,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         }
 
         [HttpGet("AllProducts")] //alla produkter
-        public ActionResult<List<Product>> GetProduct()
+        public ActionResult<List<Product>> GetAllProducts()
         {
             List<Product> product = new List<Product>();
             try
@@ -158,7 +149,36 @@ namespace MissansZooOchWebbShopApi.Controllers
         }
 
         [HttpGet("price")] //sortera efter pris
-        public ActionResult<Product> GetProduct(int price)
+        public ActionResult<Product> GetProductSortedByPrice(int price)
+        {
+            List<Product> product = new List<Product>();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM product ORDER BY price ASC";
+                MySqlDataReader data = query.ExecuteReader();
+
+                while (data.Read())
+                {
+                    Product products = new Product();
+                    products.productId = data.GetInt32("productId");
+                    products.price = data.GetInt32("price");
+                    products.category = data.GetString("category");
+                    products.productName = data.GetString("productName");
+                    products.productImg = data.GetString("productImg");
+                    product.Add(products);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Something went wrong!");
+            }
+            return Ok(product);
+        }
+        [HttpGet("productName")] //sortera efter pris
+        public ActionResult<Product> GetProductSortedByName(String productName)
         {
             List<Product> product = new List<Product>();
             try
@@ -187,7 +207,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             return Ok(product);
         }
         [HttpGet("category/{category}")] //när du ska söka upp något
-        public ActionResult<Product> GetProduct(string category)
+        public ActionResult<Product> GetProductByCategory(string category)
         {
             List<Product> product = new List<Product>();
             try

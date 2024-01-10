@@ -148,11 +148,6 @@ namespace MissansZooOchWebbShopApi.Controllers
                     query.Parameters.AddWithValue("@Role", user.Role);
                     query.Parameters.AddWithValue("@username", user.Username);
                     int row = query.ExecuteNonQuery();
-                    if (row != 0)
-                    {
-                        connection.Close();
-                        return StatusCode(201, "ändring gick");
-                    }
                 }catch (Exception ex)
                 {
                     connection.Close();
@@ -174,13 +169,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 query.Parameters.AddWithValue("@password", hashedPassword);
                 query.Parameters.AddWithValue("@userId", user.UserId);
                 int row = query.ExecuteNonQuery();
-                if (row != 0)
-                {
-                    connection.Close();
-                    return StatusCode(201, "ändring gick");
-                }
-            }
-            catch (Exception ex)
+            }catch (Exception ex)
             {
                 connection.Close();
                 return StatusCode(500);

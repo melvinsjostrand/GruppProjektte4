@@ -31,21 +31,15 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `blog` (userId, title, blogImg, blogText, username) " + "VALUES(@userId, @title, @blogImg, @blogText, (SELECT username FROM user WHERE UserId = @userId))";
+                query.CommandText = "INSERT INTO `blog` (userId, title, blogImg, blogText, username, time) " + "VALUES(@userId, @title, @blogImg, @blogText, (SELECT username FROM user WHERE UserId = @userId), (SELECT CURRENT_TIMESTAMP))";
                 query.Parameters.AddWithValue("@userId", user.UserId);
                 query.Parameters.AddWithValue("@title", blog.title);
                 query.Parameters.AddWithValue("@blogImg", blog.blogImg);
                 query.Parameters.AddWithValue("@blogText", blog.blogText);
                 query.Parameters.AddWithValue("@username", user.Username.ToString());
+                query.Parameters.AddWithValue("@time", blog.time);
                 int row = query.ExecuteNonQuery();
-                if (row != 0)
-                {
-                    connection.Close();
-                    return StatusCode(201, "Blog skapad");
-                }
-
-            }
-            catch (Exception ex)
+            }catch (Exception ex)
             {
                 connection.Close();
                 Console.WriteLine("Skapades ej " + ex.Message);
@@ -118,7 +112,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         }
 
         [HttpGet("AllBlog")]
-        public ActionResult<List<Blog>> GetBlog()
+        public ActionResult<List<Blog>> GetAllBlogs()
         {
             List<Blog> blog = new List<Blog>();
             try
@@ -126,7 +120,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog";
+                query.CommandText = "SELECT * FROM (SELECT username FROM user WHERE UserId = @userId) blog";
                 MySqlDataReader data = query.ExecuteReader();
                 
                 while (data.Read()) 
@@ -147,7 +141,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             return Ok(blog);
         }
         [HttpGet("{blogId}")]
-        public ActionResult<Blog> GetBlog(int blogId)
+        public ActionResult<Blog> GetBlogFromBlogId(int blogId)
         {
             List<Blog> blog = new List<Blog>();
             try
@@ -176,8 +170,10 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(blog);
         }
-        [HttpGet("user/{username}")]
-        public ActionResult<Blog> GetBlog(string username)
+        [HttpGet("user/{userId}")]
+        public ActionResult<Blog> GetAllBlogFromUserId(int userId)
+
+
         {
             List<Blog> blog = new List<Blog>();
             try
@@ -185,8 +181,8 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog WHERE username = @username";
-                query.Parameters.AddWithValue("@username", username);
+                query.CommandText = "SELECT * FROM blog WHERE userId = @userId";
+                query.Parameters.AddWithValue("@userId", userId);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
