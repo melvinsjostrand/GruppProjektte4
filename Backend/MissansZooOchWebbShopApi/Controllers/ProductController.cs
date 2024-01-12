@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System.Reflection.Metadata;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MissansZooOchWebbShopApi.Controllers
 {
-    [Route("product")]
+    [Route("Product")]
     [ApiController]
     public class ProductController : Controller
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
 
-        [HttpPost("CreateProduct")] //skapa produkt
+        [HttpPost] //skapa produkt
         public ActionResult CreateProduct(Product product)
         {
             User user = new User();
-          /*  string auth = Request.Headers["Authorization"];//GUID
-            if (auth == null || LoginController.sessionId.ContainsKey(auth))
+            string auth = Request.Headers["Authorization"];//GUID
+            if (auth == null || !LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
             }
@@ -24,17 +25,19 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (user.Role != 2)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa produkter");
-            }*/
+            }
             try
             {
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `product` (price, category, productName, productImg) " + "VALUES(@price, @category, @productName, @productImg)";
+                query.CommandText = "INSERT INTO `product` (price, category, productName, productImg, description, stock) " + "VALUES(@price, @category, @productName, @productImg, @description, @stock)";
                 query.Parameters.AddWithValue("@price", product.price);
                 query.Parameters.AddWithValue("@category", product.category);
                 query.Parameters.AddWithValue("@productName", product.productName);
                 query.Parameters.AddWithValue("@productImg", product.productImg);
+                query.Parameters.AddWithValue("@description", product.description);
+                query.Parameters.AddWithValue("@stock", product.stock);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -46,11 +49,11 @@ namespace MissansZooOchWebbShopApi.Controllers
             return StatusCode(201, "produkt skapad");
         }
 
-        [HttpDelete("DeleteProduct")] //ta bort produkter
+        [HttpDelete] //ta bort produkter
         public ActionResult DeleteBlogAdmin(Product product)
         {
             User user = null;
-            /* string auth = Request.Headers["Authorization"];//GUID
+             string auth = Request.Headers["Authorization"];//GUID
              if (auth == null || LoginController.sessionId.ContainsKey(auth))
              {
                  return StatusCode(403, "du är inte inloggad");
@@ -60,14 +63,13 @@ namespace MissansZooOchWebbShopApi.Controllers
              if (user.Role != 2)
              {
                  return StatusCode(403, "Du har inte rätten till att ta bort bloginlägg");
-             }*/
+             }
             try
             {
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText = "DELETE FROM product WHERE productId = @productId";
-                query.Parameters.AddWithValue("@productId", product.productId);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -75,13 +77,34 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return StatusCode(200, "product har tagits bort");
         }
-
+        [HttpPut("ChangeRating")]
+        public ActionResult ChangeRating(Product product) 
+        {
+            User user = new User();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "UPDATE product " + "SET rating = @rating " + "WHERE productId = @productId";
+                query.Parameters.AddWithValue("@rating", product.rating);
+                int row = query.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                connection.Close();
+                Console.WriteLine("Skapades ej " + ex.Message);
+                return StatusCode(500);
+            }
+            connection.Close();
+            return StatusCode(201, "rating ändrad");
+        }
         [HttpPut("UpdateProduct")] //uppdatera produkter
         public ActionResult UpdateProduct(Product product)
         {
             User user = new User();
-           /* string auth = Request.Headers["Authorization"];//GUID
-            if (auth == null || LoginController.sessionId.ContainsKey(auth))
+            string auth = Request.Headers["Authorization"];//GUID
+            if (auth == null || !LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
             }
@@ -90,7 +113,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (user.Role != 2)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa produkter");
-            }*/
+            }
             try
             {
                 connection.Open();
@@ -102,13 +125,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 query.Parameters.AddWithValue("@category", product.category);
                 query.Parameters.AddWithValue("@productName", product.productName);
                 query.Parameters.AddWithValue("@productImg", product.productImg);
-                query.Parameters.AddWithValue("@productId", product.productId);
                 int row = query.ExecuteNonQuery();
-                if (row != 0)
-                {
-                    connection.Close();
-                    return StatusCode(201, "ändring gick");
-                }
             }catch (Exception ex)
             {
                 connection.Close();
@@ -134,11 +151,11 @@ namespace MissansZooOchWebbShopApi.Controllers
                 while (data.Read())
                 {
                     Product products = new Product();
-                    products.productId = data.GetInt32("productId");
                     products.price = data.GetInt32("price");
                     products.category = data.GetString("category");
                     products.productName = data.GetString("productName");
                     products.productImg = data.GetString("productImg");
+                    products.number = data.GetInt32("productId");
                     product.Add(products);
                 }
             }catch (Exception ex)
@@ -148,8 +165,8 @@ namespace MissansZooOchWebbShopApi.Controllers
             return Ok(product);
         }
 
-        [HttpGet("price")] //sortera efter pris
-        public ActionResult<Product> GetProductSortedByPrice(int price)
+        [HttpGet("Price")] //sortera efter pris
+        public ActionResult<Product> GetProductSortedByPrice()
         {
             List<Product> product = new List<Product>();
             try
@@ -164,11 +181,11 @@ namespace MissansZooOchWebbShopApi.Controllers
                 {
                     Product products = new Product
                     {
-                        productId = data.GetInt32("productId"),
                         price = data.GetInt32("price"),
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
-                        productImg = data.GetString("productImg")
+                        productImg = data.GetString("productImg"),
+                        number = data.GetInt32("productId")
                     };
                     product.Add(products);
                 }
@@ -179,8 +196,8 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(product);
         }
-        [HttpGet("productName")] //sortera efter pris
-        public ActionResult<Product> GetProductSortedByName(String productName)
+        [HttpGet("ProductName")] //sortera efter pris
+        public ActionResult<Product> GetProductSortedByName()
         {
             List<Product> product = new List<Product>();
             try
@@ -188,18 +205,18 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM product ORDER BY price ASC";
+                query.CommandText = "SELECT * FROM product ORDER BY productName ASC";
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
                 {
                     Product products = new Product
                     {
-                        productId = data.GetInt32("productId"),
                         price = data.GetInt32("price"),
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
-                        productImg = data.GetString("productImg")
+                        productImg = data.GetString("productImg"),
+                        number = data.GetInt32("productId")
                     };
                     product.Add(products);
                 }
@@ -210,7 +227,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(product);
         }
-        [HttpGet("category/{category}")] //när du ska söka upp något
+        [HttpGet("Category/{category}")] //när du ska söka upp något
         public ActionResult<Product> GetProductByCategory(string category)
         {
             List<Product> product = new List<Product>();
@@ -227,11 +244,11 @@ namespace MissansZooOchWebbShopApi.Controllers
                 {
                     Product products = new Product
                     {
-                        productId = data.GetInt32("productId"),
                         price = data.GetInt32("price"),
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
-                        productImg = data.GetString("productImg")
+                        productImg = data.GetString("productImg"),
+                        number = data.GetInt32("productId")
                     };
                     product.Add(products);
                 }

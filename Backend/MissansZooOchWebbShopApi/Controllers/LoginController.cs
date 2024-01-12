@@ -13,18 +13,17 @@ using System.Text;
 
 namespace MissansZooOchWebbShopApi.Controllers
 {
-    [Route("user")]
+    [Route("User")]
     [ApiController]
     public class LoginController : ControllerBase
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
         public static Hashtable sessionId = new Hashtable();
 
-        [HttpPost("CreateUser")]
+        [HttpPost]
         public IActionResult CreateUser(User user)
         {
             string auth = Request.Headers["Authorization"];
-            Console.WriteLine(auth);
             try
             {
                 connection.Open();
@@ -60,8 +59,10 @@ namespace MissansZooOchWebbShopApi.Controllers
         }
 
         [HttpGet("Login")]
-        public ActionResult Login(User user)
+        public ActionResult Login()
         {
+            string auth = Request.Headers["Authorization"];
+            User user = DecodeUser(new User(), auth);
             connection.Open();
             MySqlCommand query = connection.CreateCommand();
             query.Prepare();
@@ -98,7 +99,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             return BadRequest("mailadress eller lösenord stämmer inte överens!");
         }
 
-        [HttpGet("verify")]
+        [HttpGet("Verify")]
         public ActionResult Verify()
         {
             string auth = Request.Headers["Authorization"];
@@ -114,7 +115,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         }
 
 
-        [HttpPost("logout")]
+        [HttpPost("Logout")]
         public ActionResult Logout()
         {
             string auth = Request.Headers["Authorization"];
@@ -160,6 +161,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         public ActionResult ChangePassword(User user) //funkar ej
         {
             try
+
             {
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
@@ -176,6 +178,24 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             connection.Close();
             return StatusCode(200, "lösenord ändrar");
+        }
+        private User DecodeUser(User user, string auth)
+        {
+            if (auth != null && auth.StartsWith("Basic"))
+            {
+                string encodedUsernamePassword = auth.Substring("Basic ".Length).Trim();
+                Encoding encoding = Encoding.GetEncoding("UTF-8");
+                string usernamePassword = encoding.GetString(Convert.FromBase64String(encodedUsernamePassword));
+                int seperatorIndex = usernamePassword.IndexOf(':');
+                user.Mail = usernamePassword.Substring(0, seperatorIndex);
+                user.Password = usernamePassword.Substring(seperatorIndex + 1);
+            }
+            else
+            {
+                //Handle what happens if that isn't the case
+                throw new Exception("The authorization header is either empty or isn't Basic.");
+            }
+            return user;
         }
     }
 }
