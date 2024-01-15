@@ -122,7 +122,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (sessionId.ContainsKey(auth))
             {
                 sessionId.Remove(auth);
-                return Ok();
+                return StatusCode(200, "you have signed out");
             }
 
             return Unauthorized("Log in to logout");

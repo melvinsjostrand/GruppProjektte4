@@ -10,6 +10,7 @@
         public string description { get; set; } = string.Empty;
         public int stock { get; set; }
         public int rating { get; set; }
-        public int number { get; set; }
+        public string content { get; set; } = string.Empty;
+        public string feeding { get; set; } = string.Empty; 
     }
 }

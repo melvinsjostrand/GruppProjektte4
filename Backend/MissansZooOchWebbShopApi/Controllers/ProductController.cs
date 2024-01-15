@@ -31,13 +31,15 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `product` (price, category, productName, productImg, description, stock) " + "VALUES(@price, @category, @productName, @productImg, @description, @stock)";
+                query.CommandText = "INSERT INTO `product` (price, category, productName, productImg, description, stock, content, feeding) " + "VALUES(@price, @category, @productName, @productImg, @description, @stock, @content, @feeding)";
                 query.Parameters.AddWithValue("@price", product.price);
                 query.Parameters.AddWithValue("@category", product.category);
                 query.Parameters.AddWithValue("@productName", product.productName);
                 query.Parameters.AddWithValue("@productImg", product.productImg);
                 query.Parameters.AddWithValue("@description", product.description);
                 query.Parameters.AddWithValue("@stock", product.stock);
+                query.Parameters.AddWithValue("@content", product.content);
+                query.Parameters.AddWithValue("@feeding", product.feeding);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -102,14 +104,13 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPut("UpdateProduct")] //uppdatera produkter
         public ActionResult UpdateProduct(Product product)
         {
-            User user = new User();
             string auth = Request.Headers["Authorization"];//GUID
             if (auth == null || !LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
             }
 
-            user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+            User user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
             if (user.Role != 2)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa produkter");
@@ -150,15 +151,20 @@ namespace MissansZooOchWebbShopApi.Controllers
 
                 while (data.Read())
                 {
-                    Product products = new Product();
-                    products.price = data.GetInt32("price");
-                    products.category = data.GetString("category");
-                    products.productName = data.GetString("productName");
-                    products.productImg = data.GetString("productImg");
-                    products.number = data.GetInt32("productId");
+                    Product products = new Product
+                    {
+                        price = data.GetInt32("price"),
+                        category = data.GetString("category"),
+                        productName = data.GetString("productName"),
+                        productImg = data.GetString("productImg"),
+                        Id = data.GetInt32("productId"),
+                        content = data.GetString("content"),
+                        feeding = data.GetString("feeding")
+                    };
                     product.Add(products);
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, "Something went wrong!");
             }
@@ -185,7 +191,9 @@ namespace MissansZooOchWebbShopApi.Controllers
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
                         productImg = data.GetString("productImg"),
-                        number = data.GetInt32("productId")
+                        Id = data.GetInt32("productId"),
+                        content = data.GetString("content"),
+                        feeding = data.GetString("feeding")
                     };
                     product.Add(products);
                 }
@@ -216,7 +224,9 @@ namespace MissansZooOchWebbShopApi.Controllers
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
                         productImg = data.GetString("productImg"),
-                        number = data.GetInt32("productId")
+                        Id = data.GetInt32("productId"),
+                        content = data.GetString("content"),
+                        feeding = data.GetString("feeding")
                     };
                     product.Add(products);
                 }
@@ -248,7 +258,9 @@ namespace MissansZooOchWebbShopApi.Controllers
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
                         productImg = data.GetString("productImg"),
-                        number = data.GetInt32("productId")
+                        Id = data.GetInt32("productId"),
+                        content = data.GetString("content"),
+                        feeding = data.GetString("feeding")
                     };
                     product.Add(products);
                 }
