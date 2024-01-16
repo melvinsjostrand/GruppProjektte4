@@ -1,0 +1,18 @@
+function init(){
+    verify();
+}
+
+async function verify(){
+    let userverify = "https://localhost:7063/User/Verify";
+    let response = await fetch(userverify, {
+    headers:{
+        "Authorization": localStorage.getItem("GUID")
+    }
+    });
+
+    let role = await response.text();
+    console.log(role);
+    if(role === "Du behöver vara inloggad!"){
+        location.href = "account.html";
+    }
+}
