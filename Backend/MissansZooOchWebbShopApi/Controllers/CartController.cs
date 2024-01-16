@@ -30,7 +30,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO cart (productId, userId, Amount ) " + "(@productId, userId, 1)";
+                query.CommandText = "INSERT INTO cart (productId, userId, Amount ) " + "(@productId, @userId, 1)";
                 query.Parameters.AddWithValue("@productId", product.productId);
                 query.Parameters.AddWithValue("@userId", user.UserId);
             }catch(Exception ex)
@@ -50,7 +50,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "DELETE FROM cart WHERE  userId = @userId";
+                query.CommandText = "DELETE FROM cart WHERE userId = @userId";
                 query.Parameters.AddWithValue("@userId", user.UserId);
                 int row = query.ExecuteNonQuery();
             }
@@ -69,19 +69,20 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT cartId,userId, amount, productId, productName FROM cart t1 " +
-                    "LEFT JOIN product t2 ON t1.productId = t2.productId WHERE t1.userId = @userId;";
+                query.CommandText = "SELECT cartId, amount, userId, price, productName, t1.productId FROM cart t1 LEFT JOIN product t2 ON t1.productId = t2.productId WHERE userId = @userId";
+                query.Parameters.AddWithValue("@userId", userId);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read()) 
                 {
                     cart carts = new cart
                     {
-                        cartId = data.GetInt32("id"),
-                        userId = data.GetInt32("userId"),
+                        cartId = data.GetInt32("cartId"),
                         Amount = data.GetInt32("Amount"),
                         productId = data.GetInt32("productId"),
+                        userId = data.GetInt32("userId"),
                         productName = data.GetString("productName"),
+                        price = data.GetInt32("price")
                     };
                     Cart.Add(carts);
                 }
