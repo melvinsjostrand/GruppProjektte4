@@ -3,24 +3,31 @@ let json = []
 function init(){
     main = document.getElementsByTagName("main")[0];
     createBlog();
+    console.log(json);
 }
 window.onload = init;
 
 function createBlog(){
-    for(i = 0; i< json; i++){
-    let section = document.createElement("section");
+    for(i = 0; i< json.length; i++){
+    let article = document.createElement("article");
     let figure = document.createElement("figure");
     let title = document.createElement("h2");
     let username = document.createElement("h3");
     let timestamp = document.createElement("p");
-    section.appendChild(figure);
+    main.appendChild(article)
+    article.appendChild(figure);
     figure.appendChild(title);
+    title.innerHTML = json[i].name;
     figure.appendChild(username);
     figure.appendChild(timestamp);
+
+
+    username.innerHTML = json[i].age;
+    timestamp.innerHTML = json[i].city;
     }
 }
 
-async function JSON(){
+async function getJson(){
     let path = "https://localhost:7063/Blog/AllBlog";
     json = await getblog(path);
     console.log(json);
