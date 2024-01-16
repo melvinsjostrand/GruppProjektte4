@@ -1,6 +1,8 @@
 /* Mobil*/
 /* All webbsites */
-
+h1{
+    display: none;
+}
 
 
 /*singler webbsites*/
@@ -51,7 +53,13 @@
     }
 
     #blog {
-        .wrapper {}
+        .wrapper {
+            main{
+                figure{
+                    border: solid black 5%;
+                }
+            }
+        }
     }
 
     #blogInfo {

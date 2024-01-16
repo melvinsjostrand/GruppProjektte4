@@ -108,7 +108,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (auth == null
                 || !LoginController.sessionId.ContainsKey(auth))
             {
-                return StatusCode(403, "Du behöver vara inloggad!");
+                return Ok("0");
             }
 
             User user = (User)LoginController.sessionId[auth];
