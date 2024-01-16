@@ -1,4 +1,5 @@
 let main;
+let button;
 json = [{
     "productId" : 1,
     "price" : 100,
@@ -6,12 +7,26 @@ json = [{
     "productName" : "string(32)",
     "category":"katt",
     "description": "This is a test product.",
+    },{
+        "productId" : 2,
+        "price" : 100,
+        "productImg" : "hej.png",
+        "productName" : "string(32)",
+        "category":"katt",
+        "description": "This is a test product.",
     }
 ]
 function init(){
     main = document.getElementsByTagName("main")[0];
     createProduct();
     console.log(json);
+    console.log(button);
+    let buy = document.getElementById([i]);
+    buy.addEventListener("click", event=>{
+        console.log([i]);
+        addToCart();
+        event.prevenDefault();
+    })
 }
 window.onload = init();
 
@@ -27,7 +42,7 @@ function createProduct(){
         let stock = document.createElement("p");
         let content = document.createElement("p");
         let feeding = document.createElement("p");
-        let button = document.createElement("button");
+        button = document.createElement("button");
 
         main.appendChild(article);
         article.appendChild(figure);
@@ -48,6 +63,8 @@ function createProduct(){
         stock.innerHTML="in stock: "+json[i].stock;
         feeding.innerHTML="Feeding instructions: "+json[i].feedingInstructions
         //Add event listener to the add to cart button
+        button.id = json[i].productId
+        button.innerHTML = "KÖP";
         }
 }
 
@@ -67,4 +84,13 @@ async function getblog(path){
     });
     let json = await response.json();
     return json;
+}
+
+function addToCart(){
+
+    Json = {
+        ProductID : json[i].productId
+        };
+    let status = addToCart(Json);
+    console.log(status);
 }
