@@ -14,14 +14,13 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPost] //Skapa blogg
         public ActionResult CreateBlog(Blog blog)
         {
-            User user = null;
             string auth = Request.Headers["Authorization"];//GUID
             if (auth == null || !LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
             }
 
-            user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+            User user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
             if (user.Role != 1)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa blogginlägg");

@@ -79,6 +79,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                     hash = data.GetString("password");
                     user.UserId = data.GetInt32("userId");
                     user.Mail = data.GetString("mail");
+                    user.Role = data.GetInt32("Role");
                 }
                 if (hash != String.Empty && BCrypt.Net.BCrypt.Verify(user.Password, hash)) // Crashes when hash is empty
                 {
@@ -86,6 +87,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                     string key = guid.ToString();
                     sessionId.Add(key, user);
                     connection.Close();
+                    Console.WriteLine(key, user);
                     return Ok(key);
                 }
             }

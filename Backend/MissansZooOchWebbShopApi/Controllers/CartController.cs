@@ -31,7 +31,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText = "INSERT INTO cart (productId, userId, Amount ) " + "(@productId, userId, 1)";
-                query.Parameters.AddWithValue("@productId", product.Id);
+                query.Parameters.AddWithValue("@productId", product.productId);
                 query.Parameters.AddWithValue("@userId", user.UserId);
             }catch(Exception ex)
             {
@@ -50,7 +50,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "DELETE * FROM cart WHERE  userId = @userId";
+                query.CommandText = "DELETE FROM cart WHERE  userId = @userId";
                 query.Parameters.AddWithValue("@userId", user.UserId);
                 int row = query.ExecuteNonQuery();
             }
@@ -77,7 +77,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 {
                     cart carts = new cart
                     {
-                        Id = data.GetInt32("id"),
+                        cartId = data.GetInt32("id"),
                         userId = data.GetInt32("userId"),
                         Amount = data.GetInt32("Amount"),
                         productId = data.GetInt32("productId"),

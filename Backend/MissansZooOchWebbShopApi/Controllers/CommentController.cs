@@ -13,7 +13,6 @@ namespace MissansZooOchWebbShopApi.Controllers
         public ActionResult PostComment(comment comment) 
         {
             User user = new User();
-            Blog blog = new Blog();
             string auth = Request.Headers["Authorization"];//GUID
             /* if (auth == null || LoginController.sessionId.ContainsKey(auth))
              {
@@ -30,10 +29,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `comment` (blogId, userId, comment) " + "VALUES(@blogId, @userId, @comment)";
+                query.CommandText = "INSERT INTO `comment` (`commentText`, `blogId`, `userId`) VALUES (@commentText, @blogId, @userId);";
+                query.Parameters.AddWithValue("@commentText", comment.commentText);
                 query.Parameters.AddWithValue("@blogId", comment.blogId);
                 query.Parameters.AddWithValue("@userId", user.UserId);
-                query.Parameters.AddWithValue("@comment", comment.commentText);
                 int row = query.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -44,6 +43,35 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             connection.Close();
             return StatusCode(201, "Blog skapad");
+        }
+        [HttpGet]
+        public ActionResult<comment> GetComment(int blogId)
+        {
+            List<comment> Comment = new List<comment>();
+                try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT commentId, commentText, username FROM comment t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE blogId = @blogId";
+                query.Parameters.AddWithValue("@blogId", blogId);
+                MySqlDataReader data = query.ExecuteReader();
+
+                while (data.Read())
+                {
+                    comment comment = new comment
+                    {
+                        commentId = data.GetInt32("commentId"),
+                        commentText = data.GetString("commentText"),
+                        username = data.GetString("username")
+                    };
+                    Comment.Add(comment);
+                }
+            }catch(Exception ex)
+            {
+                return StatusCode(500);
+            }
+            return Ok(Comment);
         }
     }
 }

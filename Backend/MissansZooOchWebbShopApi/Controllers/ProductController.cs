@@ -14,14 +14,13 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPost] //skapa produkt
         public ActionResult CreateProduct(Product product)
         {
-            User user = new User();
             string auth = Request.Headers["Authorization"];//GUID
             if (auth == null || !LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
             }
 
-            user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+            User user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
             if (user.Role != 2)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa produkter");
@@ -157,7 +156,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
                         productImg = data.GetString("productImg"),
-                        Id = data.GetInt32("productId"),
+                        productId = data.GetInt32("productId"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -191,7 +190,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
                         productImg = data.GetString("productImg"),
-                        Id = data.GetInt32("productId"),
+                        productId = data.GetInt32("productId"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -224,7 +223,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
                         productImg = data.GetString("productImg"),
-                        Id = data.GetInt32("productId"),
+                        productId = data.GetInt32("productId"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -258,7 +257,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                         category = data.GetString("category"),
                         productName = data.GetString("productName"),
                         productImg = data.GetString("productImg"),
-                        Id = data.GetInt32("productId"),
+                        productId = data.GetInt32("productId"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
