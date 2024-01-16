@@ -21,12 +21,7 @@ function init(){
     createProduct();
     console.log(json);
     console.log(button);
-    let buy = document.getElementById([i]);
-    buy.addEventListener("click", event=>{
-        console.log([i]);
-        addToCart();
-        event.prevenDefault();
-    })
+
 }
 window.onload = init();
 
@@ -65,6 +60,10 @@ function createProduct(){
         //Add event listener to the add to cart button
         button.id = json[i].productId
         button.innerHTML = "KÖP";
+        button.addEventListener("click", event=>{
+            console.log(button.id);
+            event.preventDefault();
+        })
         }
 }
 
@@ -89,7 +88,7 @@ async function getblog(path){
 function addToCart(){
 
     Json = {
-        ProductID : json[i].productId
+        
         };
     let status = addToCart(Json);
     console.log(status);

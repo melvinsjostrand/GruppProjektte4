@@ -1,6 +1,7 @@
 let main;
 let json = []
 function init(){
+    createlogin();
     main = document.getElementsByTagName("main")[0];
     createBlog();
     console.log(json);
