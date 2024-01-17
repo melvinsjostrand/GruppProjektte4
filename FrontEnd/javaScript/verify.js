@@ -1,3 +1,4 @@
+let role;
 function init(){
     verify();
     logInOrLogOut();
@@ -12,7 +13,7 @@ async function verify(){
     }
     });
 
-    let role = await response.text();
+    role = await response.text();
     console.log(role);
     if(role == 2){
         console.log("Du är inloggad som admin");
