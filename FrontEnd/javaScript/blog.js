@@ -26,6 +26,10 @@ function createBlog(){
     username.innerHTML = json[i].age;
     timestamp.innerHTML = json[i].city;
     }
+    article.style.cursor = "pointer";
+    article.addEventListener("click", event=>{
+        location.href ="bloginfo.html?="+json[i].blogId;
+    })
 }
 
 async function getJson(){
