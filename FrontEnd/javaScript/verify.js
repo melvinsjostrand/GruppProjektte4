@@ -1,7 +1,6 @@
 let role;
 function init(){
     verify();
-    logInOrLogOut();
 }
 window.onload = init;
 
@@ -22,6 +21,7 @@ async function verify(){
     }else{
         console.log("Du är inte inloggad");
     }
+    logInOrLogOut();
 }
 
 function logInOrLogOut(){
@@ -33,11 +33,12 @@ function logInOrLogOut(){
     nav.appendChild(ul);
     ul.appendChild(li);
     li.appendChild(link);
+    console.log(role);
     if(role != 0){
         link.innerText = "logga ut";
-        location.href = "logout.html"
+        link.href = "logout.html"
     }else{
         link.innerText = "Logga in";
-        location.href = "login.html"
+        link.href = "login.html"
     }
 }
