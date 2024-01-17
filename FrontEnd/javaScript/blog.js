@@ -1,7 +1,6 @@
 let main;
 let json = []
 function init(){
-    createlogin();
     main = document.getElementsByTagName("main")[0];
     createBlog();
     console.log(json);
@@ -9,28 +8,31 @@ function init(){
 window.onload = init;
 
 function createBlog(){
-    for(i = 0; i< json.length; i++){
-    let article = document.createElement("article");
+    let article
+    for(i = 0; i< 3; i++){
+    article = document.createElement("article");
     let figure = document.createElement("figure");
+    let img = document.createElement("img");
     let title = document.createElement("h2");
     let username = document.createElement("h3");
     let timestamp = document.createElement("p");
-    main.appendChild(article)
+    main.appendChild(article);
     article.appendChild(figure);
     figure.appendChild(title);
-    title.innerHTML = json[i].name;
+    title.innerHTML = "aWadadwa";
     figure.appendChild(username);
     figure.appendChild(timestamp);
 
 
-    username.innerHTML = json[i].age;
-    timestamp.innerHTML = json[i].city;
-    }
+    //username.innerHTML = json[i].age;
+    //timestamp.innerHTML = json[i].city;
     article.style.cursor = "pointer";
     article.addEventListener("click", event=>{
-        location.href ="bloginfo.html?="+json[i].blogId;
+        location.href ="bloginfo.html?="+1;
     })
 }
+    }
+
 
 async function getJson(){
     let path = "https://localhost:7063/Blog/AllBlog";
