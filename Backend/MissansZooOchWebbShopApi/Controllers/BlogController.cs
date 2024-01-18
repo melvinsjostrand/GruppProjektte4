@@ -30,12 +30,12 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `blog` (userId, title, blogImg, blogText, time) " + "VALUES((SELECT userId from user WHERE username = @username), @title, @blogImg, @blogText, (SELECT CURRENT_TIMESTAMP))";
-                query.Parameters.AddWithValue("@username", blog.username);
+                query.CommandText = "INSERT INTO `blog` (title, blogImg, blogText, time, userId) " + "VALUES(@title, @blogImg, @blogText, (SELECT CURRENT_TIMESTAMP), (SELECT userId from user WHERE username = @username))";
                 query.Parameters.AddWithValue("@title", blog.title);
                 query.Parameters.AddWithValue("@blogImg", blog.blogImg);
                 query.Parameters.AddWithValue("@blogText", blog.blogText);
                 query.Parameters.AddWithValue("@time", blog.time);
+                query.Parameters.AddWithValue("@username", blog.username);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {

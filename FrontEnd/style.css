@@ -1,7 +1,19 @@
 /* Mobil*/
 /* All webbsites */
-h1 {
+header h1 {
   display: none;
+}
+header nav {
+  text-decoration: none;
+}
+header nav ul {
+  list-style-type: none;
+}
+header nav ul li a {
+  text-decoration: none;
+  font-size: 2em;
+  color: black;
+  padding: 1px;
 }
 
 /*singler webbsites*/

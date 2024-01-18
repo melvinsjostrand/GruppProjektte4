@@ -1,32 +1,41 @@
+import {verify, logInOrLogOut} from "./verify.js";
 let main;
+let Id;
 let button;
-json = [{
-    "productId" : 1,
-    "price" : 100,
-    "productImg" : "hej.png",
-    "productName" : "string(32)",
-    "category":"katt",
-    "description": "This is a test product.",
-    },{
+let json = [
+    {
+        "productId" : 1,
+        "price" : 100,
+        "productImg" : "hej.png",
+        "productName" : "string(wdaw2)",
+        "category":"katt",
+        "description": "This is a test product.",
+    },
+    {
         "productId" : 2,
         "price" : 100,
         "productImg" : "hej.png",
-        "productName" : "string(32)",
+        "productName" : "strinawdawdag(32)",
         "category":"katt",
         "description": "This is a test product.",
     }
 ]
 function init(){
+    getVerify();
     main = document.getElementsByTagName("main")[0];
     createProduct();
-    console.log(json);
     console.log(button);
 
 }
-window.onload = init();
+window.onload = init;
+
+async function getVerify(){
+    const role = await verify();
+    logInOrLogOut(role);
+}
 
 function createProduct(){
-    for(i = 0; i< json.length; i++){
+    for(let i = 0; i< json.length; i++){
         let article = document.createElement("article");
         let figure = document.createElement("figure");
         let category = document.createElement("h3");
@@ -51,20 +60,20 @@ function createProduct(){
         figure.appendChild(button);
 
         productName.innerHTML = json[i].productName;
-        price.innerHTML = json[i].price + "kr";
+        price.innerHTML = "Priset är " + json[i].price + "kr";
         img.src=json[i].productImg;
         category.innerHTML ="Category: "+json[i].category;
         desc.innerHTML= json[i].description;
         stock.innerHTML="in stock: "+json[i].stock;
         feeding.innerHTML="Feeding instructions: "+json[i].feedingInstructions
-        //Add event listener to the add to cart button
-        button.id = json[i].productId
+        Id = json[i].productId;
+        button.id = Id;
         button.innerHTML = "KÖP";
         button.addEventListener("click", event=>{
             console.log(button.id);
             event.preventDefault();
         })
-        }
+    }
 }
 
 
@@ -83,13 +92,4 @@ async function getblog(path){
     });
     let json = await response.json();
     return json;
-}
-
-function addToCart(){
-
-    Json = {
-        
-        };
-    let status = addToCart(Json);
-    console.log(status);
 }

@@ -1,4 +1,6 @@
+import {verify, logInOrLogOut} from "./verify.js";
 function init(){
+    getVerify();
     let guid = localStorage.getItem("GUID");
     console.log(guid);
 
@@ -9,3 +11,8 @@ function init(){
 location.href = "index.html";
 }
 window.onload = init;
+
+async function getVerify(){
+    const role = await verify();
+    logInOrLogOut(role);
+}

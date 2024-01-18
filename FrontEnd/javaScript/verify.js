@@ -11,9 +11,8 @@ async function verify(){
         "Authorization": localStorage.getItem("GUID")
     }
     });
-
     role = await response.text();
-    console.log(role);
+    console.log("din roll är " + role);
     if(role == 2){
         console.log("Du är inloggad som admin");
     }else if(role == 1){
@@ -21,7 +20,7 @@ async function verify(){
     }else{
         console.log("Du är inte inloggad");
     }
-    logInOrLogOut();
+    return role;
 }
 
 function logInOrLogOut(){
@@ -29,11 +28,9 @@ function logInOrLogOut(){
     let ul = document.getElementsByTagName("ul")[0];
     let li = document.getElementsByTagName("li")[3];
     let link = document.createElement("a");
-    
     nav.appendChild(ul);
     ul.appendChild(li);
     li.appendChild(link);
-    console.log(role);
     if(role != 0){
         link.innerText = "logga ut";
         link.href = "logout.html"
@@ -42,3 +39,19 @@ function logInOrLogOut(){
         link.href = "login.html"
     }
 }
+
+function createPanel(){
+    let main = document.getElementsByTagName("main")[0];
+    let panelButton = document.createElement("button");
+    main.appendChild(panelButton);
+    if(role == 1){
+        panelButton.innerHTML = "AnvändarPanel"
+    }else if(role == 2){
+        panelButton.innerHTML = "AdminPanel"
+    }else{
+        panelButton.style.display = "none";
+    }
+}
+
+export {verify , logInOrLogOut, createPanel};
+

@@ -1,17 +1,25 @@
+import {verify, logInOrLogOut} from "./verify.js";
 let form;
+let error;
 function init(){
     form = document.querySelector("form");
+    getVerify();
     form.addEventListener("submit", event=>{
         login();
         event.preventDefault();
     })
 }
-window.onload=init;
+window.onload = init;
+
+async function getVerify(){
+    const role = await verify();
+    logInOrLogOut(role);
+}
 
 async function login(){
     let mail = form.elements.mail.value;
     let password = form.elements.password.value;
-
+    error = document.getElementById("error");
     let path = "https://localhost:7063/User/Login"
 
     const response = await fetch(path ,{

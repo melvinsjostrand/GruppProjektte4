@@ -1,27 +1,34 @@
-let main;
-let div
+import {verify, logInOrLogOut} from "./verify.js";
+let div;
 function init(){
-    main = document.getElementsByTagName("main")[0];
+    getVerify();
+    div = document.getElementsByTagName("div")[1];
     getItems();
 }
 window.onload = init;
 
+async function getVerify(){
+    const role = await verify();
+    logInOrLogOut(role);
+}
+
 function getItems(){
-    div = document.getElementsByTagName("div")[1];
     console.log(div)
-    for(i = 0; i < 1; i++){
+    for(Element of json){
         let productName = document.createElement("h2");
         let price = document.createElement("p");
         let select = document.createElement("select");
-        for(i = 1; i < 11; i++){
-            let option = document.createElement("option");
-            option.value = i;
-            option.innerHTML = i;
-            select.appendChild(option);
-        }
         div.appendChild(productName);
         div.appendChild(price);
         div.appendChild(select);
+        for(j = 0; j < 10; j++){
+            let option = document.createElement("option");
+            option.value = 1 + j;
+            option.innerHTML = 1 + j;
+            select.appendChild(option);
+            console.log(option);
+        }
+
     }
 }
 function details(){

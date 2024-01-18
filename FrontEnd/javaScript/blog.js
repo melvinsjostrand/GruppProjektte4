@@ -1,47 +1,53 @@
+import {verify, logInOrLogOut} from "./verify.js";
+
 let main;
-let json = []
+let json = [
+]
 function init(){
+    getVerify();
     main = document.getElementsByTagName("main")[0];
     createBlog();
-    console.log(json);
 }
 window.onload = init;
 
-function createBlog(){
-    let article
-    for(i = 0; i< 3; i++){
-    article = document.createElement("article");
-    let figure = document.createElement("figure");
-    let img = document.createElement("img");
-    let title = document.createElement("h2");
-    let username = document.createElement("h3");
-    let timestamp = document.createElement("p");
-    main.appendChild(article);
-    article.appendChild(figure);
-    figure.appendChild(title);
-    title.innerHTML = "aWadadwa";
-    figure.appendChild(username);
-    figure.appendChild(timestamp);
-
-
-    //username.innerHTML = json[i].age;
-    //timestamp.innerHTML = json[i].city;
-    article.style.cursor = "pointer";
-    article.addEventListener("click", event=>{
-        location.href ="bloginfo.html?="+1;
-    })
+async function getVerify(){
+    const role = await verify();
+    logInOrLogOut(role);
 }
-    }
 
 
-async function getJson(){
+async function createBlog(){
     let path = "https://localhost:7063/Blog/AllBlog";
     json = await getblog(path);
     console.log(json);
+    let article;
+    for(Element of json){
+        article = document.createElement("article");
+        let figure = document.createElement("figure");
+        let title = document.createElement("h2");
+        let img = document.createElement("img");
+        let username = document.createElement("figcaption");
+        let timestamp = document.createElement("p");
+        article.appendChild(title);
+        figure.appendChild(img);
+        figure.appendChild(username);
+        article.appendChild(figure);
+        article.appendChild(timestamp);
+        main.appendChild(article);
+        title.innerHTML = Element.title;
+        img.src = Element.img;
+        username.innerHTML=Element.username;
+        timestamp.innerHTML = Element.time;
+        let Id = Element.blogId;
+        article.style.cursor = "pointer";
+        article.addEventListener("click", event=>{
+            location.href="bloginfo.html?"+Id;
+        })
+    }
 }
 
+
 async function getblog(path){
-    console.log(localStorage.getItem("GUID"));
     let response = await fetch(path, {
         headers:{
             "Authorization": localStorage.getItem("GUID")

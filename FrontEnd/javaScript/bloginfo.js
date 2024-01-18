@@ -1,12 +1,19 @@
+import {verify, logInOrLogOut} from "./verify.js";
 let main;
 let json = [];
 let jsonComment = [];
 function init(){
+    getVerify();
     main = document.getElementsByTagName("main")[0];
     blogPost();
     comments();
 }
 window.onload = init;
+
+async function getVerify(){
+    const role = await verify();
+    logInOrLogOut(role);
+}
 
 function blogPost(){
     let article
@@ -43,3 +50,5 @@ function comments(){
     }
 
 }
+
+let path = "https://localhost:7063/Blog/" + Id; 

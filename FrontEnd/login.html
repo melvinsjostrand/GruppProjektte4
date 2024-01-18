@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/FrontEnd/javaScript/login.js" defer></script>
-    <script src="/FrontEnd/javaScript/verify.js" defer></script>
+    <script type="module" src="/FrontEnd/javaScript/login.js" defer></script>
+    <script type="module" src="/FrontEnd/javaScript/verify.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <title>logga in - Webbshop</title>
 </head>
 <body id="login">
@@ -38,8 +39,10 @@
                 <label for="password"></label>
                 <input type="password" name="password" id="password">
                 <button type="submit">logga in</button>
+                <span id="error"></span>
             </form>
         </section>
+        <a href="createAcc.html">Skapa konto</a>
     </main>
 </body>
 
