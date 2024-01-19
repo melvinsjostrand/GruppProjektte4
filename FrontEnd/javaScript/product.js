@@ -1,40 +1,31 @@
-import {verify, logInOrLogOut} from "./verify.js";
+import {verify, logInOrLogOut, cart} from "./verify.js";
 let main;
 let Id;
 let button;
-let json = [
-    {
-        "productId" : 1,
-        "price" : 100,
-        "productImg" : "hej.png",
-        "productName" : "string(wdaw2)",
-        "category":"katt",
-        "description": "This is a test product.",
-    },
-    {
-        "productId" : 2,
-        "price" : 100,
-        "productImg" : "hej.png",
-        "productName" : "strinawdawdag(32)",
-        "category":"katt",
-        "description": "This is a test product.",
-    }
-]
+let json = []
 function init(){
     getVerify();
     main = document.getElementsByTagName("main")[0];
     createProduct();
-    console.log(button);
-
+    let knapp = document.getElementsByTagName("button")[json[i].productId];
+    knapp.addEventListener("click", event=>{
+        console.log(button.id);
+        event.preventDefault();
+    })
 }
 window.onload = init;
 
 async function getVerify(){
     const role = await verify();
     logInOrLogOut(role);
+    cart(role);
 }
 
-function createProduct(){
+async function createProduct(){
+    let path = "https://localhost:7063/Product/AllProducts";
+    json = await getProduct(path);
+    console.log(json);
+
     for(let i = 0; i< json.length; i++){
         let article = document.createElement("article");
         let figure = document.createElement("figure");
@@ -65,25 +56,14 @@ function createProduct(){
         category.innerHTML ="Category: "+json[i].category;
         desc.innerHTML= json[i].description;
         stock.innerHTML="in stock: "+json[i].stock;
-        feeding.innerHTML="Feeding instructions: "+json[i].feedingInstructions
+        feeding.innerHTML= json[i].feeding
         Id = json[i].productId;
         button.id = Id;
         button.innerHTML = "KÖP";
-        button.addEventListener("click", event=>{
-            console.log(button.id);
-            event.preventDefault();
-        })
     }
 }
 
-
-async function getJson(){
-    let path = "https://localhost:7063/Blog/AllBlog";
-    json = await getProduct(path);
-    console.log(json);
-}
-
-async function getblog(path){
+async function getProduct(path){
     console.log(localStorage.getItem("GUID"));
     let response = await fetch(path, {
         headers:{

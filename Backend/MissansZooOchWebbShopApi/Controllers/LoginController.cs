@@ -24,6 +24,12 @@ namespace MissansZooOchWebbShopApi.Controllers
         public IActionResult CreateUser(User user)
         {
             string auth = Request.Headers["Authorization"];
+            string message = CheckIfUniqueUser(user);
+            if (message != String.Empty)
+            {
+                return BadRequest(message);
+            }
+
             try
             {
                 connection.Open();
@@ -108,7 +114,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             if (auth == null
                 || !LoginController.sessionId.ContainsKey(auth))
             {
-                return Ok("0");
+                return StatusCode(404);
             }
 
             User user = (User)LoginController.sessionId[auth];
@@ -198,6 +204,41 @@ namespace MissansZooOchWebbShopApi.Controllers
                 throw new Exception("The authorization header is either empty or isn't Basic.");
             }
             return user;
+        }
+        private string CheckIfUniqueUser(User user)
+        {
+            string message = String.Empty;
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM user WHERE username = @username OR mail = @mail";
+                query.Parameters.AddWithValue("@username", user.Username);
+                query.Parameters.AddWithValue("@mail", user.Mail);
+                MySqlDataReader data = query.ExecuteReader();
+
+
+                if (data.Read())
+                {
+                    if (data.GetString("username") == user.Username)
+                    {
+                        message = "Användarnamnet finns redan";
+                    }
+                    if(data.GetString("mail") == user.Mail)
+                    {
+                        message = "Denna mailadress finns redan";
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return message;
         }
     }
 }

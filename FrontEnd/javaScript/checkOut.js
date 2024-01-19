@@ -12,7 +12,7 @@ async function getVerify(){
     logInOrLogOut(role);
 }
 
-function getItems(){
+async function getItems(){
     console.log(div)
     for(Element of json){
         let productName = document.createElement("h2");

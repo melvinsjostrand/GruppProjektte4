@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
@@ -14,28 +15,29 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPost] //Skapa blogg
         public ActionResult CreateBlog(Blog blog)
         {
-            string auth = Request.Headers["Authorization"];//GUID
-            if (auth == null || !LoginController.sessionId.ContainsKey(auth))
-            {
-                return StatusCode(403, "du är inte inloggad");
-            }
+             string auth = Request.Headers["Authorization"];//GUID
+             if (auth == null || !LoginController.sessionId.ContainsKey(auth))
+             {
+                 return StatusCode(403, "du är inte inloggad");
+             }
 
-            User user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+             User user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
             if (user.Role != 1)
-            {
-                return StatusCode(403, "Du har inte rätten till att skapa blogginlägg");
-            }
+             {
+                 return StatusCode(403, "Du har inte rätten till att skapa blogginlägg");
+             }
             try
             {
+                blog.blogImg = ("./Images/") + blog.blogImg;
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `blog` (title, blogImg, blogText, time, userId) " + "VALUES(@title, @blogImg, @blogText, (SELECT CURRENT_TIMESTAMP), (SELECT userId from user WHERE username = @username))";
+                query.CommandText = "INSERT INTO `blog` (title, blogImg, blogText, time, userId) " + "VALUES(@title, @blogImg, @blogText, (SELECT CURRENT_TIMESTAMP),@userId)";
                 query.Parameters.AddWithValue("@title", blog.title);
                 query.Parameters.AddWithValue("@blogImg", blog.blogImg);
                 query.Parameters.AddWithValue("@blogText", blog.blogText);
                 query.Parameters.AddWithValue("@time", blog.time);
-                query.Parameters.AddWithValue("@username", blog.username);
+                query.Parameters.AddWithValue("@userId", user.UserId);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -46,6 +48,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return StatusCode(201, "Blog skapad");
         }
+
 
         [HttpDelete("DeleteBlogAdmin")] //ta bort blogg som admin
         public ActionResult DeleteBlogAdmin(Blog blog)
@@ -117,7 +120,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId";
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId ORDER BY time DESC";
                 MySqlDataReader data = query.ExecuteReader();
                 
                 while (data.Read()) 
@@ -149,7 +152,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE blogId = @blogId";
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE blogId = @blogId ORDER BY time ASC";
                 query.Parameters.AddWithValue("@blogId", blogId);
                 MySqlDataReader data = query.ExecuteReader();
 
@@ -182,7 +185,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE userId = @userId";
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE userId = @userId ORDER BY time ASC";
                 query.Parameters.AddWithValue("@userId", userId);
                 MySqlDataReader data = query.ExecuteReader();
 

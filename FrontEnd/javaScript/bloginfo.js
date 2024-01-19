@@ -39,7 +39,7 @@ function comments(){
     let div;
     div = document.createElement("div");
     main.appendChild(div);
-    for(i = 0; i < jsonComment.length; i++){
+    for(let i = 0; i < jsonComment.length; i++){
         let usernameComment = document.createElement("h4");
         console.log(usernameComment);
         let comment = document.createElement("p");

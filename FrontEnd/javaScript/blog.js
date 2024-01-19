@@ -1,18 +1,21 @@
-import {verify, logInOrLogOut} from "./verify.js";
+import {verify, logInOrLogOut, seeBlogButtons} from "./verify.js";
 
 let main;
+let div;
 let json = [
 ]
 function init(){
-    getVerify();
     main = document.getElementsByTagName("main")[0];
+    div = document.getElementsByTagName("div")[1];
     createBlog();
+    getVerify();
 }
 window.onload = init;
 
 async function getVerify(){
     const role = await verify();
     logInOrLogOut(role);
+    seeBlogButtons(role);
 }
 
 
@@ -33,7 +36,7 @@ async function createBlog(){
         figure.appendChild(username);
         article.appendChild(figure);
         article.appendChild(timestamp);
-        main.appendChild(article);
+        div.appendChild(article);
         title.innerHTML = Element.title;
         img.src = Element.img;
         username.innerHTML=Element.username;
