@@ -43,9 +43,7 @@ async function createBlog(){
         timestamp.innerHTML = Element.time;
         let Id = Element.blogId;
         article.style.cursor = "pointer";
-        article.addEventListener("click", event=>{
-            location.href="bloginfo.html?"+Id;
-        })
+        article.href = "bloginfo.html?="+Id;
     }
 }
 
