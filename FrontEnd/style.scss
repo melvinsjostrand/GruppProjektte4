@@ -1,25 +1,35 @@
 /* Mobil*/
 /* All webbsites */
-header{
-    h1{
-        display: none;
-    }
-    nav{
-        text-decoration: none;
-        ul{
-            list-style-type: none;
-            li{
-                a{
-                    text-decoration: none;
-                    font-size: 2em;
-                    color: black;
-                    padding: 1px;
+body{
+    height: 100vh;
+    grid-template-rows: 100px auto 100px;
+    display: grid;
+    header{
+        margin: 0;
+        background-color:#00FF00;
+        h1{
+            display: none;
+        }
+        nav{
+            text-decoration: none;
+            ul{
+                list-style-type: none;
+                li{
+                    a{
+                        text-decoration: none;
+                        font-size: 2em;
+                        color: black;
+                        padding: 1px;
+                    }
                 }
-            }
-        }    
+            }    
+        }
+    }
+    main{
+        background-color: #87CEEB;
+        height: 100%;
     }
 }
-
 
 /*singler webbsites*/
 #index {

@@ -121,7 +121,35 @@ namespace MissansZooOchWebbShopApi.Controllers
 
             return Ok(user.Role);
         }
+        [HttpGet("password")]
+        public ActionResult Password()
+        {
+            string auth = Request.Headers["Authorization"];
+            if (auth == null || LoginController.sessionId.ContainsKey(auth))
+            {
+                return StatusCode(403, "du är inte inloggad");
+            }
 
+            User user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+            if (user.Role != 2)
+            {
+                return StatusCode(403, "Du har inte rätten till att skapa produkter");
+            }
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT password FROM user WHERE userId = userId";
+                query.Parameters.AddWithValue("@userId", user.UserId);
+                query.ExecuteNonQuery();
+            }catch (Exception ex)
+            {
+                connection.Close();
+                return StatusCode(500);
+            }
+            return StatusCode(200);
+        }
 
         [HttpPost("Logout")]
         public ActionResult Logout()
