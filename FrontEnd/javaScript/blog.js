@@ -38,7 +38,7 @@ async function createBlog(){
         article.appendChild(timestamp);
         div.appendChild(article);
         title.innerHTML = Element.title;
-        img.src = Element.img;
+        img.src = Element.blogImg;
         username.innerHTML=Element.username;
         timestamp.innerHTML = Element.time;
         let Id = Element.blogId;

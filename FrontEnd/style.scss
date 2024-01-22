@@ -1,132 +1,260 @@
-/* Mobil*/
-/* All webbsites */
-$primary-color: #4CAF50; // Grön
-$secondary-color: #FFC107; // Gul
-$accent-color: #FF5722; // Orange
-$text-color: #333; // Mörkgrå textfärg
-$background-color: #F5F5F5; // Ljusgrå bakgrundsfärg
-
-// Font
-$font-family: 'Arial', sans-serif;
-
-// Container
-$container-width: 1200px;
-
-// Header
-$header-height: 80px;
-
-// Footer
-$footer-height: 60px;
-
-// Generella stilar
 body {
-  font-family: $font-family;
-  background-color: $background-color;
-  color: $text-color;
-  margin: 0;
-  padding: 0;
-}
-
-.wrapper {
-  width: $container-width;
-  margin: 0 auto;
-}
-
-// Header-stilar
-header {
-  background-color: $primary-color;
-  height: $header-height;
-  color: white;
-  padding: 20px;
-
-  h1 {
-display: none;
-  }
-
-  nav {
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-
-      li {
-        display: inline-block;
-        margin-right: 20px;
-
-        a {
-          text-decoration: none;
-          color: white;
-          font-weight: bold;
-
-          &:hover {
-            text-decoration: underline;
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    color: #333;
+    .wrapper{
+        grid-template-rows: auto auto 100px;
+        grid-template-areas: "head" "main" "foot";
+        display: grid;
+    }
+    header {
+        text-align: center;
+        grid-area: head;
+        background-color: #4CAF50;
+        height: 100%;
+        color: white;   
+        h1 {
+            display: none;
           }
+          nav {
+            height: 100%;
+            ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+              li {
+                a {
+                    font-size: 30px;
+                    text-align: center;
+                    text-decoration: none;
+                    color: white;
+                    font-weight: bold;
+                }
+            }
         }
-      }
-    }
-  }
-
-
-// Main content-stilar
-    main {
-    padding: 40px 0;
     }
 }
-
-/*singler webbsites*/
-#index {
-    .wrapper {}
+main{
+    grid-area: main;
+}
+}
+    /*singler webbsites*/
+    #index {
+        .wrapper {
+            main{
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 150px;
+                height: 25px;
+                border-radius: 25px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.3s;
+              
+                &:hover {
+                  background-color: darken( #4CAF50, 10%);
+                }
+            }
+        }
+    }
 }
 
-#blog {
-    .wrapper {}
+    #blogg {
+        .wrapper {
+            main{
+                article {
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    margin: 20px 0;
+                    padding: 20px;
+                    h2 {
+                        color: #4CAF50;
+                        margin-bottom: 10px;
+                      }
+                    figure {
+                    margin: 0;
+                        img {
+                          max-width: 100%;
+                          height: auto;
+                          border-radius: 8px;
+                          margin-bottom: 10px;
+                        }
+                        figcaption {
+                            color: #333;
+                            font-style: italic;
+                          }
+                    }
+                    p {
+                        color: #ccc;
+                        margin-bottom: 15px;
+                      }
+                }
+                    a {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 150px;
+                        height: 25px;
+                        border-radius: 25px;
+                        background-color: #4CAF50;
+                        color: white;
+                        border: none;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                      
+                        &:hover {
+                          background-color: darken( #4CAF50, 10%);
+                        }
+                    }
+                }
+            }
+        }
+    
+
+    #blogInfo {
+        .wrapper {}
+    }
+
+    #createAcc {
+        .wrapper {}
+    }
+
+    #checkOut {
+        .wrapper {}
+    }
+
+    #login {
+        .wrapper {
+            main{
+                text-align: center;
+               section{
+                margin-bottom: 10px;
+               form{ 
+                grid-template-rows: 1fr 1fr 1fr 1fr;
+                display: grid;
+                }
+            }
+            a{
+                color: #ff5722;
+                text-decoration: none;
+            }
+        }
+    }
 }
 
-#blogInfo {
-    .wrapper {}
+    #uploadBlogg {
+        .wrapper {}
+    }
+
+    #uploadProduct {
+        .wrapper {}
+    }
+    #removeProduct{
+        .wrapper{}
+    }
+    #product{
+        .wrapper{
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 150px;
+                height: 25px;
+                border-radius: 25px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.3s;
+              
+                &:hover {
+                  background-color: darken( #4CAF50, 10%);
+                }
+            }
+        }
+    }
+
+    #removeBlogText{
+        .wrapper{}
+    }
+    #controller{
+        .wrapper{
+            main{
+                a{
+                display: flex;
+                justify-content: center;
+                padding: 15px 30px;
+                margin: 15px;
+                border-radius: 8px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+                &:hover{
+                    background-color: darken(#F5F5F5, 10%);
+                }
+            }
+        }
+    }
 }
 
-#createAcc {
-    .wrapper {}
-}
-
-#checkOut {
-    .wrapper {}
-}
-
-#login {
-    .wrapper {}
-}
-
-#uploadBlogg {
-    .wrapper {}
-}
-
-#uploadProduct {
-    .wrapper {}
-}
-#removeProduct{
-    .wrapper{}
-}
-
-#removeBlogText{
-    .wrapper{}
-}
 /*Dator*/
 @media only screen and (min-width: 1080px) {
     
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #F5F5F5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        .wrapper {
+            width: 100%;
+            margin: 0 auto;
+      header {
+        text-align: right;
+        background-color: #4CAF50;
+        height: 80px;
+        color: white;
+        padding: 20px;
+        nav {
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+      
+            li {
+              display: inline-block;
+              margin-right: 20px;
+      
+              a {
+                text-decoration: none;
+                color: white;
+                font-weight: bold;
+      
+                &:hover {
+                  text-decoration: underline;
+                }
+                }
+              }
+            }
+          }
+        }
+          main{  
+          padding: 40px 0;
+          }
+      }    
+    }
 /*singler webbsites*/
     #index {
         .wrapper {}
     }
 
-    #blog {
+    #blogg {
         .wrapper {
-            main{
-                figure{
-                    border: solid black 5%;
-                }
-            }
         }
     }
 
@@ -143,7 +271,43 @@ display: none;
     }
 
     #login {
-        .wrapper {}
+        .wrapper {
+            form{
+                margin-top: 20px;
+                label{
+                    display:block;
+                    margin-bottom: 5px;
+                    font-weight: bold;
+                }
+                input{
+                    width: auto;
+                    padding: 10px;
+                    margin-bottom: 15px;
+                    border: 1px solid #ccc;
+                    border-radius:4px ;
+                }
+                button{
+                    background: #4CAF50;
+                    color: white;
+                    border:none;
+                    padding:10px 20px;
+                    border-radius: 4px;
+                    cursor: pointer;
+
+                    &:hover{
+                        background: darken(#4CAF50 , 10%);
+                    }
+                }
+            }
+            main a{
+                color: #ff5722;
+                text-decoration: none;
+
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+        }
     }
 
     #uploadBlogg {
@@ -160,5 +324,25 @@ display: none;
     
     #removeBlogText{
         .wrapper{}
+    }
+    #controller{
+        .wrapper{
+            main{
+                a{
+                    display: flex;
+                    justify-content: center;
+                    padding: 15px 30px;
+                    margin: 15px;
+                    border-radius: 8px;
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    &:hover{
+                        background-color: darken(#F5F5F5, 10%);
+                    }
+                }
+            }
+        }
     }
 }

@@ -50,6 +50,15 @@ namespace MissansZooOchWebbShopApi.Controllers
             return StatusCode(201, "produkt skapad");
         }
 
+        private string img(Product product)
+        {
+            string fileType = product.productImg.Split(",")[0].Split("/")[1].Split(";")[0];
+            byte[] imageData = Convert.FromBase64String(product.productImg.Split(",")[1]);
+            string path = ("../../FrontEnd/images") + "bild" + (".") + fileType;
+            System.IO.File.WriteAllBytes(path, imageData);
+            return path;
+        }
+
         [HttpDelete] //ta bort produkter
         public ActionResult DeleteBlogAdmin(Product product)
         {

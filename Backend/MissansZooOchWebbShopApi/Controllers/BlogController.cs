@@ -52,7 +52,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         {
             string fileType = blog.blogImg.Split(",")[0].Split("/")[1].Split(";")[0];
             byte[] imageData = Convert.FromBase64String(blog.blogImg.Split(",")[1]);
-            string path = ("images/") + "bild" +(".")+ fileType;
+            string path = ("../../FrontEnd/images") + "bild" +(".")+ fileType;
             System.IO.File.WriteAllBytes(path,imageData);
             return path;
         }

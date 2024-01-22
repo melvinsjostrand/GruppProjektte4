@@ -37,7 +37,7 @@ async function login(){
     } else if (response.status === 400) {
         //error lösenord/mail fel
         console.log("error");
-        error.innerHTML = "-Felaktig mail/telefon/lösenord";
+        error.innerHTML = "-Felaktig mail/lösenord";
     } else{
         error.innerHTML = "-Det gick inte att logga in";
     }
