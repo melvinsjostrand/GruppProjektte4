@@ -31,6 +31,3 @@ async function getItems(){
 
     }
 }
-function details(){
-
-}

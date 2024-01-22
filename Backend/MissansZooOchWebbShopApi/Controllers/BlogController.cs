@@ -28,7 +28,7 @@ namespace MissansZooOchWebbShopApi.Controllers
              }
             try
             {
-                blog.blogImg = ("./Images/") + blog.blogImg;
+                blog.blogImg = img(blog);
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
@@ -48,7 +48,13 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return StatusCode(201, "Blog skapad");
         }
-
+        private string img(Blog blog)
+        {
+            string fileType = blog.blogImg.Split(",")[0].Split("/")[1].Split(";")[0];
+            byte[] imageData = Convert.FromBase64String(blog.blogImg.Split(",")[1]);
+            string path = ("images") + blog.blogId +(".")+ fileType;
+            return path;
+        }
 
         [HttpDelete("DeleteBlogAdmin")] //ta bort blogg som admin
         public ActionResult DeleteBlogAdmin(Blog blog)
