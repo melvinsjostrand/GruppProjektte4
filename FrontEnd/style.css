@@ -114,6 +114,69 @@ body main {
   text-decoration: none;
 }
 
+#product .wrapper div {
+  display: flex;
+  justify-content: space-between;
+  background-color: #eee;
+  padding: 10px;
+}
+#product .wrapper div button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 30%; /* Adjust the width as needed */
+  font-size: 1em;
+}
+#product .wrapper div button:hover {
+  background-color: #4CAF50;
+}
+#product .wrapper div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+}
+#product .wrapper div article {
+  border: 1px solid black;
+  margin: 10px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+#product .wrapper div article:hover {
+  transform: scale(1.05);
+}
+#product .wrapper div article figure {
+  margin-bottom: 15px;
+}
+#product .wrapper div article figure img {
+  width: 100%;
+  max-height: 200px;
+  height: auto;
+}
+#product .wrapper div article h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+#product .wrapper div article p {
+  margin-bottom: 10px;
+}
+#product .wrapper div article button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1em;
+}
+#product .wrapper div article button:hover {
+  background-color: #45a049;
+}
 #product .wrapper a {
   display: flex;
   align-items: center;

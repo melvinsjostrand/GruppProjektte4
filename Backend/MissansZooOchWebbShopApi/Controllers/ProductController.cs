@@ -50,15 +50,31 @@ namespace MissansZooOchWebbShopApi.Controllers
             return StatusCode(201, "produkt skapad");
         }
 
-        private string img(Product product)
+        private string SaveImage(object item)
         {
-            string fileType = product.productImg.Split(",")[0].Split("/")[1].Split(";")[0];
-            byte[] imageData = Convert.FromBase64String(product.productImg.Split(",")[1]);
-            string path = ("../../FrontEnd/images") + "bild" + (".") + fileType;
+            string imgData;
+
+            if (item is Blog blog)
+            {
+                imgData = blog.blogImg;
+            }
+            else if (item is Product product)
+            {
+                imgData = product.productImg;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid object type. Supported types are Blog and Product.");
+            }
+
+            string fileType = imgData.Split(",")[0].Split("/")[1].Split(";")[0];
+            byte[] imageData = Convert.FromBase64String(imgData.Split(",")[1]);
+
+            string path = "../../FrontEnd/images/bild." + fileType;
             System.IO.File.WriteAllBytes(path, imageData);
+
             return path;
         }
-
         [HttpDelete] //ta bort produkter
         public ActionResult DeleteBlogAdmin(Product product)
         {
