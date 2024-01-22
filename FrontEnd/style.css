@@ -1,19 +1,32 @@
 /* Mobil*/
 /* All webbsites */
-header h1 {
+body {
+  height: 100vh;
+  grid-template-rows: 100px auto 100px;
+  display: grid;
+}
+body header {
+  margin: 0;
+  background-color: #00FF00;
+}
+body header h1 {
   display: none;
 }
-header nav {
+body header nav {
   text-decoration: none;
 }
-header nav ul {
+body header nav ul {
   list-style-type: none;
 }
-header nav ul li a {
+body header nav ul li a {
   text-decoration: none;
   font-size: 2em;
   color: black;
   padding: 1px;
+}
+body main {
+  background-color: #87CEEB;
+  height: 100%;
 }
 
 /*singler webbsites*/
