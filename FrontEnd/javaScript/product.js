@@ -2,16 +2,13 @@ import {verify, logInOrLogOut, cart} from "./verify.js";
 let main;
 let Id;
 let button;
+let div;
 let json = []
 function init(){
+    createProduct();
     getVerify();
     main = document.getElementsByTagName("main")[0];
-    createProduct();
-    let knapp = document.getElementsByTagName("button")[json[i].productId];
-    knapp.addEventListener("click", event=>{
-        console.log(button.id);
-        event.preventDefault();
-    })
+    div = document.getElementsByTagName("div")[1];
 }
 window.onload = init;
 
@@ -39,17 +36,18 @@ async function createProduct(){
         let feeding = document.createElement("p");
         button = document.createElement("button");
 
-        main.appendChild(article);
-        article.appendChild(figure);
+
+
         figure.appendChild(img);
         figure.appendChild(productName);
-        figure.appendChild(category);
-        figure.appendChild(price);
-        figure.appendChild(desc);
-        figure.appendChild(stock);
-        figure.appendChild(feeding);
-        figure.appendChild(button);
-
+        article.appendChild(category);
+        article.appendChild(price);
+        article.appendChild(desc);
+        article.appendChild(stock);
+        article.appendChild(feeding);
+        article.appendChild(button);
+        article.appendChild(figure);
+        div.appendChild(article);
         productName.innerHTML = json[i].productName;
         price.innerHTML = "Priset är " + json[i].price + "kr";
         img.src=json[i].productImg;

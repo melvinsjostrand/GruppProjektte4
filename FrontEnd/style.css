@@ -1,32 +1,46 @@
 /* Mobil*/
 /* All webbsites */
 body {
-  height: 100vh;
-  grid-template-rows: 100px auto 100px;
-  display: grid;
-}
-body header {
+  font-family: "Arial", sans-serif;
+  background-color: #F5F5F5;
+  color: #333;
   margin: 0;
-  background-color: #00FF00;
+  padding: 0;
 }
-body header h1 {
+
+.wrapper {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #4CAF50;
+  height: 80px;
+  color: white;
+  padding: 20px;
+}
+header h1 {
   display: none;
 }
-body header nav {
+header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+header nav ul li {
+  display: inline-block;
+  margin-right: 20px;
+}
+header nav ul li a {
   text-decoration: none;
+  color: white;
+  font-weight: bold;
 }
-body header nav ul {
-  list-style-type: none;
+header nav ul li a:hover {
+  text-decoration: underline;
 }
-body header nav ul li a {
-  text-decoration: none;
-  font-size: 2em;
-  color: black;
-  padding: 1px;
-}
-body main {
-  background-color: #87CEEB;
-  height: 100%;
+header main {
+  padding: 40px 0;
 }
 
 /*singler webbsites*/

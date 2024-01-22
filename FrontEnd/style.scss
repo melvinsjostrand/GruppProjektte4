@@ -1,33 +1,75 @@
 /* Mobil*/
 /* All webbsites */
-body{
-    height: 100vh;
-    grid-template-rows: 100px auto 100px;
-    display: grid;
-    header{
-        margin: 0;
-        background-color:#00FF00;
-        h1{
-            display: none;
+$primary-color: #4CAF50; // Grön
+$secondary-color: #FFC107; // Gul
+$accent-color: #FF5722; // Orange
+$text-color: #333; // Mörkgrå textfärg
+$background-color: #F5F5F5; // Ljusgrå bakgrundsfärg
+
+// Font
+$font-family: 'Arial', sans-serif;
+
+// Container
+$container-width: 1200px;
+
+// Header
+$header-height: 80px;
+
+// Footer
+$footer-height: 60px;
+
+// Generella stilar
+body {
+  font-family: $font-family;
+  background-color: $background-color;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  width: $container-width;
+  margin: 0 auto;
+}
+
+// Header-stilar
+header {
+  background-color: $primary-color;
+  height: $header-height;
+  color: white;
+  padding: 20px;
+
+  h1 {
+display: none;
+  }
+
+  nav {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        display: inline-block;
+        margin-right: 20px;
+
+        a {
+          text-decoration: none;
+          color: white;
+          font-weight: bold;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
-        nav{
-            text-decoration: none;
-            ul{
-                list-style-type: none;
-                li{
-                    a{
-                        text-decoration: none;
-                        font-size: 2em;
-                        color: black;
-                        padding: 1px;
-                    }
-                }
-            }    
-        }
+      }
     }
-    main{
-        background-color: #87CEEB;
-        height: 100%;
+  }
+
+
+// Main content-stilar
+    main {
+    padding: 40px 0;
     }
 }
 
