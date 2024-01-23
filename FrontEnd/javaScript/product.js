@@ -1,107 +1,7 @@
 import { verify, logInOrLogOut, cart } from "./verify.js";
 
 let main;
-let json = [{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "price": 50,
-    "productImg":"hej.png",
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "price": 50,
-    "productImg":"hej.png",
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-},
-{
-    "productId":1,
-    "category":"katt",
-    "productName":"katt",
-    "productImg":"hej.png",
-    "price": 50,
-    "stock":23,  
-    "description":"miawdmiawmdiwamfimi mimbiwmbdiawm",
-    "feeding": "imfawmfiamwbim iwamibmwimbi"
-}];
+let json = [];
 let div;
 
 function init() {
@@ -132,9 +32,12 @@ function createProducts() {
     let img = createHTMLElement("img", null, { src: product.productImg, alt: product.productName });
     let price = createHTMLElement("p", `Priset är ${product.price}kr`);
     let desc = createHTMLElement("p", product.description);
-    let stock = createHTMLElement("p", `in stock: ${product.stock}`);
+    let stock = createHTMLElement("p", `i lager: ${product.stock}st`);
     let feeding = createHTMLElement("p", product.feeding);
     let button = createHTMLElement("button", "KÖP", { id: product.productId });
+    button.addEventListener("click", event=>{
+        console.log("product Id", product.productId);
+    })
 
     div.appendChild(article);
     article.appendChild(figure);

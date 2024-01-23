@@ -9,6 +9,8 @@ function init(){
     form.addEventListener("submit", event=>{
         letFromData();
         event.preventDefault();
+
+        
     })
 }
 window.onload = init;
