@@ -48,7 +48,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 {
                     Guid guid = Guid.NewGuid();
                     string key = guid.ToString();
-                    user.UserId = (int)query.LastInsertedId;
+                    user.Id = (int)query.LastInsertedId;
                     sessionId.Add(key, user);
                     connection.Close();
                     return StatusCode(201, key);
@@ -83,7 +83,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 while (data.Read())
                 {
                     hash = data.GetString("password");
-                    user.UserId = data.GetInt32("userId");
+                    user.Id = data.GetInt32("Id");
                     user.Mail = data.GetString("mail");
                     user.Role = data.GetInt32("Role");
                 }
@@ -130,7 +130,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 return StatusCode(403, "du är inte inloggad");
             }
 
-            User user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+            User user = (User)LoginController.sessionId[auth]; //Id Role username hashedpassword mail
             if (user.Role != 2)
             {
                 return StatusCode(403, "Du har inte rätten till att skapa produkter");
@@ -140,8 +140,8 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT password FROM user WHERE userId = userId";
-                query.Parameters.AddWithValue("@userId", user.UserId);
+                query.CommandText = "SELECT password FROM user WHERE Id = Id";
+                query.Parameters.AddWithValue("@Id", user.Id);
                 query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -171,7 +171,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                     return StatusCode(403, "du är inte inloggad");
                 }
 
-                user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+                user = (User)LoginController.sessionId[auth]; //Id Role username hashedpassword mail
                 if (user.Role != 2)
                 {
                     return StatusCode(403, "Du har inte rätten till att skapa produkter");
@@ -202,10 +202,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "UPDATE `user` " + "SET `password` = @password " + "WHERE `userId` = @userId";
+                query.CommandText = "UPDATE `user` " + "SET `password` = @password " + "WHERE `Id` = @Id";
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 query.Parameters.AddWithValue("@password", hashedPassword);
-                query.Parameters.AddWithValue("@userId", user.UserId);
+                query.Parameters.AddWithValue("@Id", user.Id);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {

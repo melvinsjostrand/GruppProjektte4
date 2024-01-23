@@ -19,7 +19,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                  return StatusCode(403, "du är inte inloggad");
              }
 
-             user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
+             user = (User)LoginController.sessionId[auth]; //id Role username hashedpassword mail
              if (user.Role != 1)
              {
                  return StatusCode(403, "Du har inte rätten till att skapa bloginlägg");
@@ -29,10 +29,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `comment` (`commentText`, `blogId`, `userId`) VALUES (@commentText, @blogId, @userId);";
+                query.CommandText = "INSERT INTO `comment` (`commentText`, `blogId`, `id`) VALUES (@commentText, @blogId, @Id);";
                 query.Parameters.AddWithValue("@commentText", comment.commentText);
                 query.Parameters.AddWithValue("@blogId", comment.blogId);
-                query.Parameters.AddWithValue("@userId", user.UserId);
+                query.Parameters.AddWithValue("@Id", user.Id);
                 int row = query.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT commentId, commentText, username FROM comment t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE blogId = @blogId";
+                query.CommandText = "SELECT commentId, commentText, username FROM comment t1 LEFT JOIN user t2 ON t1.userId = t2.id WHERE blogId = @blogId";
                 query.Parameters.AddWithValue("@blogId", blogId);
                 MySqlDataReader data = query.ExecuteReader();
 

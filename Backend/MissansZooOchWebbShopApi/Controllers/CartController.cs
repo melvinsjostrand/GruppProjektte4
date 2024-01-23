@@ -30,9 +30,9 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO cart (productId, userId, Amount ) " + "(@productId, @userId, 1)";
-                query.Parameters.AddWithValue("@productId", product.productId);
-                query.Parameters.AddWithValue("@userId", user.UserId);
+                query.CommandText = "INSERT INTO cart (Id, userId, Amount ) " + "(@Id, @userId, 1)";
+                query.Parameters.AddWithValue("@Id", product.Id);
+                query.Parameters.AddWithValue("@userId", user.Id);
             }catch(Exception ex)
             {
                 connection.Close();
@@ -51,7 +51,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText = "DELETE FROM cart WHERE userId = @userId";
-                query.Parameters.AddWithValue("@userId", user.UserId);
+                query.Parameters.AddWithValue("@userId", user.Id);
                 int row = query.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -61,7 +61,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             return StatusCode(200, "blogg har tagits bort");
         }
     [HttpGet]
-    public ActionResult<cart> GetCart(int userId)
+    public ActionResult<cart> GetCart(int Id)
         {
             List<cart> Cart = new List<cart>();
             try
@@ -69,8 +69,8 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT cartId, amount, userId, price, productName, t1.productId FROM cart t1 LEFT JOIN product t2 ON t1.productId = t2.productId WHERE userId = @userId";
-                query.Parameters.AddWithValue("@userId", userId);
+                query.CommandText = "SELECT cartId, amount, userId, price, productName, t1.productId FROM cart t1 LEFT JOIN product t2 ON t1.productId = t2.productId WHERE userId = @Id";
+                query.Parameters.AddWithValue("@Id", Id);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read()) 

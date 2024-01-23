@@ -15,7 +15,8 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPost] //Skapa blogg
         public ActionResult CreateBlog(Blog blog)
         {
-             string auth = Request.Headers["Authorization"];//GUID
+            Console.WriteLine(blog + "hej hej hej");
+            string auth = Request.Headers["Authorization"];//GUID
              if (auth == null || !LoginController.sessionId.ContainsKey(auth))
              {
                  return StatusCode(403, "du är inte inloggad");
@@ -28,16 +29,17 @@ namespace MissansZooOchWebbShopApi.Controllers
              }
             try
             {
-                blog.blogImg = img(blog);
+                Console.WriteLine(blog.img + "hej hej hej");
+                blog.img = SaveImage(blog.img);
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `blog` (title, blogImg, blogText, time, userId) " + "VALUES(@title, @blogImg, @blogText, (SELECT CURRENT_TIMESTAMP),@userId)";
+                query.CommandText = "INSERT INTO `blog` (title, Img, Text, time, userId) " + "VALUES(@title, @Img, @Text, (SELECT CURRENT_TIMESTAMP),@userId)";
                 query.Parameters.AddWithValue("@title", blog.title);
-                query.Parameters.AddWithValue("@blogImg", blog.blogImg);
-                query.Parameters.AddWithValue("@blogText", blog.blogText);
+                query.Parameters.AddWithValue("@Img", blog.img);
+                query.Parameters.AddWithValue("@Text", blog.text);
                 query.Parameters.AddWithValue("@time", blog.time);
-                query.Parameters.AddWithValue("@userId", user.UserId);
+                query.Parameters.AddWithValue("@userId", user.Id);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -48,12 +50,15 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return StatusCode(201, "Blog skapad");
         }
-        private string img(Blog blog)
+
+        private string SaveImage(string base64)
         {
-            string fileType = blog.blogImg.Split(",")[0].Split("/")[1].Split(";")[0];
-            byte[] imageData = Convert.FromBase64String(blog.blogImg.Split(",")[1]);
-            string path = ("../../FrontEnd/images") + "bild" +(".")+ fileType;
-            System.IO.File.WriteAllBytes(path,imageData);
+            string fileType = base64.Split(",")[0].Split("/")[1].Split(";")[0];
+            byte[] imageData = Convert.FromBase64String(base64.Split(",")[1]);
+
+            string path = "../../FrontEnd/images/bild." + fileType;
+            System.IO.File.WriteAllBytes(path, imageData);
+
             return path;
         }
 
@@ -77,8 +82,8 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "DELETE FROM blog WHERE blogId = @blogId";
-                query.Parameters.AddWithValue("@blogId", blog.blogId);
+                query.CommandText = "DELETE FROM blog WHERE Id = @Id";
+                query.Parameters.AddWithValue("@Id", blog.Id);
                 int row = query.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -107,8 +112,8 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "DELETE FROM blog WHERE blogId = @blogId";
-                query.Parameters.AddWithValue("@blogId", blog.blogId);
+                query.CommandText = "DELETE FROM blog WHERE Id = @Id";
+                query.Parameters.AddWithValue("@Id", blog.Id);
                 int row = query.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -127,17 +132,17 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId ORDER BY time DESC";
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.Id ORDER BY time DESC";
                 MySqlDataReader data = query.ExecuteReader();
                 
                 while (data.Read()) 
                 {
                     Blog blogs = new Blog
                     {
-                        blogId = data.GetInt32("blogId"),
+                        Id = data.GetInt32("Id"),
                         title = data.GetString("title"),
-                        blogImg = data.GetString("blogImg"),
-                        blogText = data.GetString("blogtext"),
+                        img = data.GetString("Img"),
+                        text = data.GetString("Text"),
                         time = data.GetString("time"),
                         username = data.GetString("username")
                     };
@@ -150,8 +155,8 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(blog);
         }
-        [HttpGet("{blogId}")]
-        public ActionResult<Blog> GetBlogFromBlogId(int blogId)
+        [HttpGet("{Id}")]
+        public ActionResult<Blog> GetBlogFromId(int Id)
         {
             List<Blog> blog = new List<Blog>();
             try
@@ -159,18 +164,18 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE blogId = @blogId ORDER BY time ASC";
-                query.Parameters.AddWithValue("@blogId", blogId);
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE Id = @Id ORDER BY time ASC";
+                query.Parameters.AddWithValue("@Id", Id);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
                 {
                     Blog blogs = new Blog
                     {
-                        blogId = data.GetInt32("blogId"),
+                        Id = data.GetInt32("Id"),
                         title = data.GetString("title"),
-                        blogImg = data.GetString("blogImg"),
-                        blogText = data.GetString("blogtext"),
+                        img = data.GetString("Img"),
+                        text = data.GetString("Text"),
                         time = data.GetString("time"),
                         username = data.GetString("username")
                     };
@@ -192,7 +197,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE userId = @userId ORDER BY time ASC";
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.Id WHERE userId = @userId ORDER BY time ASC";
                 query.Parameters.AddWithValue("@userId", userId);
                 MySqlDataReader data = query.ExecuteReader();
 
@@ -200,10 +205,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                 {
                     Blog blogs = new Blog
                     {
-                        blogId = data.GetInt32("blogId"),
+                        Id = data.GetInt32("Id"),
                         title = data.GetString("title"),
-                        blogImg = data.GetString("blogImg"),
-                        blogText = data.GetString("blogtext"),
+                        img = data.GetString("Img"),
+                        text = data.GetString("Text"),
                         time = data.GetString("time"),
                         username = data.GetString("username")
                     };

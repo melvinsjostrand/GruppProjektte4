@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using System.Data;
 using System.Reflection.Metadata;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -27,14 +28,16 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             try
             {
+                Console.WriteLine(product.Img + "hej hej hej");
+                product.Img = SaveImage(product.Img);
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `product` (price, category, productName, productImg, description, stock, content, feeding) " + "VALUES(@price, @category, @productName, @productImg, @description, @stock, @content, @feeding)";
+                query.CommandText = "INSERT INTO `product` (price, category, Name, Img, description, stock, content, feeding) " + "VALUES(@price, @category, @Name, @Img, @description, @stock, @content, @feeding)";
                 query.Parameters.AddWithValue("@price", product.price);
                 query.Parameters.AddWithValue("@category", product.category);
-                query.Parameters.AddWithValue("@productName", product.productName);
-                query.Parameters.AddWithValue("@productImg", product.productImg);
+                query.Parameters.AddWithValue("@Name", product.Name);
+                query.Parameters.AddWithValue("@Img", product.Img);
                 query.Parameters.AddWithValue("@description", product.description);
                 query.Parameters.AddWithValue("@stock", product.stock);
                 query.Parameters.AddWithValue("@content", product.content);
@@ -50,12 +53,14 @@ namespace MissansZooOchWebbShopApi.Controllers
             return StatusCode(201, "produkt skapad");
         }
 
-        private string img(Product product)
+        private string SaveImage(string base64)
         {
-            string fileType = product.productImg.Split(",")[0].Split("/")[1].Split(";")[0];
-            byte[] imageData = Convert.FromBase64String(product.productImg.Split(",")[1]);
-            string path = ("../../FrontEnd/images") + "bild" + (".") + fileType;
+            string fileType = base64.Split(",")[0].Split("/")[1].Split(";")[0];
+            byte[] imageData = Convert.FromBase64String(base64.Split(",")[1]);
+
+            string path = "../../FrontEnd/images/bild." + fileType;
             System.IO.File.WriteAllBytes(path, imageData);
+
             return path;
         }
 
@@ -128,12 +133,12 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "UPDATE product " + "SET price = @price, category = @category, productName = @productName, productImg = @productImg " +
+                query.CommandText = "UPDATE product " + "SET price = @price, category = @category, Name = @Name, Img = @Img " +
                     "WHERE productId = @productId";
                 query.Parameters.AddWithValue("@price", product.price);
                 query.Parameters.AddWithValue("@category", product.category);
-                query.Parameters.AddWithValue("@productName", product.productName);
-                query.Parameters.AddWithValue("@productImg", product.productImg);
+                query.Parameters.AddWithValue("@Name", product.Name);
+                query.Parameters.AddWithValue("@Img", product.Img);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -163,9 +168,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                     {
                         price = data.GetInt32("price"),
                         category = data.GetString("category"),
-                        productName = data.GetString("productName"),
-                        productImg = data.GetString("productImg"),
-                        productId = data.GetInt32("productId"),
+                        Name = data.GetString("Name"),
+                        Img = data.GetString("Img"),
+                        Id = data.GetInt32("Id"),
+                        stock = data.GetInt32("stock"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -197,9 +203,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                     {
                         price = data.GetInt32("price"),
                         category = data.GetString("category"),
-                        productName = data.GetString("productName"),
-                        productImg = data.GetString("productImg"),
-                        productId = data.GetInt32("productId"),
+                        Name = data.GetString("Name"),
+                        Img = data.GetString("Img"),
+                        Id = data.GetInt32("Id"),
+                        stock = data.GetInt32("stock"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -221,7 +228,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM product ORDER BY productName ASC";
+                query.CommandText = "SELECT * FROM product ORDER BY Name ASC";
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
@@ -230,9 +237,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                     {
                         price = data.GetInt32("price"),
                         category = data.GetString("category"),
-                        productName = data.GetString("productName"),
-                        productImg = data.GetString("productImg"),
-                        productId = data.GetInt32("productId"),
+                        Name = data.GetString("Name"),
+                        Img = data.GetString("Img"),
+                        Id = data.GetInt32("Id"),
+                        stock = data.GetInt32("stock"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -264,9 +272,10 @@ namespace MissansZooOchWebbShopApi.Controllers
                     {
                         price = data.GetInt32("price"),
                         category = data.GetString("category"),
-                        productName = data.GetString("productName"),
-                        productImg = data.GetString("productImg"),
-                        productId = data.GetInt32("productId"),
+                        Name = data.GetString("Name"),
+                        Img = data.GetString("Img"),
+                        Id = data.GetInt32("Id"),
+                        stock = data.GetInt32("stock"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };

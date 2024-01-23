@@ -4,7 +4,7 @@ namespace MissansZooOchWebbShopApi
 {
     public class User
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public int Role { get; set; }
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
