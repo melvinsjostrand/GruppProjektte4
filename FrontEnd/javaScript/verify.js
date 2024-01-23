@@ -112,7 +112,7 @@ function adminPanel(){
     a[4].innerHTML = "Ta bort eller ändra produkt";
     a[4].href = "changeProduct.html";
     a[5].innerHTML = "Lägg till produkt";
-    a[5].href = "addProduct.html";
+    a[5].href = "addproduct.html";
     a[6].innerHTML = "Ändra roller";
     a[6].href = "changeRole.html";
     a[7].innerHTML = "Ta bort blogginlägg";
