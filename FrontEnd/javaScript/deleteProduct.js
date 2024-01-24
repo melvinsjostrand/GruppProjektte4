@@ -1,19 +1,17 @@
 import {
 	verify,
 	logInOrLogOut,
-	cart
 } from "./verify.js";
 
 let url = "https://localhost:7063/Product"; 
 let main;
 let json = [];
-let deleteProduct;
 let div;
 let article;
 
 function init() {
 	getVerify();
-	div = document.getElementsByTagName("div")[2];
+	div = document.getElementsByTagName("div")[1];
 	main = document.querySelector("main");
 	createProducts();
 
@@ -109,9 +107,9 @@ async function getProduct(path) {
 
 async function deleteProduct(productId) {
     try {
-        const confirmation = confirm("Are you sure you want to delete this product?");
+        let confirmation = confirm("Are you sure you want to delete this product?");
         if (confirmation) {
-            const deleteResponse = await deletefetch(productId);
+            let deleteResponse = await deletefetch(productId);
             if (deleteResponse === 200) {
                 alert("Product deleted successfully!");
                 // You may want to update the UI here to reflect the deletion
@@ -128,7 +126,7 @@ async function deleteProduct(productId) {
 async function deletefetch(productId) {
     let deleteProduct = { id: productId };
     let response = await fetch(url, {
-        method: 'DELETE', // Use 'DELETE' method for deletion
+        method: 'DELETE',
         headers: {
             "Content-type": "application/json",
             "authorization": localStorage.getItem("GUID")
