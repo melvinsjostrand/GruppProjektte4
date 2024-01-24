@@ -255,32 +255,71 @@ body main {
   background-color: #3d8b40;
 }
 
-#product .wrapper div {
+#updateProduct .wrapper form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#updateProduct .wrapper form label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+#updateProduct .wrapper form input,
+#updateProduct .wrapper form select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#updateProduct .wrapper form .file {
+  margin-top: 10px;
+}
+#updateProduct .wrapper form button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#updateProduct .wrapper form button:hover {
+  background-color: #3d8b40;
+}
+
+#removeProduct .wrapper main div {
   display: flex;
   justify-content: space-between;
   background-color: #eee;
   padding: 10px;
 }
-#product .wrapper div button {
+#removeProduct .wrapper main div button {
   background-color: #4caf50;
   color: #fff;
   padding: 10px;
   border: none;
   cursor: pointer;
-  width: 30%; /* Adjust the width as needed */
+  width: 30%;
   font-size: 1em;
 }
-#product .wrapper div button:hover {
+#removeProduct .wrapper main div button:hover {
   background-color: #4CAF50;
 }
-#product .wrapper div {
+#removeProduct .wrapper main div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: flex-start;
   padding: 20px;
 }
-#product .wrapper div article {
+#removeProduct .wrapper main div article {
   border: 1px solid black;
   margin: 10px;
   padding: 15px;
@@ -288,25 +327,25 @@ body main {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
 }
-#product .wrapper div article:hover {
+#removeProduct .wrapper main div article:hover {
   transform: scale(1.05);
 }
-#product .wrapper div article figure {
+#removeProduct .wrapper main div article figure {
   margin-bottom: 15px;
 }
-#product .wrapper div article figure img {
+#removeProduct .wrapper main div article figure img {
   width: 100%;
   max-height: 200px;
   height: auto;
 }
-#product .wrapper div article h2 {
+#removeProduct .wrapper main div article h2 {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
-#product .wrapper div article p {
+#removeProduct .wrapper main div article p {
   margin-bottom: 10px;
 }
-#product .wrapper div article button {
+#removeProduct .wrapper main div article button {
   background-color: #4caf50;
   color: #fff;
   padding: 10px;
@@ -315,10 +354,10 @@ body main {
   width: 100%;
   font-size: 1em;
 }
-#product .wrapper div article button:hover {
+#removeProduct .wrapper main div article button:hover {
   background-color: #45a049;
 }
-#product .wrapper a {
+#removeProduct .wrapper main div a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -331,7 +370,87 @@ body main {
   cursor: pointer;
   transition: background-color 0.3s;
 }
-#product .wrapper a:hover {
+#removeProduct .wrapper main div a:hover {
+  background-color: #3d8b40;
+}
+
+#product .wrapper main div {
+  display: flex;
+  justify-content: space-between;
+  background-color: #eee;
+  padding: 10px;
+}
+#product .wrapper main div button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 30%;
+  font-size: 1em;
+}
+#product .wrapper main div button:hover {
+  background-color: #4CAF50;
+}
+#product .wrapper main div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+}
+#product .wrapper main div article {
+  border: 1px solid black;
+  margin: 10px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+#product .wrapper main div article:hover {
+  transform: scale(1.05);
+}
+#product .wrapper main div article figure {
+  margin-bottom: 15px;
+}
+#product .wrapper main div article figure img {
+  width: 100%;
+  max-height: 200px;
+  height: auto;
+}
+#product .wrapper main div article h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+#product .wrapper main div article p {
+  margin-bottom: 10px;
+}
+#product .wrapper main div article button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1em;
+}
+#product .wrapper main div article button:hover {
+  background-color: #45a049;
+}
+#product .wrapper main div a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 25px;
+  border-radius: 25px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#product .wrapper main div a:hover {
   background-color: #3d8b40;
 }
 
@@ -370,14 +489,24 @@ body main {
     color: white;
     padding: 20px;
   }
+  body .wrapper header nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Set the desired height */
+  }
   body .wrapper header nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
   }
   body .wrapper header nav ul li {
-    display: inline-block;
-    margin-right: 20px;
+    margin-right: 70px;
   }
   body .wrapper header nav ul li a {
     text-decoration: none;
@@ -386,9 +515,6 @@ body main {
   }
   body .wrapper header nav ul li a:hover {
     text-decoration: underline;
-  }
-  body .wrapper main {
-    padding: 40px 0;
   }
   /*singler webbsites*/
   #login .wrapper form {

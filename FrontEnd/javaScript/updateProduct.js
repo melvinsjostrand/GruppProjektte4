@@ -35,7 +35,7 @@ async function getVerify() {
 }
 
 async function letFromData() {
-  let productId = form.elements.productId.value; // Add an input field for product ID in your form
+  let productId = form.elements.productId.value;
   let name = form.elements.productname.value;
   let desc = form.elements.desc.value;
   let category = select.value;

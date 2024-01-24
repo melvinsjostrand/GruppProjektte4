@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="/FrontEnd/javaScript/addProduct.js" defer></script>
+    <script type="module" src="/FrontEnd/javaScript/verify.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body id="updateProduct">
+    <div class="wrapper">
+        <header>
+        <h1>addproduct</h1>
+        <nav>
+            <ul>
+                <li>
+                    <a href="index.html">Startsida</a>
+                </li>
+                <li>
+                    <a href="blog.html">blogg</a>
+                </li>
+                <li>
+                    <a href="product.html">produkter</a>
+                </li>
+                <li>
+
+                </li>
+            </ul>
+        </nav>
+    </header>
+        <main>
+            <form action="#">
+                <label for="productId">Skriv artikelnummer här</label>
+                <input type="text" name="productId" id="productId">
+                <label for="productname">produkt namn</label>
+                <input type="text" name="productname" id="productname">
+                <label for="desc" class="labeldesc">Beskrivning </label>
+                <input type="text" id="desc" name="desc" class="inputdesc">
+                <input type="file" id="fileinput" name="hidden" class="file">
+                <label for="price">Pris</label>
+                <input type="text" name="price" id="price">
+                <label for="stock">Antal i lager</label>
+                <input type="text" name="stock" id="stock">
+                <select name="category" id="category">
+                    <option value="Annat">
+                        Annat
+                    </option>
+                    <option value="Djur">
+                        Djur
+                    </option>
+                    <option value="Foder">
+                        Foder
+                    </option>
+                </select>
+                <label for="content">Information om innehåll</label>
+                <input type="text" name="content" id="content">
+                <label for="feeding">Utfodring</label>
+                <input type="text" name="feeding" id="feeding">
+                <button type="submit">Ladda upp produkt</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

@@ -296,13 +296,53 @@ main{
                     }
                 }
             }
+        }
     }
-}
-    #removeProduct{
-        .wrapper{}
-    }
-    #product{
+    #updateProduct{
         .wrapper{
+            form{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 50px auto;
+                padding: 20px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                label {
+                    margin-top: 10px;
+                    font-weight: bold;
+                  }
+                input,
+                select {
+                   width: 100%;
+                   padding: 10px;
+                   margin: 5px 0;
+                   border: 1px solid #ccc;
+                   border-radius: 4px;
+                }
+                .file {
+                    margin-top: 10px;
+                  }
+                  button {
+                    width: 100%;
+                    padding: 15px;
+                    margin-top: 20px;
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;                
+                    &:hover {
+                      background-color: darken(#4CAF50, 10%);
+                    }
+                }
+            }
+        }
+    }
+    #removeProduct{
+        .wrapper{
+            main{
             div{
             display: flex;
             justify-content: space-between;
@@ -314,7 +354,7 @@ main{
                     padding: 10px;
                     border: none;
                     cursor: pointer;
-                    width: 30%; /* Adjust the width as needed */
+                    width: 30%;
                     font-size: 1em;
                     &:hover{
                         background-color: #4CAF50;
@@ -365,7 +405,6 @@ main{
                           }
                       }
                   }
-            }
             a {
                 display: flex;
                 align-items: center;
@@ -385,7 +424,94 @@ main{
             }
         }
     }
-
+    }
+}
+    #product{
+        .wrapper{
+            main{
+            div{
+            display: flex;
+            justify-content: space-between;
+            background-color: #eee;
+            padding: 10px;
+                button{
+                    background-color: #4caf50;
+                    color: #fff;
+                    padding: 10px;
+                    border: none;
+                    cursor: pointer;
+                    width: 30%;
+                    font-size: 1em;
+                    &:hover{
+                        background-color: #4CAF50;
+                    }
+                }
+            }
+                div{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                align-items: flex-start;
+                padding: 20px;
+                article {
+                    border: 1px solid black;
+                    margin: 10px;
+                    padding: 15px;
+                    width: 300px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    transition: transform 0.3s ease-in-out;
+                    &:hover {
+                        transform: scale(1.05);
+                      }
+                      figure {
+                        margin-bottom: 15px;
+                        img {
+                            width: 100%;
+                            max-height: 200px;
+                            height: auto;
+                          }
+                      }
+                      h2 {
+                        font-size: 1.2em;
+                        margin-bottom: 10px;
+                      }
+                      p {
+                        margin-bottom: 10px;
+                      }
+                      button {
+                        background-color: #4caf50;
+                        color: #fff;
+                        padding: 10px;
+                        border: none;
+                        cursor: pointer;
+                        width: 100%;
+                        font-size: 1em;
+                        &:hover {
+                            background-color: #45a049;
+                          }
+                      }
+                  }
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 150px;
+                height: 25px;
+                border-radius: 25px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.3s;
+              
+                &:hover {
+                  background-color: darken( #4CAF50, 10%);
+                }
+            }
+        }
+    }
+    }
+    }
     #removeBlogText{
         .wrapper{}
     }
@@ -429,20 +555,25 @@ main{
         color: white;
         padding: 20px;
         nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* Set the desired height */
           ul {
             list-style: none;
             padding: 0;
             margin: 0;
-      
-            li {
-              display: inline-block;
-              margin-right: 20px;
-      
-              a {
-                text-decoration: none;
-                color: white;
-                font-weight: bold;
-      
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            height: 100%;
+          li {
+            margin-right: 70px;
+          a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
                 &:hover {
                   text-decoration: underline;
                 }
@@ -451,9 +582,6 @@ main{
             }
           }
         }
-          main{  
-          padding: 40px 0;
-          }
       }    
     }
 /*singler webbsites*/
