@@ -7,7 +7,7 @@ let select;
 let content;
 let feeding;
 let Json;
-let labelsAfterSelect
+let labelsAfterSelect;
 let srcdata;
 
 
