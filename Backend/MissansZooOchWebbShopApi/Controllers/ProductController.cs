@@ -28,7 +28,6 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             try
             {
-                Console.WriteLine(product.Img + "hej hej hej");
                 product.Img = SaveImage(product.Img);
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
@@ -57,34 +56,32 @@ namespace MissansZooOchWebbShopApi.Controllers
         {
             string fileType = base64.Split(",")[0].Split("/")[1].Split(";")[0];
             byte[] imageData = Convert.FromBase64String(base64.Split(",")[1]);
-
-            string path = "../../FrontEnd/images/bild." + fileType;
+            string uniqueFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + GenerateRandomString(8);
+            string path = "../../FrontEnd/images/" + uniqueFileName + "." + fileType;
             System.IO.File.WriteAllBytes(path, imageData);
 
             return path;
         }
 
-        [HttpDelete] //ta bort produkter
-        public ActionResult DeleteBlogAdmin(Product product)
-        {
-            User user = null;
-             string auth = Request.Headers["Authorization"];//GUID
-             if (auth == null || LoginController.sessionId.ContainsKey(auth))
-             {
-                 return StatusCode(403, "du är inte inloggad");
-             }
 
-             user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
-             if (user.Role != 2)
-             {
-                 return StatusCode(403, "Du har inte rätten till att ta bort bloginlägg");
-             }
+        private string GenerateRandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            Random random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        [HttpDelete] //ta bort produkter
+        public ActionResult DeleteProduct(Product product)
+        {
             try
             {
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "DELETE FROM product WHERE productId = @productId";
+                query.CommandText = "DELETE FROM product WHERE Id = @Id";
+                query.Parameters.AddWithValue("@Id", product.Id);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -101,7 +98,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "UPDATE product " + "SET rating = @rating " + "WHERE productId = @productId";
+                query.CommandText = "UPDATE product " + "SET rating = @rating " + "WHERE Id = @productId";
                 query.Parameters.AddWithValue("@rating", product.rating);
                 int row = query.ExecuteNonQuery();
             }
@@ -130,15 +127,21 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             try
             {
+                product.Img = SaveImage(product.Img);
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "UPDATE product " + "SET price = @price, category = @category, Name = @Name, Img = @Img " +
-                    "WHERE productId = @productId";
+                query.CommandText = "UPDATE product " + "SET price = @price, category = @category, Name = @Name, Img = @Img, description = @description, stock = @stock, content = @content, feeding = @feeding " +
+                    "WHERE Id = @productId";
                 query.Parameters.AddWithValue("@price", product.price);
                 query.Parameters.AddWithValue("@category", product.category);
                 query.Parameters.AddWithValue("@Name", product.Name);
                 query.Parameters.AddWithValue("@Img", product.Img);
+                query.Parameters.AddWithValue("@description", product.description);
+                query.Parameters.AddWithValue("@stock", product.stock);
+                query.Parameters.AddWithValue("@content", product.content);
+                query.Parameters.AddWithValue("@feeding", product.feeding);
+                query.Parameters.AddWithValue("@productId", product.Id);
                 int row = query.ExecuteNonQuery();
             }catch (Exception ex)
             {
@@ -172,6 +175,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                         Img = data.GetString("Img"),
                         Id = data.GetInt32("Id"),
                         stock = data.GetInt32("stock"),
+                        description = data.GetString("description"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -207,6 +211,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                         Img = data.GetString("Img"),
                         Id = data.GetInt32("Id"),
                         stock = data.GetInt32("stock"),
+                        description = data.GetString("description"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -241,6 +246,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                         Img = data.GetString("Img"),
                         Id = data.GetInt32("Id"),
                         stock = data.GetInt32("stock"),
+                        description = data.GetString("description"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };
@@ -276,6 +282,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                         Img = data.GetString("Img"),
                         Id = data.GetInt32("Id"),
                         stock = data.GetInt32("stock"),
+                        description = data.GetString("description"),
                         content = data.GetString("content"),
                         feeding = data.GetString("feeding")
                     };

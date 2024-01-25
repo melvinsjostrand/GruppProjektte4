@@ -29,14 +29,13 @@ namespace MissansZooOchWebbShopApi.Controllers
              }
             try
             {
-                Console.WriteLine(blog.img + "hej hej hej");
-                blog.img = SaveImage(blog.img);
+                blog.Img = SaveImage(blog.Img);
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText = "INSERT INTO `blog` (title, Img, Text, time, userId) " + "VALUES(@title, @Img, @Text, (SELECT CURRENT_TIMESTAMP),@userId)";
                 query.Parameters.AddWithValue("@title", blog.title);
-                query.Parameters.AddWithValue("@Img", blog.img);
+                query.Parameters.AddWithValue("@Img", blog.Img);
                 query.Parameters.AddWithValue("@Text", blog.text);
                 query.Parameters.AddWithValue("@time", blog.time);
                 query.Parameters.AddWithValue("@userId", user.Id);
@@ -55,11 +54,20 @@ namespace MissansZooOchWebbShopApi.Controllers
         {
             string fileType = base64.Split(",")[0].Split("/")[1].Split(";")[0];
             byte[] imageData = Convert.FromBase64String(base64.Split(",")[1]);
-
-            string path = "../../FrontEnd/images/bild." + fileType;
+            string uniqueFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + GenerateRandomString(8);
+            string path = "../../FrontEnd/images/" + uniqueFileName + "." + fileType;
             System.IO.File.WriteAllBytes(path, imageData);
 
             return path;
+        }
+
+
+        private string GenerateRandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            Random random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         [HttpDelete("DeleteBlogAdmin")] //ta bort blogg som admin
@@ -141,7 +149,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                     {
                         Id = data.GetInt32("Id"),
                         title = data.GetString("title"),
-                        img = data.GetString("Img"),
+                        Img = data.GetString("Img"),
                         text = data.GetString("Text"),
                         time = data.GetString("time"),
                         username = data.GetString("username")
@@ -174,7 +182,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                     {
                         Id = data.GetInt32("Id"),
                         title = data.GetString("title"),
-                        img = data.GetString("Img"),
+                        Img = data.GetString("Img"),
                         text = data.GetString("Text"),
                         time = data.GetString("time"),
                         username = data.GetString("username")
@@ -207,7 +215,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                     {
                         Id = data.GetInt32("Id"),
                         title = data.GetString("title"),
-                        img = data.GetString("Img"),
+                        Img = data.GetString("Img"),
                         text = data.GetString("Text"),
                         time = data.GetString("time"),
                         username = data.GetString("username")

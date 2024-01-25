@@ -3,16 +3,45 @@ import {
 	logInOrLogOut,
 	cart
 } from "./verify.js";
-
+let category;
 let main;
 let json = [];
 let div;
 let article;
+let button;
 
 function init() {
 	getVerify();
 	div = document.getElementsByTagName("div")[2];
 	main = document.querySelector("main");
+	let button = document.getElementsByTagName("button");
+	button[0].addEventListener("click", event=>{
+		while (div.firstChild) {
+			div.removeChild(div.firstChild);
+		}		
+		createProducts();
+	})
+	button[1].addEventListener("click", event=>{
+		while (div.firstChild) {
+			div.removeChild(div.firstChild);
+		}		
+		category = "Djur";
+		createProductsCategory();
+	})
+	button[2].addEventListener("click", event=>{
+		while (div.firstChild) {
+			div.removeChild(div.firstChild);
+		}		
+		category = "Foder";
+		createProductsCategory();
+	})
+	button[3].addEventListener("click", event=>{
+		while (div.firstChild) {
+			div.removeChild(div.firstChild);
+		}		
+		category = "Annat";
+		createProductsCategory();
+	})
 	createProducts();
 }
 
@@ -33,7 +62,14 @@ async function createProducts() {
 		createArticle(product);
 	});
 }
-
+async function createProductsCategory(){
+	let url = "https://localhost:7063/Product/Category/" + category;
+	json = await fetchData(url);
+	console.log(json);
+	json.forEach(product =>{
+		createArticle(product);
+	})
+}
 function createArticle(product) {
 	article = createHTMLElement("article");
 	console.log(product.name);
@@ -101,5 +137,19 @@ async function getProduct(path) {
 		return "error";
 	}
 	let jsonData = await response.json();
+	return jsonData;
+}
+
+async function fetchData(url){
+	let response = await fetch(url, {
+		headers: {
+			Authorization: localStorage.getItem("GUID"),
+		},
+	});
+	if (response.status !== 200) {
+		return "error";
+	}
+	let jsonData = await response.json();
+	console.log(jsonData);
 	return jsonData;
 }

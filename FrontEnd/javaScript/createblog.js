@@ -31,8 +31,8 @@ async function letFromData() {
 	console.log(desc);
 	Json = {
 		"title": title,
-		"blogimg": srcdata,
-		"blogText": desc
+		"Img": srcdata,
+		"text": desc
 	}
     console.log(Json);
 	let status = await postFetch(Json);

@@ -49,7 +49,7 @@ async function letFromData() {
 		"price": price,
 		"category": category,
 		"name": name,
-		"img": srcdata,
+		"Img": srcdata,
 		"description": desc,
 		"stock": stock,
 		"content": content,

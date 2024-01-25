@@ -1,6 +1,6 @@
 body {
   font-family: "Arial", sans-serif;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   color: #333;
 }
 body .wrapper {
@@ -11,7 +11,7 @@ body .wrapper {
 body header {
   text-align: center;
   grid-area: head;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   height: 100%;
   color: white;
 }
@@ -66,7 +66,7 @@ body main {
   width: 150px;
   height: 25px;
   border-radius: 25px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
@@ -90,40 +90,39 @@ body main {
   padding: 20px;
 }
 #blogg .wrapper main div article h2 {
-  color: #4CAF50;
+  color: #4caf50;
   margin-bottom: 10px;
 }
 #blogg .wrapper main div article figure {
   margin: 0;
 }
 #blogg .wrapper main div article figure img {
-  max-width: 100%;
+  width: 100%;
+  max-height: 200px;
   height: auto;
-  border-radius: 8px;
-  margin-bottom: 10px;
 }
 #blogg .wrapper main div article figure figcaption {
   color: #333;
   font-style: italic;
 }
-#blogg .wrapper main div article p {
+#blogg .wrapper main div article figure p {
   color: #ccc;
   margin-bottom: 15px;
 }
-#blogg .wrapper main a {
+#blogg .wrapper main div a {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 150px;
   height: 25px;
   border-radius: 25px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
-#blogg .wrapper main a:hover {
+#blogg .wrapper main div a:hover {
   background-color: #3d8b40;
 }
 
@@ -151,7 +150,7 @@ body main {
   border-radius: 4px;
 }
 #createAcc .wrapper main section form button {
-  background: #4CAF50;
+  background: #4caf50;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -206,7 +205,7 @@ body main {
   width: 100%;
   padding: 15px;
   margin-top: 20px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
@@ -245,7 +244,7 @@ body main {
   width: 100%;
   padding: 15px;
   margin-top: 20px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
@@ -284,7 +283,7 @@ body main {
   width: 100%;
   padding: 15px;
   margin-top: 20px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
@@ -310,7 +309,7 @@ body main {
   font-size: 1em;
 }
 #removeProduct .wrapper main div button:hover {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 #removeProduct .wrapper main div {
   display: flex;
@@ -364,7 +363,7 @@ body main {
   width: 150px;
   height: 25px;
   border-radius: 25px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
@@ -386,11 +385,11 @@ body main {
   padding: 10px;
   border: none;
   cursor: pointer;
-  width: 30%;
+  width: 20%;
   font-size: 1em;
 }
 #product .wrapper main div button:hover {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 #product .wrapper main div {
   display: flex;
@@ -444,7 +443,7 @@ body main {
   width: 150px;
   height: 25px;
   border-radius: 25px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
@@ -454,13 +453,75 @@ body main {
   background-color: #3d8b40;
 }
 
+#removeBlogText .wrapper main div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+}
+#removeBlogText .wrapper main div article {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 20px 0;
+  padding: 20px;
+}
+#removeBlogText .wrapper main div article h2 {
+  color: #4caf50;
+  margin-bottom: 10px;
+}
+#removeBlogText .wrapper main div article figure {
+  margin: 0;
+}
+#removeBlogText .wrapper main div article figure img {
+  width: 100%;
+  max-height: 200px;
+  height: auto;
+}
+#removeBlogText .wrapper main div article figure figcaption {
+  color: #333;
+  font-style: italic;
+}
+#removeBlogText .wrapper main div article figure p {
+  color: #ccc;
+  margin-bottom: 15px;
+}
+#removeBlogText .wrapper main div article button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1em;
+}
+#removeBlogText .wrapper main div article button:hover {
+  background-color: #45a049;
+}
+#removeBlogText .wrapper main div a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 25px;
+  border-radius: 25px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#removeBlogText .wrapper main div a:hover {
+  background-color: #3d8b40;
+}
+
 #controller .wrapper main a {
   display: flex;
   justify-content: center;
   padding: 15px 30px;
   margin: 15px;
   border-radius: 8px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
@@ -473,7 +534,7 @@ body main {
 @media only screen and (min-width: 1080px) {
   body {
     font-family: "Arial", sans-serif;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
     color: #333;
     margin: 0;
     padding: 0;
@@ -484,7 +545,7 @@ body main {
   }
   body .wrapper header {
     text-align: right;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     height: 80px;
     color: white;
     padding: 20px;
@@ -533,7 +594,7 @@ body main {
     border-radius: 4px;
   }
   #login .wrapper form button {
-    background: #4CAF50;
+    background: #4caf50;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -579,7 +640,7 @@ body main {
     width: 100%;
     padding: 15px;
     margin-top: 20px;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -594,7 +655,7 @@ body main {
     padding: 15px 30px;
     margin: 15px;
     border-radius: 8px;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     border: none;
     cursor: pointer;

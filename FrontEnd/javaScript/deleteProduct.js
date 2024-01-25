@@ -22,7 +22,6 @@ window.onload = init;
 async function getVerify() {
 	const role = await verify();
 	logInOrLogOut(role);
-	cart(role);
 }
 
 async function createProducts() {
@@ -50,12 +49,11 @@ function createArticle(product) {
 	});
 	button.addEventListener("click", event => {
 		console.log("product Id", product.id);
-        deleteProduct(event.target.id);
+        deleteProduct(product.id);
 	})
 	article.appendChild(category);
 	article.appendChild(price);
 	article.appendChild(desc);
-	article.appendChild(rating);
 	article.appendChild(articlenumber);
 	article.appendChild(feeding);
 	article.appendChild(inStock);
@@ -110,7 +108,7 @@ async function deleteProduct(productId) {
         let confirmation = confirm("Are you sure you want to delete this product?");
         if (confirmation) {
             let deleteResponse = await deletefetch(productId);
-            if (deleteResponse === 200) {
+            if (deleteResponse >= 200 && deleteResponse < 300) {
                 alert("Product deleted successfully!");
                 // You may want to update the UI here to reflect the deletion
             } else {
@@ -129,9 +127,10 @@ async function deletefetch(productId) {
         method: 'DELETE',
         headers: {
             "Content-type": "application/json",
-            "authorization": localStorage.getItem("GUID")
+            "Authorization": localStorage.getItem("GUID")
         },
         body: JSON.stringify(deleteProduct)
     });
     return response.status;
+
 }

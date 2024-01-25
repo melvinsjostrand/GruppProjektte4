@@ -35,7 +35,7 @@ async function getVerify() {
 }
 
 async function letFromData() {
-  let productId = form.elements.productId.value;
+  let Id = form.elements.productId.value;
   let name = form.elements.productname.value;
   let desc = form.elements.desc.value;
   let category = select.value;
@@ -44,11 +44,11 @@ async function letFromData() {
   content = form.elements.content.value;
   feeding = form.elements.feeding.value;
   Json = {
-    productId: productId,
+    Id: Id,
     price: price,
     category: category,
     name: name,
-    img: srcdata,
+    Img: srcdata,
     description: desc,
     stock: stock,
     content: content,
@@ -86,7 +86,7 @@ function selectedValue() {
 }
 
 async function updateProduct(json) {
-  let path = "https://localhost:7063/product/" + json.productId;
+  let path = "https://localhost:7063/Product/UpdateProduct";
   const response = await fetch(path, {
     method: "PUT",
     mode: "cors",

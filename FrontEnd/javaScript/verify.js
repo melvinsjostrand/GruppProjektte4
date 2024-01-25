@@ -109,7 +109,7 @@ function adminPanel() {
 		main.appendChild(controller);
 	}
 	a[4].innerHTML = "Ändra produkt";
-	a[4].href = "changeProduct.html";
+	a[4].href = "updateProduct.html";
 	a[5].innerHTML = "Lägg till produkt";
 	a[5].href = "uploadProduct.html";
 	a[6].innerHTML = "Ändra roller";
