@@ -1,12 +1,16 @@
-import {verify, logInOrLogOut, panelControl} from "./verify.js";
+import {
+	verify,
+	logInOrLogOut,
+	panelControl
+} from "./verify.js";
 
-function init(){
-    getVerify();
+function init() {
+	getVerify();
 }
 window.onload = init;
 
-async function getVerify(){
-    const role = await verify();
-    logInOrLogOut(role);
-    panelControl(role);
+async function getVerify() {
+	const role = await verify();
+	logInOrLogOut(role);
+	panelControl(role);
 }

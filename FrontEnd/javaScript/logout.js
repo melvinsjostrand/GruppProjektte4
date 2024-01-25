@@ -1,18 +1,22 @@
-import {verify, logInOrLogOut} from "./verify.js";
-function init(){
-    getVerify();
-    let guid = localStorage.getItem("GUID");
-    console.log(guid);
+import {
+	verify,
+	logInOrLogOut
+} from "./verify.js";
 
-    localStorage.removeItem("GUID");
+function init() {
+	getVerify();
+	let guid = localStorage.getItem("GUID");
+	console.log(guid);
 
-    console.log(localStorage.getItem("GUID"));
+	localStorage.removeItem("GUID");
 
-location.href = "index.html";
+	console.log(localStorage.getItem("GUID"));
+
+	location.href = "index.html";
 }
 window.onload = init;
 
-async function getVerify(){
-    const role = await verify();
-    logInOrLogOut(role);
+async function getVerify() {
+	const role = await verify();
+	logInOrLogOut(role);
 }
