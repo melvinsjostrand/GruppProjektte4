@@ -170,10 +170,37 @@ body main {
 #login .wrapper main section form {
   grid-template-rows: 1fr 1fr 1fr 1fr;
   display: grid;
+  margin-top: 20px;
+}
+#login .wrapper main section form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+#login .wrapper main section form input {
+  width: auto;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#login .wrapper main section form button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#login .wrapper main section form button:hover {
+  background: #3d8b40;
 }
 #login .wrapper main a {
   color: #ff5722;
   text-decoration: none;
+}
+#login .wrapper main a:hover {
+  text-decoration: underline;
 }
 
 #uploadBlog .wrapper form {
