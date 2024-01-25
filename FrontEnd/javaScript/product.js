@@ -3,48 +3,49 @@ import {
 	logInOrLogOut,
 	cart
 } from "./verify.js";
+let i
+let names = ["Alla produkter","Djur","Foder","Annat"];
 let category;
 let main;
 let json = [];
 let div;
 let article;
 let button;
+let divbutton;
 
 function init() {
 	getVerify();
+	divbutton = document.getElementsByTagName("div")[1];
 	div = document.getElementsByTagName("div")[2];
 	main = document.querySelector("main");
-	let button = document.getElementsByTagName("button");
-	button[0].addEventListener("click", event=>{
-		while (div.firstChild) {
-			div.removeChild(div.firstChild);
-		}		
-		createProducts();
-	})
-	button[1].addEventListener("click", event=>{
-		while (div.firstChild) {
-			div.removeChild(div.firstChild);
-		}		
-		category = "Djur";
-		createProductsCategory();
-	})
-	button[2].addEventListener("click", event=>{
-		while (div.firstChild) {
-			div.removeChild(div.firstChild);
-		}		
-		category = "Foder";
-		createProductsCategory();
-	})
-	button[3].addEventListener("click", event=>{
-		while (div.firstChild) {
-			div.removeChild(div.firstChild);
-		}		
-		category = "Annat";
-		createProductsCategory();
-	})
+	let buttons = document.getElementsByTagName("button");
+	createButtons();
 	createProducts();
-}
 
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].addEventListener("click", event => {
+		  while (div.firstChild) {
+			div.removeChild(div.firstChild);
+		  }      
+		  const buttonText = event.target.value; // Get the lowercase value of the clicked button
+		  if (buttonText == "Alla produkter") {
+			createProducts();
+		  } else if(buttonText == "Djur"){
+			category = names[1];
+			console.log(category);
+			createProductsCategory();
+		  }else if(buttonText == "Foder"){
+			category = names[2];
+			console.log(category);
+			createProductsCategory();
+		}else if(buttonText == "Annat"){
+			category = names[3];
+			console.log(category);
+			createProductsCategory();
+		}
+	});
+}
+}
 window.onload = init;
 
 async function getVerify() {
@@ -70,9 +71,24 @@ async function createProductsCategory(){
 		createArticle(product);
 	})
 }
+
+function createButtons(){
+	for(i = 0; i < 4; i++){
+		createItems();
+	}
+}
+
+function createItems(){
+	button = document.createElement("button");
+	button.innerHTML = names[i];
+	button.value = names[i];
+	button.addEventListener("click", event => {
+		console.log();
+	})
+	divbutton.appendChild(button);	
+}
 function createArticle(product) {
 	article = createHTMLElement("article");
-	console.log(product.name);
 	createfigure(product);
 	let category = createHTMLElement("h3", `Category: ${product.category}`);
 	let price = createHTMLElement("p", `Priset är ${product.price}kr`);
