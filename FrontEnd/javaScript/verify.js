@@ -47,9 +47,12 @@ function logInOrLogOut() {
 }
 
 function createPanel() {
-	let main = document.getElementsByTagName("main")[0];
+	let nav = document.getElementsByTagName("nav")[0];
+	let ul = document.getElementsByTagName("ul")[0];
+	let li = document.createElement("li");
 	let panelButton = document.createElement("a");
-	main.appendChild(panelButton);
+	ul.appendChild(li);
+	li.appendChild(panelButton);
 	panelButton.href = "controller.html";
 	if (role == 1) {
 		panelButton.innerHTML = "AnvändarPanel"
