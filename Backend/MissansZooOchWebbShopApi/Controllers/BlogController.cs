@@ -150,7 +150,6 @@ namespace MissansZooOchWebbShopApi.Controllers
                         Id = data.GetInt32("Id"),
                         title = data.GetString("title"),
                         Img = data.GetString("Img"),
-                        text = data.GetString("Text"),
                         time = data.GetString("time"),
                         username = data.GetString("username")
                     };
