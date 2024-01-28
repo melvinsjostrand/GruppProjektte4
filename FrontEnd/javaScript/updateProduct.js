@@ -1,4 +1,4 @@
-import { verify, logInOrLogOut } from "./verify.js";
+import { verify, logInOrLogOut, createPanel } from "./verify.js";
 
 let form;
 let select;
@@ -32,6 +32,7 @@ window.onload = init;
 async function getVerify() {
   const role = await verify();
   logInOrLogOut(role);
+  createPanel(role);
 }
 
 async function letFromData() {

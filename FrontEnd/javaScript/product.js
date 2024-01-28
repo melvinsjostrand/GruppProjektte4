@@ -1,7 +1,8 @@
 import {
 	verify,
 	logInOrLogOut,
-	cart
+	cart,
+	createPanel
 } from "./verify.js";
 let i
 let names = ["Alla produkter","Djur","Foder","Annat"];
@@ -52,6 +53,7 @@ async function getVerify() {
 	const role = await verify();
 	logInOrLogOut(role);
 	cart(role);
+	createPanel(role);
 }
 
 async function createProducts() {

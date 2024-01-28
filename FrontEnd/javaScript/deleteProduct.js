@@ -1,6 +1,7 @@
 import {
 	verify,
 	logInOrLogOut,
+	createPanel
 } from "./verify.js";
 
 let url = "https://localhost:7063/Product"; 
@@ -22,6 +23,7 @@ window.onload = init;
 async function getVerify() {
 	const role = await verify();
 	logInOrLogOut(role);
+	createPanel(role);
 }
 
 async function createProducts() {

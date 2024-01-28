@@ -1,7 +1,8 @@
 import {
 	verify,
 	logInOrLogOut,
-	seeBlogButtons
+	seeBlogButtons,
+	createPanel
 } from "./verify.js";
 
 let main;
@@ -21,6 +22,7 @@ async function getVerify() {
 	const role = await verify();
 	logInOrLogOut(role);
 	seeBlogButtons(role);
+	createPanel(role);
 }
 
 async function createblogs() {

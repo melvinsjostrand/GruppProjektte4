@@ -76,6 +76,52 @@ body main {
   background-color: #3d8b40;
 }
 
+#changerole .wrapper main {
+  text-align: center;
+}
+#changerole .wrapper main section {
+  margin-bottom: 10px;
+}
+#changerole .wrapper main section form {
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  display: grid;
+  margin-top: 20px;
+}
+#changerole .wrapper main section form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+#changerole .wrapper main section form input {
+  width: auto;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#changerole .wrapper main section form select {
+  text-align: center;
+}
+#changerole .wrapper main section form button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#changerole .wrapper main section form button:hover {
+  background: #3d8b40;
+}
+#changerole .wrapper main a {
+  color: #ff5722;
+  text-decoration: none;
+}
+#changerole .wrapper main a:hover {
+  text-decoration: underline;
+}
+
 #blogg .wrapper main div {
   display: flex;
   flex-wrap: wrap;
@@ -109,7 +155,7 @@ body main {
   color: #ccc;
   margin-bottom: 15px;
 }
-#blogg .wrapper main div a {
+#blogg .wrapper main a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,7 +168,7 @@ body main {
   cursor: pointer;
   transition: background-color 0.3s;
 }
-#blogg .wrapper main div a:hover {
+#blogg .wrapper main a:hover {
   background-color: #3d8b40;
 }
 
@@ -463,7 +509,7 @@ body main {
 #product .wrapper main div article button:hover {
   background-color: #45a049;
 }
-#product .wrapper main div a {
+#product .wrapper main a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -476,7 +522,7 @@ body main {
   cursor: pointer;
   transition: background-color 0.3s;
 }
-#product .wrapper main div a:hover {
+#product .wrapper main a:hover {
   background-color: #3d8b40;
 }
 

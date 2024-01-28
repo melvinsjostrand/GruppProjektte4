@@ -1,7 +1,8 @@
 import {
 	verify,
 	logInOrLogOut,
-	panelControl
+	panelControl,
+	createPanel
 } from "./verify.js";
 
 function init() {
@@ -13,4 +14,5 @@ async function getVerify() {
 	const role = await verify();
 	logInOrLogOut(role);
 	panelControl(role);
+	createPanel(role);
 }

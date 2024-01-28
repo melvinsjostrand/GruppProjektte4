@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="/FrontEnd/javaScript/changeRole.js" defer></script>
+    <script type="module" src="/FrontEnd/javaScript/verify.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body id="changerole">
-    <div class="wrapper"></div>
+    <div class="wrapper">
     <header>
         <nav>
             <ul>
@@ -25,5 +28,19 @@
             </ul>
         </nav>
     </header>
+    <main>
+        <section>
+        <form action="#">
+            <label for="username">Användarnamn</label>
+            <input type="text" name="username" id="username">
+            <select name="role">
+                <option value="1">Vanlig användare</option>
+                <option value="2">Admin användare</option>
+            </select>
+            <button type="submit">Ändra roll</button>
+        </form>
+    </section>
+    </main>
+</div>
 </body>
 </html>

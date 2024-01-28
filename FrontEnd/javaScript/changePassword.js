@@ -1,6 +1,7 @@
 import {
 	verify,
-	logInOrLogOut
+	logInOrLogOut,
+	createPanel
 } from "./verify.js";
 
 function init() {
@@ -11,6 +12,7 @@ window.onload = init;
 async function getVerify() {
 	const role = await verify();
 	logInOrLogOut(role);
+	createPanel(role);
 }
 
 function checkPassword() {

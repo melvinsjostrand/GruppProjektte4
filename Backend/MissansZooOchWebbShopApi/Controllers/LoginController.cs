@@ -125,7 +125,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         public ActionResult Password()
         {
             string auth = Request.Headers["Authorization"];
-            if (auth == null || LoginController.sessionId.ContainsKey(auth))
+            if (auth == null || !LoginController.sessionId.ContainsKey(auth))
             {
                 return StatusCode(403, "du är inte inloggad");
             }
@@ -166,10 +166,11 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpPut("ChangeRole")]
         public ActionResult UpdateRole(User user) //funkar ej
         {
-                /*if (auth == null || LoginController.sessionId.ContainsKey(auth))
-                {
-                    return StatusCode(403, "du är inte inloggad");
-                }
+                /*string auth = Request.Headers["Authorization"];
+                if (auth == null || !LoginController.sessionId.ContainsKey(auth))
+                    {
+                        return StatusCode(403, "du är inte inloggad");
+                    }
 
                 user = (User)LoginController.sessionId[auth]; //Id Role username hashedpassword mail
                 if (user.Role != 2)
