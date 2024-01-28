@@ -31,7 +31,7 @@ async function getItems() {
 		div.appendChild(productName);
 		div.appendChild(price);
 		div.appendChild(select);
-
+		createAmount()
 	}
 }
 
