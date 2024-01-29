@@ -112,6 +112,7 @@ async function deleteProduct(productId) {
             let deleteResponse = await deletefetch(productId);
             if (deleteResponse >= 200 && deleteResponse < 300) {
                 alert("Product deleted successfully!");
+				location.reload();
                 // You may want to update the UI here to reflect the deletion
             } else {
                 alert("Error deleting product. Please try again.");

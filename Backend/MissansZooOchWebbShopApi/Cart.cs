@@ -6,7 +6,7 @@
         public int Amount { get; set; }
         public int productId { get; set; }
         public int userId { get; set; }
-        public string productName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public int price { get; set; }
     }
 }

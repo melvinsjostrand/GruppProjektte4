@@ -36,12 +36,13 @@ namespace MissansZooOchWebbShopApi.Controllers
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText =
-                    "INSERT INTO `user` (`Role`, `username`, `password`, `mail`) " +
-                    "VALUES(1, @username, @password, @mail)";
+                    "INSERT INTO `user` (`Role`, `username`, `password`, `mail`, address) " +
+                    "VALUES(1, @username, @password, @mail, @address)";
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 query.Parameters.AddWithValue("@username", user.Username);
                 query.Parameters.AddWithValue("@password", hashedPassword);
                 query.Parameters.AddWithValue("@mail", user.Mail);
+                query.Parameters.AddWithValue("@address", user.address);
                 int rows = query.ExecuteNonQuery();
 
                 if (rows > 0)

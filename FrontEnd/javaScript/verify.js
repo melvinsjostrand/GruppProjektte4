@@ -71,13 +71,9 @@ function seeBlogButtons() {
 	if (role == 1) {
 		blogButton.innerHTML = "skapa blogg";
 		blogButton.href = "createBlog.html";
-	} else if (role == 2) {
-		blogButton.innerHTML = "Ta bort blogg";
-		blogButton.href = "removeBlogText.html";
 	} else {
 		blogButton.style.display = "none";
 	}
-	console.log(location);
 }
 
 function panelControl() {
@@ -102,7 +98,7 @@ function userPanel() {
 	a[4].innerHTML = "Ändra lösenord";
 	a[4].href = "changePassword.html";
 	a[5].innerHTML = "Ta bort blogginlägg";
-	a[5].href = "removeBlogText.html";
+	a[5].href = "removeBlogText1.html";
 }
 
 function adminPanel() {

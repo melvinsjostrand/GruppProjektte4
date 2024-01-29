@@ -24,13 +24,11 @@ async function getVerify() {
 
 async function getData() {
 	let username = form.elements.username.value;
-	let mail = form.elements.mail.value;
-	let password = form.elements.password.value;
+	let address = form.elements.address.value;
 	error = document.getElementById("error");
 	let json = {
 		"username": username,
-		"mail": mail,
-		"password": password
+		"address":address
 	}
 	let status = await postFetch(json)
 	if (status == 201) {
@@ -46,17 +44,18 @@ async function getData() {
 async function postFetch(json) {
 	let path = "https://localhost:7063/User";
 	console.log(localStorage.getItem("GUID"));
-	console.log(json.mail);
-	console.log(json.password);
-
+	let Mail = form.elements.mail.value;
+	let password = form.elements.password.value;
+    console.log(Mail);
+    console.log(password);
 	const response = await fetch(path, {
 		method: "POST",
 		mode: "cors",
 		headers: {
 			"Content-type": "application/json",
-			"Authorization": "Basic: " + btoa(json.mail + ":" + json.password)
+			"Authorization": "Basic: " + btoa(Mail+":"+password)
 		},
-		body: JSON.stringify(json.username)
+		body: JSON.stringify(json)
 	})
 	return response.status;
 }

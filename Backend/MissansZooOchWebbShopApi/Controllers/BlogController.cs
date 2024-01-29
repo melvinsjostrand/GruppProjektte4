@@ -81,40 +81,6 @@ namespace MissansZooOchWebbShopApi.Controllers
              }
 
              user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
-             if (user.Role != 2)
-             {
-                 return StatusCode(403, "Du har inte rätten till att ta bort blogginlägg");
-             }
-            try
-            {
-                connection.Open();
-                MySqlCommand query = connection.CreateCommand();
-                query.Prepare();
-                query.CommandText = "DELETE FROM blog WHERE Id = @Id";
-                query.Parameters.AddWithValue("@Id", blog.Id);
-                int row = query.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "gick inte att ta bort");
-            }
-            return StatusCode(200, "blogg har tagits bort");
-        }
-        [HttpDelete("DeleteBlogUser")] //ta bort egetBloginlägg
-        public ActionResult DeleteBlogUser(Blog blog)
-        {
-             User user = null;
-             string auth = Request.Headers["Authorization"];//GUID
-             if (auth == null || !LoginController.sessionId.ContainsKey(auth))
-             {
-                 return StatusCode(403, "du är inte inloggad");
-             }
-
-             user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
-             if (user.Role != 1)
-             {
-                 return StatusCode(403, "Du har inte rätten till att ta bort blogginlägg");
-             }
             try
             {
                 connection.Open();
@@ -171,7 +137,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.userId WHERE Id = @Id ORDER BY time ASC";
+                query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.Id WHERE t1.Id = @Id";
                 query.Parameters.AddWithValue("@Id", Id);
                 MySqlDataReader data = query.ExecuteReader();
 
@@ -195,9 +161,16 @@ namespace MissansZooOchWebbShopApi.Controllers
             }
             return Ok(blog);
         }
-        [HttpGet("User/{userId}")]
-        public ActionResult<Blog> GetAllBlogFromUserId(int userId)
+        [HttpGet("User")]
+        public ActionResult<Blog> GetAllBlogFromUserId()
         {
+            string auth = Request.Headers["Authorization"];//GUID
+            if (auth == null || !LoginController.sessionId.ContainsKey(auth))
+            {
+                return StatusCode(403, "du är inte inloggad");
+            }
+
+            User user = (User)LoginController.sessionId[auth]; //userId Role username hashedpassword mail
             List<Blog> blog = new List<Blog>();
             try
             {
@@ -205,7 +178,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
                 query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.Id WHERE userId = @userId ORDER BY time ASC";
-                query.Parameters.AddWithValue("@userId", userId);
+                query.Parameters.AddWithValue("@userId", user.Id);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())

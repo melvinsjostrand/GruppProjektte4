@@ -104,6 +104,7 @@ function createArticle(product) {
 	});
 	button.addEventListener("click", event => {
 		console.log("product Id", product.id);
+		postData(product.id);
 	})
 	article.appendChild(category);
 	article.appendChild(price);
@@ -170,4 +171,24 @@ async function fetchData(url){
 	let jsonData = await response.json();
 	console.log(jsonData);
 	return jsonData;
+}
+
+async function postData(Id) {
+    const post = "https://localhost:7063/Cart";
+    console.log(post);
+    try {
+        const response = await fetch(post, {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": localStorage.getItem("GUID")
+            },
+            body: JSON.stringify({ id: Id })
+        });
+        console.log(JSON.stringify({ id: Id }));
+        return response.status;
+    } catch (error) {
+        throw new Error("Error in postData function: " + error.message);
+    }
 }

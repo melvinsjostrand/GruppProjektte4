@@ -1,21 +1,15 @@
 import {
 	verify,
 	logInOrLogOut,
-	seeBlogButtons,
 	createPanel
 } from "./verify.js";
-
+let url = "https://localhost:7063/Blog/DeleteBlogAdmin";
 let main;
 let div;
 let blogs = [];
 let article;
-let blog;
-function init() {
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	blog = Number(urlParams.get("Id"));
-	console.log(blog);
 
+function init() {
 	main = document.getElementsByTagName("main")[0];
 	div = document.getElementsByTagName("div")[1];
 	createblogs();
@@ -26,12 +20,11 @@ window.onload = init;
 async function getVerify() {
 	const role = await verify();
 	logInOrLogOut(role);
-	seeBlogButtons(role);
-	createPanel(role);
+	createPanel();
 }
 
 async function createblogs() {
-	let path = "https://localhost:7063/Blog/AllBlog";
+	let path = "https://localhost:7063/Blog/User";
 	blogs = await getblog(path);
 	console.log(blogs);
 
@@ -45,12 +38,16 @@ function createArticle(blog) {
 	createfigure(blog);
 	let title = createHTMLElement("h2", `Titel: ${blog.title}`);
 	let timestamp = createHTMLElement("p", `Blogg gjord ${blog.time}`);
-	article.addEventListener("click", event => {
+    let button = createHTMLElement("button", "Ta bort", {
+		id: blog.id
+	});
+    button.addEventListener("click", event => {
 		console.log("blog Id", blog.id);
-		location.href = "bloginfo.html?Id=" + blog.id;
+        deleteProduct(blog.id);
 	})
 	article.appendChild(title);
 	article.appendChild(timestamp);
+    article.appendChild(button);
 	div.appendChild(article);
 }
 
@@ -93,4 +90,37 @@ async function getblog(path) {
 	}
 	let json = await response.json();
 	return json;
+}
+
+async function deleteProduct(Id) {
+    try {
+        let confirmation = confirm("Are you sure you want to delete this blog?");
+        if (confirmation) {
+            let deleteResponse = await deletefetch(Id);
+            if (deleteResponse >= 200 && deleteResponse < 300) {
+                alert("Product deleted successfully!");
+				location.reload();
+                // You may want to update the UI here to reflect the deletion
+            } else {
+                alert("Error deleting product. Please try again.");
+            }
+        }
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        alert("Error deleting product. Please try again.");
+    }
+}
+
+async function deletefetch(Id) {
+    let deleteProduct = { id: Id };
+    let response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": localStorage.getItem("GUID")
+        },
+        body: JSON.stringify(deleteProduct)
+    });
+    return response.status;
+
 }

@@ -36,8 +36,8 @@ async function createblogs() {
 function createArticle(blog) {
 	article = createHTMLElement("article");
 	createfigure(blog);
-	let title = createHTMLElement("h2", `Category: ${blog.title}`);
-	let timestamp = createHTMLElement("p", `Priset är ${blog.time}`);
+	let title = createHTMLElement("h2", `Titel: ${blog.title}`);
+	let timestamp = createHTMLElement("p", `Blogg gjord ${blog.time}`);
     let button = createHTMLElement("button", "Ta bort", {
 		id: blog.id
 	});
@@ -99,6 +99,7 @@ async function deleteProduct(Id) {
             let deleteResponse = await deletefetch(Id);
             if (deleteResponse >= 200 && deleteResponse < 300) {
                 alert("Product deleted successfully!");
+				location.reload();
                 // You may want to update the UI here to reflect the deletion
             } else {
                 alert("Error deleting product. Please try again.");
