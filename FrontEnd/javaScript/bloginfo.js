@@ -6,16 +6,26 @@ import {
 let main;
 let json = [];
 let jsonComment = [];
+let postJson;
 let blog;
+let form;
+let singleId;
+let inputText;
 let article;
+let getForm;
 let div;
+let placement;
+let submitButton;
 function init() {
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	singleId = Number(urlParams.get("Id"));
 	getVerify();
 	main = document.getElementsByTagName("main")[0];
 	div = document.getElementsByTagName("div")[1];
 	console.log(div);
 	blogPost();
-	comments();
+	getComment();
 }
 window.onload = init;
 
@@ -26,10 +36,7 @@ async function getVerify() {
 }
 
 async function blogPost() {
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	blog = Number(urlParams.get("Id"));
-	let path = "https://localhost:7063/Blog/" + blog;
+	let path = "https://localhost:7063/Blog/" + singleId;
 	console.log(path);
 	json = await getJson(path);
 	console.log(json);
@@ -37,7 +44,15 @@ async function blogPost() {
 		createBlog(blog);
 	}
 }
-
+async function getComment(){
+	let url = "https://localhost:7063/Comment?blogId=" + singleId;
+	jsonComment = await getCommentJson(url);
+	console.log(url);
+	console.log(jsonComment);
+	jsonComment.forEach(comments=>{
+		createComment(comments);
+	});
+}
 function createBlog(blog){
 	article = document.createElement("article");
 	let blogText = createHTMLElement("p", blog.text);
@@ -77,23 +92,52 @@ function createHTMLElement(tag, text = null, attributes = {}) {
 	return element;
 }
 
+function createComment(comments) {
+	placement = createHTMLElement("div");
+	createCommentText(comments);
+	sendComment();
+	main.appendChild(placement);
+	console.log(placement);
+}
 
 
-
-
-function comments() {
-	let div;
-	div = document.createElement("div");
-	main.appendChild(div);
-	for (let i = 0; i < jsonComment.length; i++) {
-		let usernameComment = document.createElement("h4");
-		console.log(usernameComment);
-		let comment = document.createElement("p");
-		let timeStamp = document.createElement("small");
-		div.appendChild(usernameComment);
-		div.appendChild(comment);
-		div.appendChild(timestamp);
+function sendComment(){
+	form = createHTMLElement("form");
+	inputText = document.createElement("input");
+	submitButton = document.createElement("button");
+	submitButton.type = "submit";
+	submitButton.innerHTML = "ladda upp kommentar";
+	inputText.type="text";
+	inputText.id="comment";
+	inputText.name="comment"
+	inputText.required = true;
+	placement.appendChild(form);
+	form.appendChild(inputText);
+	form.appendChild(submitButton);
+	submitButton.addEventListener("click", event=>{
+		letFormData();
+		event.preventDefault();
+		//location.reload();
+	})
+}
+async function letFormData(){
+	getForm = document.querySelector("form");
+	console.log(getForm);
+	let text = getForm.elements.comment.value;
+	console.log(text);
+	postJson = {
+		"commentText":text,
+		"blogId":singleId,
 	}
+	console.log(postJson);
+	let status = await postComment(postJson);
+}
+function createCommentText(comments){
+	let commentUser =createHTMLElement("h3", comments.username);
+	let commentText = createHTMLElement("p", comments.commentText);
+	console.log(commentText);
+	placement.appendChild(commentText);
+	placement.appendChild(commentUser);
 
 }
 
@@ -106,4 +150,31 @@ async function getJson(path){
 	let jsonData = await response.json();
 	console.log(jsonData);
 	return jsonData;
+}
+
+async function getCommentJson(url){
+	let response = await fetch(url, {
+		headers: {
+			Authorization: localStorage.getItem("GUID"),
+		},
+	});
+	let jsonData = await response.json();
+	console.log(jsonData);
+	return jsonData;
+}
+
+async function postComment(postJson){
+	let path = "https://localhost:7063/Comment";
+	console.log(postJson);
+	const response = await fetch(path, {
+		method: 'POST',
+		mode: "cors",
+		headers: {
+			"Content-type": "application/json",
+			"authorization": localStorage.getItem("GUID")
+		},
+		body: JSON.stringify(postJson)
+	})
+	console.log(response.status);
+	return response.status;
 }

@@ -10,26 +10,25 @@ namespace MissansZooOchWebbShopApi.Controllers
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
         [HttpPost]
-        public ActionResult PostComment(comment comment) 
+        public ActionResult PostComment(Comment comment) 
         {
-            User user = new User();
             string auth = Request.Headers["Authorization"];//GUID
-            /* if (auth == null || LoginController.sessionId.ContainsKey(auth))
+              if (auth == null || !LoginController.sessionId.ContainsKey(auth))
              {
                  return StatusCode(403, "du är inte inloggad");
              }
 
-             user = (User)LoginController.sessionId[auth]; //id Role username hashedpassword mail
+             User user = (User)LoginController.sessionId[auth]; //id Role username hashedpassword mail
              if (user.Role != 1)
              {
                  return StatusCode(403, "Du har inte rätten till att skapa bloginlägg");
-             }*/
+             }
             try
             {
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `comment` (`commentText`, `blogId`, `id`) VALUES (@commentText, @blogId, @Id);";
+                query.CommandText = "INSERT INTO `comment` (`commentText`, `blogId`, `userId`) VALUES (@commentText, @blogId, @Id);";
                 query.Parameters.AddWithValue("@commentText", comment.commentText);
                 query.Parameters.AddWithValue("@blogId", comment.blogId);
                 query.Parameters.AddWithValue("@Id", user.Id);
@@ -42,36 +41,38 @@ namespace MissansZooOchWebbShopApi.Controllers
                 return StatusCode(500);
             }
             connection.Close();
-            return StatusCode(201, "Blog skapad");
+            return StatusCode(201, "kommentar skapad");
         }
         [HttpGet]
-        public ActionResult<comment> GetComment(int blogId)
+        public ActionResult<Comment> GetComment(int blogId)
         {
-            List<comment> Comment = new List<comment>();
+            List<Comment> comment = new List<Comment>();
                 try
             {
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT commentId, commentText, username FROM comment t1 LEFT JOIN user t2 ON t1.userId = t2.id WHERE blogId = @blogId";
+                query.CommandText = "SELECT commentId, commentText, username, blogId FROM comment t1 LEFT JOIN user t2 ON t1.userId = t2.id WHERE blogId = @blogId";
                 query.Parameters.AddWithValue("@blogId", blogId);
                 MySqlDataReader data = query.ExecuteReader();
 
                 while (data.Read())
                 {
-                    comment comment = new comment
+                    Comment comments = new Comment
                     {
                         commentId = data.GetInt32("commentId"),
                         commentText = data.GetString("commentText"),
+                        blogId = data.GetInt32("blogId"),
                         username = data.GetString("username")
+
                     };
-                    Comment.Add(comment);
+                    comment.Add(comments);
                 }
             }catch(Exception ex)
             {
                 return StatusCode(500);
             }
-            return Ok(Comment);
+            return Ok(comment);
         }
     }
 }

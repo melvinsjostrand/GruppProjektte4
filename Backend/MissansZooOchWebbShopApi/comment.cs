@@ -1,6 +1,6 @@
 ﻿namespace MissansZooOchWebbShopApi
 {
-    public class comment
+    public class Comment
     {
         public int commentId { get; set; }
         public string commentText { get; set; } = string.Empty;
