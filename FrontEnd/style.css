@@ -465,6 +465,45 @@ body main {
 #updateProduct .wrapper form button:hover {
   background-color: #3d8b40;
 }
+#updateProduct .wrapper div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+}
+#updateProduct .wrapper div span {
+  display: block;
+  color: #ff0000;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+#updateProduct .wrapper div article {
+  border: 1px solid black;
+  margin: 10px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+#updateProduct .wrapper div article:hover {
+  transform: scale(1.05);
+}
+#updateProduct .wrapper div article figure {
+  margin-bottom: 15px;
+}
+#updateProduct .wrapper div article figure img {
+  width: 100%;
+  max-height: 200px;
+  height: auto;
+}
+#updateProduct .wrapper div article h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+#updateProduct .wrapper div article p {
+  margin-bottom: 10px;
+}
 
 #removeProduct .wrapper main div {
   display: flex;

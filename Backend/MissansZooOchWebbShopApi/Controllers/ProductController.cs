@@ -189,6 +189,45 @@ namespace MissansZooOchWebbShopApi.Controllers
             return Ok(product);
         }
 
+
+        [HttpGet("ProductId")] //alla produkter
+        public ActionResult<List<Product>> GetProductId(int Id)
+        {
+            List<Product> product = new List<Product>();
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.Prepare();
+                query.CommandText = "SELECT * FROM product WHERE Id = @Id";
+                query.Parameters.AddWithValue("@Id", Id);
+                MySqlDataReader data = query.ExecuteReader();
+
+                while (data.Read())
+                {
+                    Product products = new Product
+                    {
+                        price = data.GetInt32("price"),
+                        category = data.GetString("category"),
+                        Name = data.GetString("Name"),
+                        Img = data.GetString("Img"),
+                        Id = data.GetInt32("Id"),
+                        stock = data.GetInt32("stock"),
+                        description = data.GetString("description"),
+                        content = data.GetString("content"),
+                        feeding = data.GetString("feeding")
+                    };
+                    product.Add(products);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Something went wrong!");
+            }
+            return Ok(product);
+        }
+
+
         [HttpGet("Price")] //sortera efter pris
         public ActionResult<Product> GetProductSortedByPrice()
         {
