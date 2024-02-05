@@ -28,8 +28,8 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "INSERT INTO `comment` (`commentText`, `blogId`, `userId`) VALUES (@commentText, @blogId, @Id);";
-                query.Parameters.AddWithValue("@commentText", comment.commentText);
+                query.CommandText = "INSERT INTO `comment` (`text`, `blogId`, `userId`) VALUES (@commentText, @blogId, @Id);";
+                query.Parameters.AddWithValue("@commentText", comment.text);
                 query.Parameters.AddWithValue("@blogId", comment.blogId);
                 query.Parameters.AddWithValue("@Id", user.Id);
                 int row = query.ExecuteNonQuery();
@@ -52,7 +52,7 @@ namespace MissansZooOchWebbShopApi.Controllers
                 connection.Open();
                 MySqlCommand query = connection.CreateCommand();
                 query.Prepare();
-                query.CommandText = "SELECT commentId, commentText, username, blogId FROM comment t1 LEFT JOIN user t2 ON t1.userId = t2.id WHERE blogId = @blogId";
+                query.CommandText = "SELECT t1.Id, text, username, blogId FROM comment t1 LEFT JOIN user t2 ON t1.userId = t2.id WHERE blogId = @blogId";
                 query.Parameters.AddWithValue("@blogId", blogId);
                 MySqlDataReader data = query.ExecuteReader();
 
@@ -60,8 +60,8 @@ namespace MissansZooOchWebbShopApi.Controllers
                 {
                     Comment comments = new Comment
                     {
-                        commentId = data.GetInt32("commentId"),
-                        commentText = data.GetString("commentText"),
+                        Id = data.GetInt32("Id"),
+                        text = data.GetString("text"),
                         blogId = data.GetInt32("blogId"),
                         username = data.GetString("username")
 

@@ -122,5 +122,4 @@ async function deletefetch(Id) {
         body: JSON.stringify(deleteProduct)
     });
     return response.status;
-
 }

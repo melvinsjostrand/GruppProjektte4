@@ -326,6 +326,11 @@ namespace MissansZooOchWebbShopApi.Controllers
                         feeding = data.GetString("feeding")
                     };
                     product.Add(products);
+
+
+
+
+
                 }
             }
             catch (Exception ex)

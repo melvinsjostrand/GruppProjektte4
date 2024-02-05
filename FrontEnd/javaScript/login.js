@@ -38,8 +38,6 @@ async function login() {
 	if (response.status === 200) {
 		let key = await response.text();
 		//inloggad
-
-
 		localStorage.setItem("GUID", key)
 		location.href = "/FrontEnd/index.html";
 	} else if (response.status === 400) {

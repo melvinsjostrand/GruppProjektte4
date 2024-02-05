@@ -49,9 +49,12 @@ async function getComment(){
 	jsonComment = await getCommentJson(url);
 	console.log(url);
 	console.log(jsonComment);
+	placement = createHTMLElement("div");
+	main.appendChild(placement);
 	jsonComment.forEach(comments=>{
 		createComment(comments);
 	});
+	sendComment();
 }
 function createBlog(blog){
 	article = document.createElement("article");
@@ -93,9 +96,7 @@ function createHTMLElement(tag, text = null, attributes = {}) {
 }
 
 function createComment(comments) {
-	placement = createHTMLElement("div");
 	createCommentText(comments);
-	sendComment();
 	main.appendChild(placement);
 	console.log(placement);
 }
@@ -126,7 +127,7 @@ async function letFormData(){
 	let text = getForm.elements.comment.value;
 	console.log(text);
 	postJson = {
-		"commentText":text,
+		"text":text,
 		"blogId":singleId,
 	}
 	console.log(postJson);
@@ -134,7 +135,7 @@ async function letFormData(){
 }
 function createCommentText(comments){
 	let commentUser =createHTMLElement("h3", comments.username);
-	let commentText = createHTMLElement("p", comments.commentText);
+	let commentText = createHTMLElement("p", comments.text);
 	console.log(commentText);
 	placement.appendChild(commentText);
 	placement.appendChild(commentUser);
@@ -166,15 +167,16 @@ async function getCommentJson(url){
 async function postComment(postJson){
 	let path = "https://localhost:7063/Comment";
 	console.log(postJson);
-	const response = await fetch(path, {
-		method: 'POST',
+	console.log(path);
+	let response = await fetch(path,{
+		method: "POST",
 		mode: "cors",
-		headers: {
+		headers:{
 			"Content-type": "application/json",
 			"authorization": localStorage.getItem("GUID")
 		},
-		body: JSON.stringify(postJson)
+        body: JSON.stringify(postJson)
 	})
-	console.log(response.status);
+	console.log(postJson);
 	return response.status;
 }

@@ -103,7 +103,7 @@ function userPanel() {
 
 function adminPanel() {
 	let a = document.getElementsByTagName("a");
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < 6; i++) {
 		controller = document.createElement("a");
 		main.appendChild(controller);
 	}
@@ -115,8 +115,10 @@ function adminPanel() {
 	a[6].href = "changeRole.html";
 	a[7].innerHTML = "Ta bort blogginlägg";
 	a[7].href = "removeBlogText.html";
-	a[8].innerHTML = "Ta bort Produkt"
-	a[8].href = "removeProduct.html"
+	a[8].innerHTML = "Ta bort Produkt";
+	a[8].href = "removeProduct.html";
+	a[9].innerHTML = "Ta bort användare";
+	a[9].href = "deleteUser.html";
 }
 
 function cart() {
