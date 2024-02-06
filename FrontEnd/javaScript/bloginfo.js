@@ -4,10 +4,11 @@ import {
 	createPanel
 } from "./verify.js";
 let main;
-let json = [];
-let jsonComment = [];
 let postJson;
+let blogArray = [];
+let commentsArray = [];
 let blog;
+let comments;
 let form;
 let singleId;
 let inputText;
@@ -23,9 +24,7 @@ function init() {
 	getVerify();
 	main = document.getElementsByTagName("main")[0];
 	div = document.getElementsByTagName("div")[1];
-	console.log(div);
 	blogPost();
-	getComment();
 }
 window.onload = init;
 
@@ -36,26 +35,25 @@ async function getVerify() {
 }
 
 async function blogPost() {
-	let path = "https://localhost:7063/Blog/" + singleId;
-	console.log(path);
-	json = await getJson(path);
-	console.log(json);
-	for(blog of json){
-		createBlog(blog);
-	}
+    let path = "https://localhost:7063/Blog/" + singleId;
+    console.log(path);
+    blog = await getJson(path);
+    console.log(blog);
+
+    placement = createHTMLElement("div");
+    main.appendChild(placement);
+
+    createBlog(blog);
+
+    const comments = blog.comments; 
+    comments.forEach(comment => {
+        console.log(comment);
+        createComment(comment);
+    });
+
+    sendComment();
 }
-async function getComment(){
-	let url = "https://localhost:7063/Comment?blogId=" + singleId;
-	jsonComment = await getCommentJson(url);
-	console.log(url);
-	console.log(jsonComment);
-	placement = createHTMLElement("div");
-	main.appendChild(placement);
-	jsonComment.forEach(comments=>{
-		createComment(comments);
-	});
-	sendComment();
-}
+
 function createBlog(blog){
 	article = document.createElement("article");
 	let blogText = createHTMLElement("p", blog.text);
@@ -63,7 +61,8 @@ function createBlog(blog){
 	let timestamp = createHTMLElement("p", blog.time);
 	div.appendChild(article);
 	createfigure(blog);
-	article.appendChild(blogText)
+	article.appendChild(title);
+	article.appendChild(blogText);
 	article.appendChild(timestamp);
 }
 
@@ -95,10 +94,9 @@ function createHTMLElement(tag, text = null, attributes = {}) {
 	return element;
 }
 
-function createComment(comments) {
-	createCommentText(comments);
+function createComment(comment) {
+	createCommentText(comment);
 	main.appendChild(placement);
-	console.log(placement);
 }
 
 
@@ -118,7 +116,7 @@ function sendComment(){
 	submitButton.addEventListener("click", event=>{
 		letFormData();
 		event.preventDefault();
-		//location.reload();
+		location.reload();
 	})
 }
 async function letFormData(){
@@ -133,28 +131,16 @@ async function letFormData(){
 	console.log(postJson);
 	let status = await postComment(postJson);
 }
-function createCommentText(comments){
-	let commentUser =createHTMLElement("h3", comments.username);
-	let commentText = createHTMLElement("p", comments.text);
-	console.log(commentText);
-	placement.appendChild(commentText);
+function createCommentText(comment){
+	let commentUser =createHTMLElement("h3", comment.username);
+	let commentText = createHTMLElement("p", comment.text);
 	placement.appendChild(commentUser);
-
+	placement.appendChild(commentText);
+	console.log(comment);
 }
 
 async function getJson(path){
 	let response = await fetch(path, {
-		headers: {
-			Authorization: localStorage.getItem("GUID"),
-		},
-	});
-	let jsonData = await response.json();
-	console.log(jsonData);
-	return jsonData;
-}
-
-async function getCommentJson(url){
-	let response = await fetch(url, {
 		headers: {
 			Authorization: localStorage.getItem("GUID"),
 		},

@@ -6,12 +6,17 @@ namespace MissansZooOchWebbShopApi.Controllers
 {
     [Route("Comment")]
     [ApiController]
-    public class Commentcontroller : Controller
+    public class CommentController : Controller
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
+        public CommentController()
+        {
+            Console.WriteLine("Comment");
+        }
         [HttpPost]
         public ActionResult PostComment(Comment comment) 
         {
+            //Comment comment = new Comment();
             string auth = Request.Headers["Authorization"];//GUID
               if (auth == null || !LoginController.sessionId.ContainsKey(auth))
              {
@@ -19,10 +24,6 @@ namespace MissansZooOchWebbShopApi.Controllers
              }
 
              User user = (User)LoginController.sessionId[auth]; //id Role username hashedpassword mail
-             if (user.Role != 1)
-             {
-                 return StatusCode(403, "Du har inte rätten till att skapa bloginlägg");
-             }
             try
             {
                 connection.Open();
@@ -43,6 +44,7 @@ namespace MissansZooOchWebbShopApi.Controllers
             connection.Close();
             return StatusCode(201, "kommentar skapad");
         }
+
         [HttpGet]
         public ActionResult<Comment> GetComment(int blogId)
         {

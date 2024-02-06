@@ -24,25 +24,27 @@ async function getVerify() {
 
 async function getData() {
 	let username = form.elements.username.value;
-	let mail = form.elements.mail.value;
-	let address = form.elements.address.value;
-	let password = form.elements.password.value;
-	error = document.getElementById("error");
-	let header = "Basic: " + btoa(mail+":"+password);
-	let json = {
-		"username": username,
-		"mail":mail,
-		"address":address
-	}
-	let status = await postFetch(json, header)
-	if (status == 201) {
-		location.href = "login.html";
-	} else if (status == 500) {
-		console.log(`Error: ${status}`);
-		error.innerHTML = "gick inte ladda upp på grund av backend";
-	} else {
-		error.innerHTML = `fel användarnamn eller email`;
-	}
+    let mail = form.elements.mail.value;
+    let address = form.elements.address.value;
+    let password = form.elements.password.value;
+    console.log(password);
+    error = document.getElementById("error");
+	let header = "Basic " + btoa(mail + ":" + password);
+    let json = {
+        "username": username,
+		"mail": mail,
+		"password":password,
+        "address": address
+    }
+    let status = await postFetch(json, header)
+    if (status == 201) {
+        location.href = "login.html";
+    } else if (status == 500) {
+        console.log(`Error: ${status}`);
+        error.innerHTML = "gick inte ladda upp på grund av backend";
+    } else {
+        error.innerHTML = `fel användarnamn eller email`;
+    }
 }
 
 async function postFetch(json , header) {

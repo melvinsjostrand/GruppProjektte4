@@ -43,7 +43,7 @@ async function createblogs() {
 function createArticle(blog) {
 	article = createHTMLElement("article");
 	createfigure(blog);
-	let title = createHTMLElement("h2", `Titel: ${blog.title}`);
+	let title = createHTMLElement("h2", ` ${blog.title}`);
 	let timestamp = createHTMLElement("p", `Blogg gjord ${blog.time}`);
 	article.addEventListener("click", event => {
 		console.log("blog Id", blog.id);

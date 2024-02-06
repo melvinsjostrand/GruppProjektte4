@@ -6,6 +6,6 @@
         public string text { get; set; } = string.Empty;
         public int blogId { get; set; }
         public int userId { get; set; }
-        public string username { get; set; }
+        public string username { get; set; } = string.Empty;
     }
 }

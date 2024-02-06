@@ -151,6 +151,7 @@ body {
             h2 {
               color: #4caf50;
               margin-bottom: 10px;
+              text-align: center;
             }
             figure {
               margin: 0;
@@ -162,11 +163,13 @@ body {
               figcaption {
                 color: #333;
                 font-style: italic;
+                text-align: right;
               }
-              p {
-                color: #ccc;
-                margin-bottom: 15px;
-              }
+            }
+            p {
+              color: #ccc;
+              margin-bottom: 15px;
+              text-align: right;
             }
           }
         }
@@ -194,45 +197,47 @@ body {
   #blogInfo {
     .wrapper {
       main {
-        div {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        div:nth-child(1) {
+          width: 75%;
           display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-  
-          article {
-            max-width: 800px; /* Adjust the maximum width as needed */
-            margin: 20px 0;
-            padding: 20px;
-  
-            h2 {
-              color: #4caf50;
-              margin-bottom: 10px;
-            }
-  
+          flex-direction: column;
+          border: black solid 1px;
+          article{
             figure {
               margin: 0;
   
               img {
-                max-width: 600px;
-                min-width: 400px;
-                text-align: center;
-                max-height: 400px; /* Adjust the maximum height as needed */
+                max-width: 100%;
                 height: auto;
-                border-radius: 8px;
               }
-  
-              figcaption {
-                color: #333;
-                font-style: italic;
+              h2 {
+                color: #4caf50;
+                margin-bottom: 10px;
+                text-align: right;
               }
             }
-  
-            p {
-              color: #333;
-              margin-bottom: 15px;
+            h3{
+              text-align: center;
             }
-          }
+            p:nth-child(4){
+              text-align: right;
+            }
+        }
+      }
+        div:nth-child(2){
+          position: relative;
+          width: 35%;
+          border: black solid 1px;
+          text-align: center;
+        }
+        form{
+          bottom: 0;
+          position: absolute;
+          margin-top: 20px;
+          margin-left: 20px;
         }
     }
   }

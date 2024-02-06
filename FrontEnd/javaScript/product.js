@@ -102,10 +102,18 @@ function createArticle(product) {
 	let button = createHTMLElement("button", "KÖP", {
 		id: product.id
 	});
-	button.addEventListener("click", event => {
-		console.log("product Id", product.id);
-		postData(product.id);
-	})
+	if(product.stock == 0){
+		button.style.backgroundColor ="red";
+		button.innerHTML = "Finns ej i lager"
+		button.disabled=true;
+
+		
+	}else{
+		button.addEventListener("click", event => {
+			console.log("product Id", product.id);
+			postData(product.id);
+		})
+	}
 	article.appendChild(category);
 	article.appendChild(price);
 	article.appendChild(desc);

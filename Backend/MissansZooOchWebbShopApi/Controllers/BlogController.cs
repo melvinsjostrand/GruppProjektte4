@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
+using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MissansZooOchWebbShopApi.Controllers
 {
@@ -11,6 +13,7 @@ namespace MissansZooOchWebbShopApi.Controllers
     public class BlogController : Controller
     {
         MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=webbshop");
+        private Comment comments;
 
         [HttpPost] //Skapa blogg
         public ActionResult CreateBlog(Blog blog)
@@ -131,7 +134,7 @@ namespace MissansZooOchWebbShopApi.Controllers
         [HttpGet("{Id}")]
         public ActionResult<Blog> GetBlogFromId(int Id)
         {
-            List<Blog> blog = new List<Blog>();
+            Blog blog = new Blog();
             try
             {
                 connection.Open();
@@ -139,31 +142,54 @@ namespace MissansZooOchWebbShopApi.Controllers
                 query.Prepare();
                 query.CommandText = "SELECT * FROM blog t1 LEFT JOIN user t2 ON t1.userId = t2.Id WHERE t1.Id = @Id";
                 query.Parameters.AddWithValue("@Id", Id);
-                MySqlDataReader data = query.ExecuteReader();
-
-                while (data.Read())
+                using (MySqlDataReader data = query.ExecuteReader())
                 {
-                    Blog blogs = new Blog
+                    if (data.Read())
                     {
-                        Id = data.GetInt32("Id"),
-                        title = data.GetString("title"),
-                        Img = data.GetString("Img"),
-                        text = data.GetString("Text"),
-                        time = data.GetString("time"),
-                        username = data.GetString("username")
-                    };
-                    blog.Add(blogs);
+                        blog = new Blog
+                        {
+                            Id = data.GetInt32("Id"),
+                            title = data.GetString("title"),
+                            Img = data.GetString("Img"),
+                            text = data.GetString("Text"),
+                            time = data.GetString("time"),
+                            username = data.GetString("username"),
+                        };
+                    }
+                } 
+
+                query.CommandText = "SELECT t1.Id, text, username, blogId FROM comment t1 LEFT JOIN user t2 ON t1.userId = t2.id WHERE blogId = @Id";
+                query.Parameters.Clear(); 
+                query.Parameters.AddWithValue("@Id", Id);
+                using (MySqlDataReader dataComment = query.ExecuteReader())
+                {
+                    while (dataComment.Read())
+                    {
+                        Comment comments = new Comment
+                        {
+                            Id = dataComment.GetInt32("Id"),
+                            text = dataComment.GetString("text"),
+                            blogId = dataComment.GetInt32("blogId"),
+                            username = dataComment.GetString("username")
+                        };
+                        blog.AddComment(comments);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Something went wrong!");
             }
-            return Ok(blog);
+            finally
+            {
+                // Make sure to close the connection in a finally block
+                connection.Close();
+            }
+            return blog;
         }
-        [HttpGet("User")]
-        public ActionResult<Blog> GetAllBlogFromUserId()
-        {
+            [HttpGet("User")]
+            public ActionResult<Blog> GetAllBlogFromUserId()
+            {
             string auth = Request.Headers["Authorization"];//GUID
             if (auth == null || !LoginController.sessionId.ContainsKey(auth))
             {

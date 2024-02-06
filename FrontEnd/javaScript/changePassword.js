@@ -3,9 +3,15 @@ import {
 	logInOrLogOut,
 	createPanel
 } from "./verify.js";
-
+let form;
+let json = [];
 function init() {
+	form = document.querySelectorAll("form");
 	getVerify();
+	form.addEventListener("submit", event =>{
+		change();
+		event.preventDefault();
+	})
 }
 window.onload = init;
 
@@ -15,11 +21,26 @@ async function getVerify() {
 	createPanel(role);
 }
 
-function checkPassword() {
-	let password1 = document.getElementById("password1").value;
-	let password2 = document.getElementById("password2").value;
-	if (password1 !== password2) {
-		alert('Passwords do not match');
-		return false;
-	}
+
+async function change(){
+	let password = form.elements.password.value;
+	json = {
+		"password": password
+	};
+	let status = await changePassword(json);
+}
+
+async function changePassword(json){
+	let path = "https://localhost:7063/User/Changepassword";
+	const response = await fetch(path, {
+		method: 'PUT',
+		mode: "cors",
+		headers:{
+			"Content-type": "application/json",
+            "Authorization": localStorage.getItem("GUID")
+		},
+		body: JSON.stringify(json),
+	});
+	// If the request is successful, no errors will be thrown and the promise resolves
+	return response.status;
 }

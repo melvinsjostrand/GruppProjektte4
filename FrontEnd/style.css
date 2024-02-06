@@ -138,6 +138,7 @@ body main {
 #blogg .wrapper main div article h2 {
   color: #4caf50;
   margin-bottom: 10px;
+  text-align: center;
 }
 #blogg .wrapper main div article figure {
   margin: 0;
@@ -150,10 +151,12 @@ body main {
 #blogg .wrapper main div article figure figcaption {
   color: #333;
   font-style: italic;
+  text-align: right;
 }
-#blogg .wrapper main div article figure p {
+#blogg .wrapper main div article p {
   color: #ccc;
   margin-bottom: 15px;
+  text-align: right;
 }
 #blogg .wrapper main a {
   display: flex;
@@ -172,39 +175,46 @@ body main {
   background-color: #3d8b40;
 }
 
-#blogInfo .wrapper main div {
+#blogInfo .wrapper main {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-#blogInfo .wrapper main div article {
-  max-width: 800px; /* Adjust the maximum width as needed */
-  margin: 20px 0;
+  justify-content: space-between;
   padding: 20px;
 }
-#blogInfo .wrapper main div article h2 {
-  color: #4caf50;
-  margin-bottom: 10px;
+#blogInfo .wrapper main div:nth-child(1) {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  border: black solid 1px;
 }
-#blogInfo .wrapper main div article figure {
+#blogInfo .wrapper main div:nth-child(1) article figure {
   margin: 0;
 }
-#blogInfo .wrapper main div article figure img {
-  max-width: 600px;
-  min-width: 400px;
-  text-align: center;
-  max-height: 400px; /* Adjust the maximum height as needed */
+#blogInfo .wrapper main div:nth-child(1) article figure img {
+  max-width: 100%;
   height: auto;
-  border-radius: 8px;
 }
-#blogInfo .wrapper main div article figure figcaption {
-  color: #333;
-  font-style: italic;
+#blogInfo .wrapper main div:nth-child(1) article figure h2 {
+  color: #4caf50;
+  margin-bottom: 10px;
+  text-align: right;
 }
-#blogInfo .wrapper main div article p {
-  color: #333;
-  margin-bottom: 15px;
+#blogInfo .wrapper main div:nth-child(1) article h3 {
+  text-align: center;
+}
+#blogInfo .wrapper main div:nth-child(1) article p:nth-child(4) {
+  text-align: right;
+}
+#blogInfo .wrapper main div:nth-child(2) {
+  position: relative;
+  width: 35%;
+  border: black solid 1px;
+  text-align: center;
+}
+#blogInfo .wrapper main form {
+  bottom: 0;
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 #createAcc .wrapper main {
