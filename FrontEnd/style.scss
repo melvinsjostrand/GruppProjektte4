@@ -1,6 +1,15 @@
+@font-face {
+  font-family: Aloha;
+  src: url(./Aloha.ttf);
+}
+
+@font-face {
+  font-family: wild;
+  src: url(./wild.TTF);
+}
 body {
-    font-family: "Arial", sans-serif;
-    background-color: #f5f5f5;
+    font-family: wild;
+    background-color: #E5CF8C;
     color: #333;
     .wrapper {
       grid-template-rows: auto auto 100px;
@@ -10,7 +19,7 @@ body {
     header {
       text-align: center;
       grid-area: head;
-      background-color: #4caf50;
+      background-color: #F48700;
       height: 100%;
       color: white;
       h1 {
@@ -70,14 +79,14 @@ body {
           width: 150px;
           height: 25px;
           border-radius: 25px;
-          background-color: #4caf50;
+          background-color: #F48700;
           color: white;
           border: none;
           cursor: pointer;
           transition: background-color 0.3s;
   
           &:hover {
-            background-color: darken(#4caf50, 10%);
+            background-color: darken(#F48700, 10%);
           }
         }
       }
@@ -110,7 +119,7 @@ body {
                 text-align: center;
               }
               button {
-                background: #4caf50;
+                background: #F48700;
                 color: white;
                 border: none;
                 padding: 10px 20px;
@@ -118,7 +127,7 @@ body {
                 cursor: pointer;
       
                 &:hover {
-                  background: darken(#4caf50, 10%);
+                  background: darken(#F48700, 10%);
                 }
               }
             }
@@ -144,12 +153,13 @@ body {
           align-items: flex-start;
           padding: 20px;
           article {
+            background-color: #A37319;
             border: 1px solid #ccc;
             border-radius: 8px;
             margin: 20px 0;
             padding: 20px;
             h2 {
-              color: #4caf50;
+              color: #F48700;
               margin-bottom: 10px;
               text-align: center;
             }
@@ -180,14 +190,14 @@ body {
           width: 150px;
           height: 25px;
           border-radius: 25px;
-          background-color: #4caf50;
+          background-color: #F48700;
           color: white;
           border: none;
           cursor: pointer;
           transition: background-color 0.3s;
 
           &:hover {
-            background-color: darken(#4caf50, 10%);
+            background-color: darken(#F48700, 10%);
           }
         }
       }
@@ -214,7 +224,7 @@ body {
                 height: auto;
               }
               h2 {
-                color: #4caf50;
+                color: #F48700;
                 margin-bottom: 10px;
                 text-align: right;
               }
@@ -266,7 +276,7 @@ body {
               border-radius: 4px;
             }
             button {
-              background: #4caf50;
+              background: #F48700;
               color: white;
               border: none;
               padding: 10px 20px;
@@ -274,7 +284,7 @@ body {
               cursor: pointer;
   
               &:hover {
-                background: darken(#4caf50, 10%);
+                background: darken(#F48700, 10%);
               }
             }
           }
@@ -339,12 +349,12 @@ body {
               width: 100%;
               padding: 10px;
               border-radius: 5px;
-              background-color: #4caf50;
+              background-color: #F48700;
               color: white;
               text-decoration: none;
               transition: background-color 0.3s;
               &:hover {
-                background-color: darken(#4caf50, 10%);
+                background-color: darken(#F48700, 10%);
             }
           }
         }
@@ -375,7 +385,7 @@ body {
                 border-radius: 4px;
               }
               button {
-                background: #4caf50;
+                background: #F48700;
                 color: white;
                 border: none;
                 padding: 10px 20px;
@@ -383,7 +393,7 @@ body {
                 cursor: pointer;
       
                 &:hover {
-                  background: darken(#4caf50, 10%);
+                  background: darken(#F48700, 10%);
                 }
               }
             }
@@ -430,14 +440,14 @@ body {
           width: 100%;
           padding: 15px;
           margin-top: 20px;
-          background-color: #4caf50;
+          background-color: #F48700;
           color: white;
           border: none;
           border-radius: 4px;
           cursor: pointer;
   
           &:hover {
-            background-color: darken(#4caf50, 10%);
+            background-color: darken(#F48700, 10%);
           }
         }
       }
@@ -474,14 +484,14 @@ body {
           width: 100%;
           padding: 15px;
           margin-top: 20px;
-          background-color: #4caf50;
+          background-color: #F48700;
           color: white;
           border: none;
           border-radius: 4px;
           cursor: pointer;
   
           &:hover {
-            background-color: darken(#4caf50, 10%);
+            background-color: darken(#F48700, 10%);
           }
         }
       }
@@ -517,13 +527,13 @@ body {
           width: 100%;
           padding: 15px;
           margin-top: 20px;
-          background-color: #4caf50;
+          background-color: #F48700;
           color: white;
           border: none;
           border-radius: 4px;
           cursor: pointer;
           &:hover {
-            background-color: darken(#4caf50, 10%);
+            background-color: darken(#F48700, 10%);
           }
         }
       }
@@ -577,7 +587,7 @@ body {
           background-color: #eee;
           padding: 10px;
           button {
-            background-color: #4caf50;
+            background-color: #F48700;
             color: #fff;
             padding: 10px;
             border: none;
@@ -585,7 +595,7 @@ body {
             width: 30%;
             font-size: 1em;
             &:hover {
-              background-color: #4caf50;
+              background-color: #F48700;
             }
           }
         }
@@ -621,7 +631,7 @@ body {
               margin-bottom: 10px;
             }
             button {
-              background-color: #4caf50;
+              background-color: #F48700;
               color: #fff;
               padding: 10px;
               border: none;
@@ -629,7 +639,7 @@ body {
               width: 100%;
               font-size: 1em;
               &:hover {
-                background-color: #45a049;
+                background-color: #fff;
               }
             }
           }
@@ -640,14 +650,14 @@ body {
             width: 150px;
             height: 25px;
             border-radius: 25px;
-            background-color: #4caf50;
+            background-color: #F48700;
             color: white;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
   
             &:hover {
-              background-color: darken(#4caf50, 10%);
+              background-color: darken(#F48700, 10%);
             }
           }
         }
@@ -660,10 +670,10 @@ body {
         div {
           display: flex;
           justify-content: space-between;
-          background-color: #eee;
           padding: 10px;
           button {
-            background-color: #4caf50;
+            font-family: aloha;
+            background-color: #F48700;
             color: #fff;
             padding: 10px;
             border: none;
@@ -671,7 +681,7 @@ body {
             width: 20%;
             font-size: 1em;
             &:hover {
-              background-color: #4caf50;
+              background-color: #F48700;
             }
           }
         }
@@ -682,6 +692,7 @@ body {
           align-items: flex-start;
           padding: 20px;
           article {
+            background-color: #A37319 ;
             border: 1px solid black;
             margin: 10px;
             padding: 15px;
@@ -707,7 +718,7 @@ body {
               margin-bottom: 10px;
             }
             button {
-              background-color: #4caf50;
+              background-color: #F48700;
               color: #fff;
               padding: 10px;
               border: none;
@@ -727,14 +738,14 @@ body {
           width: 150px;
           height: 25px;
           border-radius: 25px;
-          background-color: #4caf50;
+          background-color: #F48700;
           color: white;
           border: none;
           cursor: pointer;
           transition: background-color 0.3s;
 
           &:hover {
-            background-color: darken(#4caf50, 10%);
+            background-color: darken(#F48700, 10%);
           }
         }
       }
@@ -755,7 +766,7 @@ body {
             margin: 20px 0;
             padding: 20px;
             h2 {
-              color: #4caf50;
+              color: #F48700;
               margin-bottom: 10px;
             }
             figure {
@@ -775,7 +786,7 @@ body {
               }
             }
             button {
-              background-color: #4caf50;
+              background-color: #F48700;
               color: #fff;
               padding: 10px;
               border: none;
@@ -794,14 +805,14 @@ body {
             width: 150px;
             height: 25px;
             border-radius: 25px;
-            background-color: #4caf50;
+            background-color: #F48700;
             color: white;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
   
             &:hover {
-              background-color: darken(#4caf50, 10%);
+              background-color: darken(#F48700, 10%);
             }
           }
         }
@@ -817,7 +828,7 @@ body {
           padding: 15px 30px;
           margin: 15px;
           border-radius: 8px;
-          background-color: #4caf50;
+          background-color: #F48700;
           color: white;
           border: none;
           cursor: pointer;
@@ -832,8 +843,6 @@ body {
   /*Dator*/
   @media only screen and (min-width: 1080px) {
     body {
-      font-family: "Arial", sans-serif;
-      background-color: #f5f5f5;
       color: #333;
       margin: 0;
       padding: 0;
@@ -842,11 +851,12 @@ body {
         margin: 0 auto;
         header {
           text-align: right;
-          background-color: #4caf50;
+          background-color: #F48700;
           height: 80px;
           color: white;
           padding: 20px;
           nav {
+            font-family: wild;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             justify-content: center;
@@ -873,6 +883,9 @@ body {
               }
             }
           }
+        }
+        main{
+          font-family: aloha;
         }
       }
     }
@@ -919,7 +932,7 @@ body {
             border-radius: 4px;
           }
           button {
-            background: #4caf50;
+            background: #F48700;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -927,7 +940,7 @@ body {
             cursor: pointer;
   
             &:hover {
-              background: darken(#4caf50, 10%);
+              background: darken(#F48700, 10%);
             }
           }
         }
@@ -955,7 +968,7 @@ body {
           align-items: center;
           margin: 50px auto;
           padding: 20px;
-          background-color: white;
+          background-color: #FFF;
           border-radius: 8px;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
           label {
@@ -967,7 +980,7 @@ body {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
-            border: 1px solid #ccc;
+            border: 1px solid #E5CF8C;
             border-radius: 4px;
           }
           .file {
@@ -977,14 +990,14 @@ body {
             width: 100%;
             padding: 15px;
             margin-top: 20px;
-            background-color: #4caf50;
+            background-color: #F48700;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
   
             &:hover {
-              background-color: darken(#4caf50, 10%);
+              background-color: darken(#F48700, 10%);
             }
           }
         }
@@ -1009,7 +1022,7 @@ body {
             padding: 15px 30px;
             margin: 15px;
             border-radius: 8px;
-            background-color: #4caf50;
+            background-color: #F48700;
             color: white;
             border: none;
             cursor: pointer;
